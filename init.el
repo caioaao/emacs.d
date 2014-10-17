@@ -16,6 +16,12 @@
 ;; theme
 (load-theme 'wombat t)
 
+;; Remove toolbar
+(tool-bar-mode -1)
+
+;; Auto linum-mode
+(global-linum-mode 1)
+
 ;; package managers
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")

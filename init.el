@@ -102,7 +102,8 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-(setq org-agenda-files (list "~/.emacs.d/orgfiles/" "/.emacs.d/orgfiles/local/"))
+(setq org-agenda-files (list "~/.emacs.d/orgfiles/"
+			"~/.emacs.d/orgfiles/local/"))
 
 
 ;; window resizing shortcuts
@@ -113,3 +114,15 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("/home/caio/.emacs.d/orgfiles/problemas_simulados.org"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

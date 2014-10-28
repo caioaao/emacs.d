@@ -81,7 +81,7 @@
 
 ;; Custom quick c++ compile
 (defun cpp-compile-and-run ()
-  "Quick compile & run command for single cpp files"
+  "Quick compile & run command for single cpp files."
   (interactive)
   
   (let ((f (file-name-base
@@ -89,10 +89,21 @@
 	     (window-buffer (minibuffer-selected-window))
 	     ))))
     
-    (compile (format "make %s && ./%s < %s.in" f f f)))
+    (compile (format "touch %s.in && make %s && ./%s < %s.in" f f f f)))
 )
 (define-key c-mode-base-map [f9] 'cpp-compile-and-run)
 
-
+;; arduino mode (needs debug)
 (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
 (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
+
+;; org-mode
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(setq org-agenda-files (list "~/.emacs.d/orgfiles/"))
+
+
+(provide 'init)
+;;; init.el ends here

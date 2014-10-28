@@ -4,6 +4,10 @@
 ;;; Commentary:
 
 ;;; Code:
+
+;; Adding package paths
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+
 ;; Init packages before
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -12,8 +16,6 @@
 ;; :D
 (require 'cc-mode)
 
-;; Adding package paths
-(add-to-list 'load-path "~/.emacs.d/elisp/")
 
 ;; For pt-Br dead keys to work
 (require 'iso-transl)
@@ -102,15 +104,23 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+(setq  org-return-follows-link t)
 (setq org-agenda-files (list "~/.emacs.d/orgfiles/"
 			"~/.emacs.d/orgfiles/local/"))
 
 
 ;; window resizing shortcuts
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "S-C-<down>") 'shrink-window)
-(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+;; (global-set-key (kbd "C-c w C-S-<left>") 'shrink-window-horizontally)
+;; (global-set-key (kbd "C-c w C-S-<right>") 'enlarge-window-horizontally)
+;; (global-set-key (kbd "C-c w C-S-<down>") 'shrink-window)
+;; (global-set-key (kbd "C-c w C-S-<up>") 'enlarge-window)
+(require 'smartrep)
+(smartrep-define-key
+    global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
+			   ("<right>" . 'shrink-window-horizontally)
+			   ("<up>" . 'shrink-window)
+			   ("<down>" . 'enlarge-window)))
+
 
 (provide 'init)
 ;;; init.el ends here

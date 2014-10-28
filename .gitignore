@@ -33,4 +33,4 @@ site-lisp/package/
 /.smex-items
 /image-dired/
 /eshell
-/orgfiles/
+/orgfiles/local/

@@ -102,8 +102,14 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-(setq org-agenda-files (list "~/.emacs.d/orgfiles/"))
+(setq org-agenda-files (list "~/.emacs.d/orgfiles/" "/.emacs.d/orgfiles/local/"))
 
+
+;; window resizing shortcuts
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 (provide 'init)
 ;;; init.el ends here

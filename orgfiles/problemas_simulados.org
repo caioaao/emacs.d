@@ -1,0 +1,58 @@
+* [[http://codeforces.com/gym/100513][NEERC-14 (Southern)]]
+** Tretas
+*** Nasta Rabbara
+*** TODO Minimal Agapov Code
+*** TODO Getting ready for VIPC
+*** TODO Useful roads
+** Alvaro fez?
+*** Treeland
+** Outros
+*** TODO Colored blankets
+*** TODO Component tree
+
+* [[http://codeforces.com/gym/100112][NCPC-2012]]
+** Tretas
+*** F - Food review
+** Alvaro fez?
+*** TODO Infiltration
+*** TODO Luggage
+** Outros
+
+* [[http://codeforces.com/gym/100405][NWERC-2013]]
+** Tretas
+*** Highway to the future
+** Alvaro fez?
+** Outros
+*** TODO Exponential towers
+
+* [[http://codeforces.com/gym/100503][Training Season 2, ep 5]]
+** Tretas
+*** Kakuro
+*** Snow in Berland
+** Alvaro fez?
+*** TODO Meetings
+*** TODO Monochrome picture
+*** TODO Choreographer Problem
+*** TODO Wiki lists
+** Outros
+
+* [[http://codeforces.com/gym/100497][Training Season 2, ep 4]]
+** Tretas
+*** Railroad Tycoon
+*** Mine layer
+** Alvaro fez?
+*** TODO Board queries
+*** TODO Homework
+*** TODO Barica
+*** TODO Baza
+** A fazer
+
+* [[http://codeforces.com/gym/100494][Training Season 2, ep 3]]
+** Tretas
+*** Dinner
+*** Fixing the bugs
+** Alvaro fez?
+*** Code theft
+*** TODO Best Cow Line
+** A Fazer
+*** TODO Hard evidence

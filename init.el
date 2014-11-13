@@ -18,7 +18,9 @@
 
 
 ;; For pt-Br dead keys to work
+(set-input-mode nil nil 1)
 (require 'iso-transl)
+
 ;; Set encoding
 (prefer-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
@@ -105,8 +107,26 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (setq  org-return-follows-link t)
-(setq org-agenda-files (list "~/.emacs.d/orgfiles/"
-			"~/.emacs.d/orgfiles/local/"))
+
+;; Snippet to collect all .org from my Org directory and subdirs
+(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'") ; default value
+(defun load-org-agenda-files-recursively (dir) "Find all directories in DIR."
+    (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
+    (unless (equal (directory-files dir nil org-agenda-file-regexp t) nil)
+      (add-to-list 'org-agenda-files dir)
+    )
+    (dolist (file (directory-files dir nil nil t))
+        (unless (member file '("." ".."))
+            (let ((file (concat dir file "/")))
+                (when (file-directory-p file)
+                    (load-org-agenda-files-recursively file)
+                )
+            )
+        )
+    )
+)
+(load-org-agenda-files-recursively "~/.emacs.d/orgfiles/" ) ; trailing slash required
+
 
 
 ;; window resizing shortcuts

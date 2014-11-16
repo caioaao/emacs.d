@@ -128,6 +128,10 @@
 (load-org-agenda-files-recursively "~/.emacs.d/orgfiles/" ) ; trailing slash required
 
 
+;; tramp-mode: remote connections
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
 
 ;; window resizing shortcuts
 ;; (global-set-key (kbd "C-c w C-S-<left>") 'shrink-window-horizontally)

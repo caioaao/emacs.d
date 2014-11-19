@@ -16,6 +16,8 @@
 ;; :D
 (require 'cc-mode)
 
+;; git mode
+(require 'magit)
 
 ;; For pt-Br dead keys to work
 (set-input-mode nil nil 1)
@@ -134,10 +136,6 @@
 
 
 ;; window resizing shortcuts
-;; (global-set-key (kbd "C-c w C-S-<left>") 'shrink-window-horizontally)
-;; (global-set-key (kbd "C-c w C-S-<right>") 'enlarge-window-horizontally)
-;; (global-set-key (kbd "C-c w C-S-<down>") 'shrink-window)
-;; (global-set-key (kbd "C-c w C-S-<up>") 'enlarge-window)
 (require 'smartrep)
 (smartrep-define-key
     global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
@@ -145,6 +143,11 @@
 			   ("<up>" . 'shrink-window)
 			   ("<down>" . 'enlarge-window)))
 
+
+;; force latex to use pdflatex
+
+(set-variable (quote latex-run-command) "pdflatex")
+(set-variable (quote tex-dvi-view-command) "evince")
 
 (provide 'init)
 ;;; init.el ends here

@@ -19,6 +19,9 @@
 ;; git mode
 (require 'magit)
 
+;; lua-mode
+(require 'lua-mode)
+
 ;; For pt-Br dead keys to work
 (set-input-mode nil nil 1)
 (require 'iso-transl)

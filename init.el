@@ -149,11 +149,12 @@
 
 ;; force latex to use pdflatex
 
-;; (set-variable (quote latex-run-command) "pdflatex")
-;; (set-variable (quote tex-dvi-view-command) "evince")
-
 (require 'tex)
 (setq TeX-PDF-mode t)
+
+;; org-trello
+(require 'org-trello)
+
 
 (provide 'init)
 ;;; init.el ends here

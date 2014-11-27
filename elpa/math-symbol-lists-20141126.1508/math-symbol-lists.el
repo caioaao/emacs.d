@@ -4,7 +4,7 @@
 ;; Author: Vitalie Spinu
 ;; URL: https://github.com/vspinu/math-symbol-lists
 ;; Keywords: Unicode, symbols, mathematics
-;; Version: 20141116.1252
+;; Version: 20141126.1508
 ;; X-Original-Version: 1.0
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -43,7 +43,6 @@
 ;;
 ;;; Code:
 
-;;;###autoload
 (defconst math-symbol-list-basic
   '(("Greek Lowercase"	"\\alpha"	#X3B1)
     ("Greek Lowercase"	"\\beta"	#X3B2)
@@ -564,7 +563,6 @@
     ("AMS/Special"	"\\sideset"))
   "List of basic mathematical symbols.")
 
-;;;###autoload
 (defconst math-symbol-list-extended
   '(("punct"	"\\exclam"	#X21)
     ("ord"	"\\octothorpe"	#X23)
@@ -3006,7 +3004,7 @@
     ("ord"	"\\mttnine"	#X1D7FF))
   "Extended list of mathematical symbols")
 
-;;;###autoload
+
 (defconst math-symbol-list-latex-commands
   '("address" "addtocounter" "addtolength" "addvspace" "Alph" "alph" "Alph
     example" "alsoname" "and for author" "appendix" "arabic" "arraycolsep"

@@ -12,6 +12,8 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; pylint checker
+(require 'pylint)
 
 ;; :D
 (require 'cc-mode)
@@ -79,14 +81,17 @@
 (require 'auto-complete-clang)
 ;; (define-key c-mode-base-map [(control tab)] 'ac-complete-clang) -> DEFEITO
 
+(require 'ac-html)
+(require 'ac-python)
+
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; flycheck-pyflakes
-(require 'flycheck-pyflakes)
-(add-hook 'python-mode-hook 'flycheck-mode)
-(add-to-list 'flycheck-disabled-checkers 'python-flake8)
-(add-to-list 'flycheck-disabled-checkers 'python-pylint)
+;; (require 'flycheck-pyflakes)
+;; (add-hook 'python-mode-hook 'flycheck-mode)
+;; (add-to-list 'flycheck-disabled-checkers 'python-flake8)
+;; (add-to-list 'flycheck-disabled-checkers 'python-pylint)
 
 ;; Custom quick c++ compile
 (defun cpp-compile-and-run ()
@@ -148,9 +153,9 @@
 
 
 ;; force latex to use pdflatex
+(set-variable (quote latex-run-command) "pdflatex")
+(set-variable (quote tex-dvi-view-command) "evince")
 
-(require 'tex)
-(setq TeX-PDF-mode t)
 
 ;; org-trello
 (require 'org-trello)

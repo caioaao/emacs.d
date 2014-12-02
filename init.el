@@ -12,9 +12,6 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-;; pylint checker
-(require 'pylint)
-
 ;; :D
 (require 'cc-mode)
 
@@ -82,7 +79,7 @@
 ;; (define-key c-mode-base-map [(control tab)] 'ac-complete-clang) -> DEFEITO
 
 (require 'ac-html)
-(require 'ac-python)
+
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -160,6 +157,32 @@
 ;; org-trello
 (require 'org-trello)
 
+;; pylint
+;; Configure flymake for Python
+(setq pylint "epylint")
+(when (load "flymake" t)
+  (defun flymake-pylint-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list (expand-file-name pylint "") (list local-file))))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pylint-init)))
+
+;; Set as a minor mode for Python
+(add-hook 'python-mode-hook '(lambda () (flymake-mode)))
+
+;; Autocomplete minor mode
+(add-hook 'python-mode-hook '(lambda() (ac-python)))
+
+
+;; Auto-insert mode
+(auto-insert-mode)
+(setq auto-insert-directory "~/.emacs.d/templates/")
+(setq auto-insert-query nil)
+(define-auto-insert "\.py" "python-template.py")
 
 (provide 'init)
 ;;; init.el ends here

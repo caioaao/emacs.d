@@ -26,6 +26,7 @@
 (require 'iso-transl)
 
 ;; Set encoding
+(setenv "LC_CTYPE" "UTF-8")
 (prefer-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)

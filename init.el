@@ -165,6 +165,7 @@
 ;; Configure flymake for Python
 
 ;; Autocomplete minor mode
+(require 'ac-python)
 (add-hook 'python-mode-hook '(lambda() (ac-python)))
 
 ;; Auto-insert mode

@@ -26,6 +26,9 @@
 ;; lua-mode
 (require 'lua-mode)
 
+;; gmsh-mode (finite element software)
+(require 'gmsh)
+
 ;; For pt-Br dead keys to work
 (set-input-mode nil nil 1)
 (require 'iso-transl)

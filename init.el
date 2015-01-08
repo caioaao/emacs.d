@@ -71,6 +71,9 @@
 (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
 (defalias 'yas/table-hash 'yas--table-hash)
 
+(setq yas-snippet-dirs (append yas-snippet-dirs
+                               '("~/.emacs.d/snippets")))
+
 ;; auto complete mode
 ;; should be loaded after yasnippet so that they can work together
 (require 'auto-complete-config)
@@ -156,6 +159,9 @@
 (set-variable (quote latex-run-command) "pdflatex")
 (set-variable (quote tex-dvi-view-command) "evince")
 
+
+;; add latex mode to auto-complete
+(add-to-list 'ac-modes 'latex-mode)
 
 ;; virtualenvwrapper
 (require 'virtualenvwrapper)

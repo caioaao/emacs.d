@@ -93,12 +93,6 @@
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; flycheck-pyflakes
-;; (require 'flycheck-pyflakes)
-;; (add-hook 'python-mode-hook 'flycheck-mode)
-;; (add-to-list 'flycheck-disabled-checkers 'python-flake8)
-;; (add-to-list 'flycheck-disabled-checkers 'python-pylint)
-
 ;; Custom quick c++ compile
 (defun cpp-compile-and-run ()
   "Quick compile & run command for single cpp files."
@@ -181,6 +175,7 @@
 (setq auto-insert-directory "~/.emacs.d/templates/")
 (setq auto-insert-query nil)
 (define-auto-insert "\.py" "python-template.py")
+(define-auto-insert "sol\.cpp" "competitive-template.cpp")
 
 ;; jedi.el - python autocomplete
 (require 'jedi)
@@ -202,7 +197,6 @@
    "';'.join(module_completion('''%s'''))\n"
  python-shell-completion-string-code
    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-
 
 ;; limitar tamanho das colunas
 (require 'fill-column-indicator)

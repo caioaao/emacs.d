@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: drom
+# key: drom
+# --
+\dfrac{\partial ${1}}{\partial ${2}}

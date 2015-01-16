@@ -3,6 +3,6 @@
 # key: equation
 # --
 \begin{equation}
-${0:equation}
-\label{${1:label}}
+${1:equation}
+\label{${2:label}}
 \end{equation}

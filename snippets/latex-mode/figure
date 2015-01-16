@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: figure
+# key: figure
+# --
+\begin{figure}[htb]
+\caption{\label{${1:label}} ${2:caption}}
+\begin{center}
+\includegraphics[scale=${3:0.75}]{img/${4:file_name}}
+\end{center}
+\legend{${5:legend}}
+\end{figure}

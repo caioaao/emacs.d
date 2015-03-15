@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: compet
+# key: compet
+# --
+run: clean comp
+	./sol && cat out.txt
+dbg: clean comp_dbg
+	db sol
+comp: gen_dbg_source
+	g++ -O2 -Wall -o sol sol_dbg.cpp
+comp_dbg: gen_dbg_source
+	g++ -g -Wall -o sol sol_dbg.cpp
+gen_dbg_source:
+	echo "#define DEBUG" > sol_dbg.cpp
+	cat sol.cpp >> sol_dbg.cpp
+clean:
+	-rm sol_dbg.cpp
+	-rm sol

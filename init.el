@@ -8,9 +8,15 @@
 ;; Adding package paths
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
+
+
 ;; Init packages before
 (setq package-enable-at-startup nil)
 (package-initialize)
+
+;; Indent using spaces only
+(setq-default indent-tabs-mode nil)
+
 
 ;; markdown mode
 (require 'markdown-mode)
@@ -90,7 +96,7 @@
 (require 'auto-complete-clang)
 ;; (define-key c-mode-base-map [(control tab)] 'ac-complete-clang) -> DEFEITO
 
-(require 'ac-html)
+
 
 
 ;; flycheck
@@ -209,6 +215,13 @@
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode t)
+
+;; web-mode (html, css, javascript)
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(require 'ac-html)
+(add-to-list 'ac-modes 'web-mode)
 
 (provide 'init)
 ;;; init.el ends here

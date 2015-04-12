@@ -16,7 +16,8 @@
 
 ;; Indent using spaces only
 (setq-default indent-tabs-mode nil)
-
+(setq tab-width 4)
+(setq-default c-basic-offset 4)
 
 ;; markdown mode
 (require 'markdown-mode)

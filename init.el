@@ -8,16 +8,22 @@
 ;; Adding package paths
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
-
-
 ;; Init packages before
 (setq package-enable-at-startup nil)
 (package-initialize)
+
+;; Fixing autosave/backup files
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 
 ;; Indent using spaces only
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)
 (setq-default c-basic-offset 4)
+
 
 ;; markdown mode
 (require 'markdown-mode)
@@ -29,6 +35,7 @@
 
 ;; git mode
 (require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0") ;; really?
 
 ;; lua-mode
 (require 'lua-mode)
@@ -223,6 +230,17 @@
 
 (require 'ac-html)
 (add-to-list 'ac-modes 'web-mode)
+
+;; cc-mode
+(require 'cc-mode)
+;; sets extended mode curly braces as default
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
+;; ledger-mode (accounting)
+(require 'ledger-mode)
+(add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+(require 'ledger-helper)
 
 (provide 'init)
 ;;; init.el ends here

@@ -46,4 +46,4 @@
                        ("user" "user \"${1:random}\" do\n  action :create\n  comment \"${2:Random User}\"\n  uid ${3:1000}\n  gid \"${4:users}\"\n  home \"${5:/home/random}\"\n  shell \"${6:/bin/zsh}\"\n  password \"${7:\\$1\\$JJsvHslV\\$szsCjVEroftprNn4JHtDi.}\"\n  supports :manage_home =>manage_home true \nend\n" "user" nil nil nil nil nil nil)))
 
 
-;;; Do not edit! File generated at Wed Mar 11 22:07:04 2015
+;;; Do not edit! File generated at Sat Apr 18 21:46:44 2015

@@ -151,7 +151,11 @@
             )
         )
     )
-)
+    )
+;; initial setup
+(when (not (file-exists-p "orgfiles")) (make-directory "orgfiles"))
+
+
 (load-org-agenda-files-recursively "~/.emacs.d/orgfiles/" ) ; trailing slash required
 
 

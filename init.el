@@ -5,8 +5,23 @@
 
 ;;; Code:
 
+;; Creating folders
+(when (not (file-exists-p "~/.emacs.d/bin"))
+  (make-directory "~/.emacs.d/bin"))
+(when (not (file-exists-p "~/.emacs.d/local"))
+  (make-directory "~/.emacs.d/local"))
+(when (not (file-exists-p "~/.emacs.d/local/bin"))
+  (make-directory "~/.emacs.d/local/bin"))
+
+
 ;; Adding package paths
 (add-to-list 'load-path "~/.emacs.d/elisp/")
+(add-to-list 'load-path "~/.emacs.d/local/elisp/")
+
+
+;; Getting local config file
+(when (file-exists-p "~/.emacs.d/local/local-init.el")
+  (require 'local-init))
 
 ;; Init packages before
 (setq package-enable-at-startup nil)
@@ -18,6 +33,10 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; Adding a bin folders
+(setq exec-path
+      (append '("~/.emacs.d/local/bin"
+                "~/.emacs.d/bin") exec-path))
 
 ;; Indent using spaces only
 (setq-default indent-tabs-mode nil)
@@ -36,12 +55,6 @@
 ;; git mode
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0") ;; really?
-
-;; lua-mode
-(require 'lua-mode)
-
-;; gmsh-mode (finite element software)
-(require 'gmsh)
 
 ;; For pt-Br dead keys to work
 (set-input-mode nil nil 1)
@@ -105,35 +118,23 @@
 ;; (define-key c-mode-base-map [(control tab)] 'ac-complete-clang) -> DEFEITO
 
 
-
-
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; Custom quick c++ compile
-(defun cpp-compile-and-run ()
-  "Quick compile & run command for single cpp files."
-  (interactive)
-  
-  (let ((f (file-name-base
-	    (buffer-file-name
-	     (window-buffer (minibuffer-selected-window))
-	     ))))
-    
-    (compile (format "touch %s.in && make %s && ./%s < %s.in" f f f f)))
-)
-(define-key c-mode-base-map [f9] 'cpp-compile-and-run)
-
-;; arduino mode (needs debug)
-(setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
-(autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
-
 ;; org-mode
 (require 'org)
+
+(setq my-org-files-dir "~/.emacs.d/orgfiles/")
+(setq my-org-agenda-dir (concat my-org-files-dir "agenda/"))
+
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (setq  org-return-follows-link t)
+
+;; initial org folders setup
+(when (not (file-exists-p my-org-files-dir)) (make-directory my-org-files-dir))
+(when (not (file-exists-p my-org-agenda-dir)) (make-directory my-org-agenda-dir))
 
 ;; Snippet to collect all .org from my Org directory and subdirs
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'") ; default value
@@ -152,11 +153,9 @@
         )
     )
     )
-;; initial setup
-(when (not (file-exists-p "orgfiles")) (make-directory "orgfiles"))
 
 
-(load-org-agenda-files-recursively "~/.emacs.d/orgfiles/" ) ; trailing slash required
+(load-org-agenda-files-recursively my-org-agenda-dir ) ; trailing slash required
 
 
 ;; tramp-mode: remote connections

@@ -31,4 +31,6 @@ cookies
 /.smex-items
 /image-dired/
 /eshell
-/orgfiles/local/
+/orgfiles/local
+/local
+/semanticdb

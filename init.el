@@ -245,6 +245,14 @@
 (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
 (require 'ledger-helper)
 
+
+(require 'flymake)
+(require 'flycheck)
+
+(add-hook 'c++-mode-hook
+          (lambda () (setq flycheck-gcc-language-standard "c++11")))
+
+
 (provide 'init)
 ;;; init.el ends here
 (put 'downcase-region 'disabled nil)

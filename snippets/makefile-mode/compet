@@ -8,7 +8,7 @@ run: comp
 dbg: comp
 	gdb sol
 comp:
-	g++ -g -Wall -o sol sol.cpp -D DEBUG
+	g++ -std=c++11 -g -Wall -o sol sol.cpp -D DEBUG
 clean:
 	-rm sol_dbg.cpp
 	-rm sol

@@ -31,13 +31,12 @@
 
 ;; Adding package paths
 (add-to-list 'load-path elisp-folder)
-(add-to-list 'load-path local-root-folder)
 (add-to-list 'load-path local-elisp-folder)
 
 
 
 ;; Getting local config file
-(when (file-exists-p (concat local-root-folder "/local-init.el"))
+(when (file-exists-p (concat local-elisp-folder "/local-init.el"))
   (require 'local-init))
 
 

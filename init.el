@@ -31,6 +31,7 @@
 
 ;; Adding package paths
 (add-to-list 'load-path elisp-folder)
+(add-to-list 'load-path local-root-folder)
 (add-to-list 'load-path local-elisp-folder)
 
 

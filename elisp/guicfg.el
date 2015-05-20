@@ -40,6 +40,16 @@
 
 
 
+;; Column number
+(define-globalized-minor-mode
+  global-colnum-mode column-number-mode (lambda ()
+                                          (column-number-mode 1)))
+
+(global-colnum-mode t)
+
+
+
+
 ;; No initial screen
 (setq-default inhibit-startup-screen t)
 
@@ -52,9 +62,13 @@
 
 ;; 80 character indicator
 (require 'fill-column-indicator)
+(setq-default fill-column 80)
 (define-globalized-minor-mode
- global-fci-mode fci-mode (lambda () (fci-mode 1)))
+  global-fci-mode fci-mode (lambda ()
+                             (fci-mode 1)))
 (global-fci-mode t)
+
+
 
 
 (provide 'guicfg)

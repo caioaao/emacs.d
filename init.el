@@ -35,22 +35,29 @@
 
 
 
-;; Getting local config file
-(when (file-exists-p (concat local-elisp-folder "/local-init.el"))
-  (require 'local-init))
-
-
-
 ;; Init packages before
 (setq package-enable-at-startup nil)
 (package-initialize)
 
 
 
+;; Getting local config file
+(when (file-exists-p (concat local-elisp-folder "/local-init.el"))
+  (require 'local-init))
+
+
+
 ;; windows utility functions (required for setting PATH)
 (require 'win32-utils)
 
+;; setting path for command line processes in win32
+(when (or (eq 'windows-nt system-type) (eq 'ms-dos system-type))
+  (setenv "PATH" (concat
+                  (w32utils-convert-to-std-path local-bin-folder) ";"
+                  (w32utils-convert-to-std-path bin-folder) ";"
+                  (getenv "PATH"))))
 
+  
 
 ;; Fixing autosave/backup files
 (setq backup-directory-alist
@@ -61,16 +68,8 @@
 
 
 ;; Adding a bin folders
-(setq exec-path
-      (append '(local-bin-folder
-                bin-folder) exec-path))
-
-(when (boundp 'using-win32)
-  (setenv "PATH" (concat
-                  (w32utils-convert-to-std-path bin-folder) ";"
-                  (w32utils-convert-to-std-path local-bin-folder) ";"
-                  (getenv "PATH"))))
-                                                              
+(add-to-list 'exec-path bin-folder)
+(add-to-list 'exec-path local-bin-folder)
 
 
 
@@ -229,6 +228,7 @@
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
 
 (provide 'init)
 ;;; init.el ends here

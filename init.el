@@ -57,7 +57,7 @@
                   (w32utils-convert-to-std-path bin-folder) ";"
                   (getenv "PATH"))))
 
-  
+
 
 ;; Fixing autosave/backup files
 (setq backup-directory-alist
@@ -228,7 +228,7 @@
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (provide 'init)
 ;;; init.el ends here

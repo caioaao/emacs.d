@@ -9,4 +9,4 @@
     (if (equal (cdr (car asslist)) query)
         (cons (car (car asslist)) (ca-all-asscs (cdr asslist) query))
       (ca-all-asscs (cdr asslist) query)))))
-;;; Do not edit! File generated at Sat May  9 10:20:55 2015
+;;; Do not edit! File generated at Sun May 24 23:30:48 2015

@@ -8,4 +8,4 @@
                        ("figure" "\\begin{figure}[htb]\n\\caption{\\label{${1:label}} ${2:caption}}\n\\begin{center}\n\\includegraphics[scale=${3:0.75}]{img/${4:file_name}}\n\\end{center}\n\\legend{${5:legend}}\n\\end{figure}\n" "figure" nil nil nil nil nil nil)))
 
 
-;;; Do not edit! File generated at Sat May  9 10:20:57 2015
+;;; Do not edit! File generated at Sun May 24 23:30:51 2015

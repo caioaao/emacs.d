@@ -1,9 +1,9 @@
 ;;; guicfg.el --- GUI config                         -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015  
+;; Copyright (C) 2015
 
 ;; Author:  <caio@caio-ntb>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -68,6 +68,11 @@
                              (fci-mode 1)))
 (global-fci-mode t)
 
+
+
+;; golden ratio auto resizing
+(require 'golden-ratio)
+(golden-ratio-mode 1)
 
 
 

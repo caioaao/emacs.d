@@ -208,6 +208,10 @@
 ;; cc-mode
 (require 'cc-mode)
 
+;;
+(add-hook 'c-c++-mode-hook
+          (lambda () (setq require-final-newline t)))
+
 ;; sets extended mode curly braces as default
 (setq c-default-style "linux"
       c-basic-offset 4)
@@ -226,8 +230,34 @@
 (require 'ledger-helper)
 
 
+
+;; git stuff
+(require 'gitcfg)
+
+
+;; paredit
+(require 'paredit)
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+
+
+
+;; pretty symbols
+(require 'prettycfg)
+
+
+
+;; no idea
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+
+;; deleting trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (provide 'init)

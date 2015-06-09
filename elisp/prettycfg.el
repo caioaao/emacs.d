@@ -1,6 +1,8 @@
-;;; win32-utils.el --- Some util functions for win32 environment  -*- lexical-binding: t; -*-
+;;; prettycfg.el --- Config to show pretty symbols   -*- lexical-binding: t; -*-
 
-;; Author:  <caio@caio-ntb>
+;; Copyright (C) 2015
+
+;; Author:  <coliveira@POS6419D>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -22,17 +24,18 @@
 
 ;;; Code:
 
-(defun w32utils-convert-to-std-path (oldpath)
-  "Convert OLDPATH to win32 standard path, when in win32 environment."
-  (convert-standard-filename (expand-file-name oldpath)))
+(add-hook
+ 'emacs-lisp-mode-hook
+ (lambda ()
+   (push '(">=" . ?≥) prettify-symbols-alist)
+   (push '("INF" . ?∞) prettify-symbols-alist)
+   (prettify-symbols-mode)))
 
-(defun w32utils-find-original-from-subst (drive)
-  "DRIVE format: 'X:'."
-  (with-temp-buffer
-    (call-process "subst" nil t)
-    (goto-char (point-min))
-    (when (re-search-forward (format "^%s\\\\: => \\(.*\\)$" drive) nil t)
-      (match-string 1))))
+(add-hook
+ 'c++-mode-hook
+ (lambda ()
+   (push '("INF" . ?∞) prettify-symbols-alist)
+   (prettify-symbols-mode)))
 
-(provide 'win32-utils)
-;;; win32-utils.el ends here
+(provide 'prettycfg)
+;;; prettycfg.el ends here

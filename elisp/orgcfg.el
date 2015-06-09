@@ -1,9 +1,9 @@
 ;;; orgcfg.el --- Org mode config, agenda, etc       -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015  
+;; Copyright (C) 2015
 
 ;; Author:  <caio@caio-ntb>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,14 +20,21 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
 (require 'org)
 
+(defvar my-org-files-dir)
+(defvar my-org-agenda-dir)
+(defvar my-org-local-agenda-dir)
+
+
+
 (setq my-org-files-dir "~/.emacs.d/orgfiles/")
 (setq my-org-agenda-dir (concat my-org-files-dir "agenda/"))
+(setq my-org-local-agenda-dir (concat my-org-files-dir "local/agenda/"))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -35,8 +42,12 @@
 (setq  org-return-follows-link t)
 
 ;; initial org folders setup
-(when (not (file-exists-p my-org-files-dir)) (make-directory my-org-files-dir))
-(when (not (file-exists-p my-org-agenda-dir)) (make-directory my-org-agenda-dir))
+(when (not (file-exists-p my-org-files-dir))
+  (make-directory my-org-files-dir))
+(when (not (file-exists-p my-org-agenda-dir))
+  (make-directory my-org-agenda-dir))
+(when (not (file-exists-p my-org-local-agenda-dir))
+  (make-directory my-org-local-agenda-dir))
 
 ;; Snippet to collect all .org from my Org directory and subdirs
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'") ; default value
@@ -49,15 +60,11 @@
         (unless (member file '("." ".."))
             (let ((file (concat dir file "/")))
                 (when (file-directory-p file)
-                    (load-org-agenda-files-recursively file)
-                )
-            )
-        )
-    )
-    )
+                    (load-org-agenda-files-recursively file))))))
 
 
 (load-org-agenda-files-recursively my-org-agenda-dir )
+(load-org-agenda-files-recursively my-org-local-agenda-dir )
                                         ; trailing slash required
 
 

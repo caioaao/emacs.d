@@ -233,6 +233,9 @@
 
 ;; git stuff
 (require 'gitcfg)
+;; smartparens
+(require 'smartparenscfg)
+
 
 
 ;; paredit

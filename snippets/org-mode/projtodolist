@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: A project's todo list
+# key: ptodolist
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+#+TODO: TODO DOING | DONE CANCELED
+#+TAGS: blocking nonblocking critical
+
+* Tasks
+** TODO $1
+* Fixes

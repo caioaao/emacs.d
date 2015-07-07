@@ -87,11 +87,6 @@
 
 
 
-;; C/C++ mode
-(require 'cc-mode)
-
-
-
 ;; For pt-Br dead keys to work
 (set-input-mode nil nil 1)
 (require 'iso-transl)
@@ -137,20 +132,6 @@
 
 
 
-;; auto complete mode
-;; should be loaded after yasnippet so that they can work together
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(ac-config-default)
-
-;; set the trigger key so that it can work together with yasnippet on
-;; tab key, if the word exists in yasnippet, pressing tab will cause
-;; yasnippet to activate, otherwise, auto-complete will
-(ac-set-trigger-key "TAB")
-(ac-set-trigger-key "<tab>")
-
-
-
 ;; flycheck
 (require 'flymake)
 (require 'flycheck)
@@ -179,7 +160,7 @@
 (set-variable (quote tex-dvi-view-command) "evince")
 
 ; add latex mode to auto-complete
-(add-to-list 'ac-modes 'latex-mode)
+;; (add-to-list 'ac-modes 'latex-mode)
 
 
 
@@ -199,28 +180,10 @@
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
-(require 'ac-html)
-(add-to-list 'ac-modes 'web-mode)
-
 
 
 ;; C/C++ config
-;; cc-mode
-(require 'cc-mode)
-
-;;
-(add-hook 'c-c++-mode-hook
-          (lambda () (setq require-final-newline t)))
-
-;; sets extended mode curly braces as default
-(setq c-default-style "linux"
-      c-basic-offset 4)
-;; C++11 as standard
-(add-hook 'c++-mode-hook
-          (lambda () (setq flycheck-gcc-language-standard "c++11")))
-;; auto complete
-(require 'auto-complete-clang)
-(define-auto-insert "sol\.cpp$" "competitive-template.cpp")
+(require 'cccfg)
 
 
 
@@ -233,8 +196,6 @@
 
 ;; git stuff
 (require 'gitcfg)
-;; smartparens
-(require 'smartparenscfg)
 
 
 
@@ -265,3 +226,5 @@
 
 (provide 'init)
 ;;; init.el ends here
+(put 'set-goal-column 'disabled nil)
+(put 'narrow-to-page 'disabled nil)

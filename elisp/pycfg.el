@@ -1,9 +1,9 @@
 ;;; pycfg.el --- Python configs                      -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015  
+;; Copyright (C) 2015
 
 ;; Author:  <caio@caio-ntb>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -37,21 +37,21 @@
 
 
 ;; Python config
-(require 'ac-python)
-(add-hook 'python-mode-hook '(lambda() (ac-python)))
+;; (require 'ac-python)
+;; (add-hook 'python-mode-hook '(lambda() (ac-python)))
 
 ;; Auto insert template
 (define-auto-insert "\.py$" "python-template.py")
 
 ;; jedi.el - python autocomplete
 ;; (require 'jedi)
-;; 
+;;
 ;; (setq jedi:complete-on-dot t)
 ;; (add-hook 'python-mode-hook 'jedi:setup)
 
 ;; ipython
 ;; (require 'python-mode)
-;; 
+;;
 ;; (setq
 ;;  python-shell-interpreter "ipython"
 ;;  python-shell-interpreter-args ""

@@ -34,3 +34,5 @@ cookies
 /orgfiles/local
 /local
 /semanticdb
+/elpa
+*.yas-compiled-snippets.el

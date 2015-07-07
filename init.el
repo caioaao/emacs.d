@@ -5,8 +5,53 @@
 
 ;;; Code:
 
-;; Some vars
+;; package managers
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("marmalade" . "http://marmalade-repo.org/packages/")
+        ("melpa" . "http://melpa.milkbox.net/packages/")))
 
+;; Init packages before
+(setq package-enable-at-startup nil)
+(package-initialize)
+
+
+
+;; Initial config
+(defvar flag-file-path "~/.emacs.d/.installed")
+
+(defvar main-packages
+  '(fill-column-indicator
+    golden-ratio
+    yasnippet
+    flycheck
+    company
+    smartrep
+    virtualenvwrapper
+    ledger-mode
+    magit
+    paredit
+    ggtags
+    hc-zenburn-theme
+    helm
+    pkg-info
+    pretty-lambdada
+    python-mode
+    web-mode))
+
+
+(when (not (file-exists-p flag-file-path))
+  (message
+   "This emacs config folder is not installed. Installing needed packages.")
+  (package-refresh-contents)
+  (dolist (package main-packages)
+    (package-install package))
+  (write-region "" nil flag-file-path)
+  (save-buffers-kill-terminal))
+
+
+
+;; Some vars
 (defvar bin-folder "~/.emacs.d/bin")
 (defvar elisp-folder "~/.emacs.d/elisp")
 
@@ -32,12 +77,6 @@
 ;; Adding package paths
 (add-to-list 'load-path elisp-folder)
 (add-to-list 'load-path local-elisp-folder)
-
-
-
-;; Init packages before
-(setq package-enable-at-startup nil)
-(package-initialize)
 
 
 
@@ -98,14 +137,6 @@
 (prefer-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
-
-
-
-;; package managers
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 
 

@@ -39,3 +39,4 @@ cookies
 .installed
 .python-environments
 ido.last
+*.orig

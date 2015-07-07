@@ -37,4 +37,5 @@ cookies
 /elpa
 *.yas-compiled-snippets.el
 .installed
-..python-environments
+.python-environments
+ido.last

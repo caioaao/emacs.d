@@ -36,3 +36,5 @@ cookies
 /semanticdb
 /elpa
 *.yas-compiled-snippets.el
+.installed
+..python-environments

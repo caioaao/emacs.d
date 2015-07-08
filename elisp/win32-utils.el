@@ -38,35 +38,42 @@
 
 (defun w32utils-expand-subst (path)
   "Expand PATH to original, if contained in SUBST."
-  (if (string-match "^.:" path)
-    (let ((original-drive-path
-           (w32utils-find-original-path (match-string 0 path))))
-      (string-match "^.:" path)
-      (replace-match original-drive-path nil t path))
-    path))
+  (when path
+    (if (string-match "^.:" path)
+        (let ((original-drive-path
+               (w32utils-find-original-path (match-string 0 path))))
+          (string-match "^.:" path)
+          (replace-match original-drive-path nil t path))
+      path)))
 
-(defun w32utils-find-file-subst (filename &optional wildcards)
-  "Expand the subst drive before opening FILENAME.
-WILDCARDS has the same effect as the original \"find-file\" function."
-  (interactive "FFilename: ")
-  (find-file (w32utils-expand-subst filename) wildcards))
+
 
 (defvar w32utils-mode-keymap (make-sparse-keymap) "Keymap for pw-mode.")
-(define-key w32utils-mode-keymap (kbd "<open>") 'w32utils-find-file-subst)
-(define-key w32utils-mode-keymap (kbd "C-x C-f") 'w32utils-find-file-subst)
-(define-key w32utils-mode-keymap (kbd "<menu-bar>") 'w32utils-find-file-subst)
-(define-key w32utils-mode-keymap (kbd "<file>") 'w32utils-find-file-subst)
-(define-key w32utils-mode-keymap (kbd "<new-file>") 'w32utils-find-file-subst)
-
-(define-minor-mode w32utils-mode "Minor mode for Windows"
+(define-minor-mode global-w32utils-mode "Minor mode for Windows"
   :lighter " w32utils" :group 'w32utils
-  :keymap w32utils-mode-keymap)
+  :keymap w32utils-mode-keymap
+  :global t)
 
 (when (or
        (eq system-type 'ms-dos)
        (eq system-type 'windows-nt)
        (eq system-type 'cygwin))
-  (w32utils-mode 1))
+  (advice-add 'find-file  :around
+              (lambda(old-find-file &rest args)
+                (destructuring-bind (filename &rest wildcards) args
+                  (apply old-find-file
+                         (w32utils-expand-subst filename)
+                         wildcards))))
+
+  (advice-add 'compilation-find-file  :around
+              (lambda (oldfun &rest args)
+                (destructuring-bind
+                    (marker filename directory &rest formats) args
+                  (apply oldfun marker
+                         (w32utils-expand-subst filename)
+                         (w32utils-expand-subst directory)
+                         formats))))
+  (global-w32utils-mode t))
 
 (provide 'win32-utils)
 ;;; win32-utils.el ends here

@@ -63,14 +63,14 @@
 
 ;; Creating folders
 (when (not (file-exists-p bin-folder))
-  (make-directory bin-folder))
+  (make-directory bin-folder t))
 
 (when (not (file-exists-p local-root-folder))
-  (make-directory local-root-folder))
+  (make-directory local-root-folder t))
 (when (not (file-exists-p local-elisp-folder))
-  (make-directory local-elisp-folder))
+  (make-directory local-elisp-folder t))
 (when (not (file-exists-p local-bin-folder))
-  (make-directory local-bin-folder))
+  (make-directory local-bin-folder t))
 
 
 
@@ -81,7 +81,7 @@
 
 
 ;; Getting local config file
-(when (file-exists-p (concat local-elisp-folder "/local-init.el"))
+(when (file-exists-p (expand-file-name "local-init.el" local-elisp-folder))
   (require 'local-init))
 
 

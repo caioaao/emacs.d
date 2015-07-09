@@ -43,11 +43,11 @@
 
 ;; initial org folders setup
 (when (not (file-exists-p my-org-files-dir))
-  (make-directory my-org-files-dir))
+  (make-directory my-org-files-dir t))
 (when (not (file-exists-p my-org-agenda-dir))
-  (make-directory my-org-agenda-dir))
+  (make-directory my-org-agenda-dir t))
 (when (not (file-exists-p my-org-local-agenda-dir))
-  (make-directory my-org-local-agenda-dir))
+  (make-directory my-org-local-agenda-dir t))
 
 ;; Snippet to collect all .org from my Org directory and subdirs
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'") ; default value

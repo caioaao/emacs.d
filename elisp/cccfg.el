@@ -63,12 +63,35 @@
 (define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
 
 (require 'cc-mode)
+(require 'cedet)
 (require 'semantic)
+(require 'semantic/ia)
+(require 'semantic/bovine/gcc)
 
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
+(defun semantic-enable-other-helpers ()
+  "Manually adding helpers."
+  (semantic-idle-completions-mode 1)
+  (semantic-idle-summary-mode 1)
+  (semantic-idle-local-symbol-highlight-mode 1)
+  (semantic-auto-parse-mode 1)
+  (semantic-stickyfunc-menu 1)
+  (semanticdb-minor-mode 1)
+  (semantic-idle-scheduler-mode 1))
 
-(semantic-mode 1)
+(defun c-like-semantic-hook ()
+  "C-like modes should call this hook."
+  (semantic-enable-other-helpers)
+  (complete-instance-variables-and-methods)
+  (when (cedet-gnu-global-version-check t)
+    (semanticdb-enable-gnu-global-databases 'c-mode)
+    (semanticdb-enable-gnu-global-databases 'c++-mode))
+  (when (cedet-ectag-version-check)
+    (semantic-load-enable-primary-exuberant-ctags-support)))
+
+(add-hook 'c-mode-common-hook 'c-like-semantic-hook)
+(add-hook 'java-mode-common-hook 'c-like-semantic-hook)
+(add-hook 'python-mode-common-hook 'c-like-semantic-hook)
+(add-hook 'common-lisp-mode-common-hook 'c-like-semantic-hook)
 
 (require 'company)
 (global-company-mode 1)

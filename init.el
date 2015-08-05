@@ -17,6 +17,29 @@
 
 
 
+;; Some vars
+(defvar bin-folder "~/.emacs.d/bin")
+(defvar elisp-folder "~/.emacs.d/elisp")
+
+(defvar local-root-folder "~/.emacs.d/local")
+(defvar local-bin-folder (concat local-root-folder "/bin"))
+(defvar local-elisp-folder (concat local-root-folder "/elisp"))
+
+
+
+;; Creating folders
+(when (not (file-exists-p bin-folder))
+  (make-directory bin-folder t))
+
+(when (not (file-exists-p local-root-folder))
+  (make-directory local-root-folder t))
+(when (not (file-exists-p local-elisp-folder))
+  (make-directory local-elisp-folder t))
+(when (not (file-exists-p local-bin-folder))
+  (make-directory local-bin-folder t))
+
+
+
 ;; Initial config
 (defvar flag-file-path "~/.emacs.d/.installed")
 
@@ -48,29 +71,6 @@
     (package-install package))
   (write-region "" nil flag-file-path)
   (save-buffers-kill-terminal))
-
-
-
-;; Some vars
-(defvar bin-folder "~/.emacs.d/bin")
-(defvar elisp-folder "~/.emacs.d/elisp")
-
-(defvar local-root-folder "~/.emacs.d/local")
-(defvar local-bin-folder (concat local-root-folder "/bin"))
-(defvar local-elisp-folder (concat local-root-folder "/elisp"))
-
-
-
-;; Creating folders
-(when (not (file-exists-p bin-folder))
-  (make-directory bin-folder t))
-
-(when (not (file-exists-p local-root-folder))
-  (make-directory local-root-folder t))
-(when (not (file-exists-p local-elisp-folder))
-  (make-directory local-elisp-folder t))
-(when (not (file-exists-p local-bin-folder))
-  (make-directory local-bin-folder t))
 
 
 

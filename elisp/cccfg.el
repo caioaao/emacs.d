@@ -75,6 +75,8 @@
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 
+(setq semantic-c-obey-conditional-section-parsing-flag nil)
+
 (defun cccfg:cedet-hook ()
   (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
   (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))

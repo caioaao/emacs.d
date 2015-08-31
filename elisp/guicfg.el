@@ -40,6 +40,11 @@
 
 
 
+;; Better scrolling
+(setq scroll-step 1)
+
+
+
 ;; Column number
 (define-globalized-minor-mode
   global-colnum-mode column-number-mode (lambda ()

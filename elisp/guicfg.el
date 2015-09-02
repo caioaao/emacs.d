@@ -26,7 +26,7 @@
 
 
 ;; theme
-(load-theme 'wombat t)
+(load-theme 'molokai t)
 
 
 
@@ -37,6 +37,11 @@
 
 ;; Auto linum-mode
 (global-linum-mode 1)
+
+
+
+;; Highlight current line
+(global-hl-line-mode 1)
 
 
 

@@ -55,7 +55,7 @@
     magit
     paredit
     ggtags
-    hc-zenburn-theme
+    molokai-theme
     helm
     pkg-info
     pretty-lambdada

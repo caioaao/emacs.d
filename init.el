@@ -60,7 +60,8 @@
     pkg-info
     pretty-lambdada
     python-mode
-    web-mode))
+    web-mode
+    molokai-theme))
 
 
 (when (not (file-exists-p flag-file-path))

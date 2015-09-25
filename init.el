@@ -61,7 +61,9 @@
     pretty-lambdada
     python-mode
     web-mode
-    molokai-theme))
+    molokai-theme
+    ag
+    projectile))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -245,6 +247,11 @@
 
 ;; pretty symbols
 (require 'prettycfg)
+
+
+
+;; project related
+(require 'prjcfg)
 
 
 

@@ -27,8 +27,9 @@
 (require 'projectile)
 
 (projectile-global-mode t)
+
 (setq projectile-completion-system 'helm)
-(define-key projectile-command-map (kbd "s g") 'projectile-ag)
+(setq projectile-enable-caching t)
 
 (provide 'prjcfg)
 ;;; prjcfg.el ends here

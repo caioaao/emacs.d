@@ -63,7 +63,9 @@
     web-mode
     molokai-theme
     ag
-    projectile))
+    projectile
+    tup-mode
+    glsl-mode))
 
 
 (when (not (file-exists-p flag-file-path))

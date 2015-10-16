@@ -265,7 +265,10 @@
 ;; deleting trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(provide 'init)
-;;; init.el ends here
+
 (put 'set-goal-column 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+(provide 'init)
+;;; init.el ends here

@@ -75,6 +75,11 @@
 
 
 
+;; window navigation
+(windmove-default-keybindings 'meta)
+
+
+
 ;; golden ratio auto resizing
 (require 'golden-ratio)
 (golden-ratio-mode 1)

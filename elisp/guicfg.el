@@ -75,8 +75,8 @@
 
 
 
-;; window navigation
-(windmove-default-keybindings 'meta)
+;; window navigation (DOESN'T WORK ON WINDOWS)
+(windmove-default-keybindings 'super)
 
 
 

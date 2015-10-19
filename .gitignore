@@ -40,3 +40,4 @@ cookies
 .python-environments
 ido.last
 *.orig
+/.trello/

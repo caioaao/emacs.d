@@ -1,8 +1,8 @@
-;;; prjcfg.el --- Configs for project-aware editing in emacs  -*- lexical-binding: t; -*-
+;;; webcfg.el --- Web config                         -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015
 
-;; Author:  <coliveira@POS6419D>
+;; Author:  <caio@caio-ntb>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,12 +24,18 @@
 
 ;;; Code:
 
-(require 'projectile)
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 
-(projectile-global-mode t)
+(add-hook 'web-mode-hook
+  (lambda ()
+  (if (equal web-mode-content-type "javascript")
+  (web-mode-set-content-type "jsx")
+  (message "now set to: %s" web-mode-content-type))))
 
-(setq projectile-completion-system 'helm)
-(setq projectile-enable-caching t)
+(setq web-mode-enable-auto-closing t)
+(setq web-mode-enable-auto-pairing t)
 
-(provide 'prjcfg)
-;;; prjcfg.el ends here
+
+(provide 'webcfg)
+;;; webcfg.el ends here

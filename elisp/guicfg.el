@@ -70,13 +70,13 @@
 
 
 
-;; 80 character indicator
-(require 'fill-column-indicator)
+;; 80 character rule
 (setq-default fill-column 80)
-(define-globalized-minor-mode
-  global-fci-mode fci-mode (lambda ()
-                             (fci-mode 1)))
-(global-fci-mode t)
+
+
+
+;; window navigation (DOESN'T WORK ON WINDOWS)
+(windmove-default-keybindings 'super)
 
 
 

@@ -63,7 +63,9 @@
     web-mode
     molokai-theme
     ag
-    projectile))
+    projectile
+    tup-mode
+    glsl-mode))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -255,6 +257,11 @@
 
 
 
+;; web config
+(require 'webcfg)
+
+
+
 ;; no idea
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -263,7 +270,10 @@
 ;; deleting trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(provide 'init)
-;;; init.el ends here
+
 (put 'set-goal-column 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+(provide 'init)
+;;; init.el ends here

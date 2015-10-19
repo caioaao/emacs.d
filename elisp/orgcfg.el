@@ -33,8 +33,6 @@
 
 
 (setq my-org-files-dir "~/.emacs.d/orgfiles/")
-(setq my-org-agenda-dir (concat my-org-files-dir "agenda/"))
-(setq my-org-local-agenda-dir (concat my-org-files-dir "local/agenda/"))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -44,10 +42,6 @@
 ;; initial org folders setup
 (when (not (file-exists-p my-org-files-dir))
   (make-directory my-org-files-dir t))
-(when (not (file-exists-p my-org-agenda-dir))
-  (make-directory my-org-agenda-dir t))
-(when (not (file-exists-p my-org-local-agenda-dir))
-  (make-directory my-org-local-agenda-dir t))
 
 ;; Snippet to collect all .org from my Org directory and subdirs
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'") ; default value
@@ -62,11 +56,8 @@
                 (when (file-directory-p file)
                     (load-org-agenda-files-recursively file))))))
 
-
-(load-org-agenda-files-recursively my-org-agenda-dir )
-(load-org-agenda-files-recursively my-org-local-agenda-dir )
+(load-org-agenda-files-recursively my-org-files-dir)
                                         ; trailing slash required
-
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

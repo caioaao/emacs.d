@@ -75,8 +75,11 @@
 
 
 
-;; window navigation (DOESN'T WORK ON WINDOWS)
-(windmove-default-keybindings 'super)
+;; window navigation
+(global-set-key (kbd "C-M-h") 'windmove-left)
+(global-set-key (kbd "C-M-l") 'windmove-right)
+(global-set-key (kbd "C-M-k") 'windmove-up)
+(global-set-key (kbd "C-M-j") 'windmove-down)
 
 
 

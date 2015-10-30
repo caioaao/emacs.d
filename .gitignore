@@ -42,3 +42,4 @@ ido.last
 *.orig
 /.trello/
 *.eld
+projectile.cache

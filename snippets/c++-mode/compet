@@ -21,6 +21,7 @@
 using namespace std;
 
 typedef long long L;
+typedef double D;
 typedef pair<L,L> PL;
 typedef vector<L> VL;
 typedef vector<VL> VVL;

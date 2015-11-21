@@ -29,15 +29,23 @@
   "Remotelly open menu using adb."
   (interactive)
   (start-process
-   "open react dev menu" nil
+   "react-open-android-dev-menu" nil
    "adb" "shell" "input" "keyevent" "82"))
 
 (defun react-android-reload-js ()
   "Remotelly reload JS using adb."
   (interactive)
   (start-process
-   "open react dev menu" nil
-   "adb" "shell" "input" "keyevent" "82" "66" "66"))
+   "react-android-reload-js" nil
+   "adb" "shell" "input" "keyevent" "82" "66" "66" "66"))
+
+(defun react-android-allow-js-server-conn ()
+  "Configure device to enable communication with JS server.
+The devices must be on the same network."
+  (interactive)
+  (start-process
+   "react-android-allow-js-server-conn" nil
+   "adb" "reverse" "tcp:8081" "tcp:8081"))
 
 (provide 'reactcfg)
 ;;; reactcfg.el ends here

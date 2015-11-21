@@ -27,6 +27,12 @@
 
 
 
+;; Emacs server not getting this from env?
+(when (not (getenv "LC_ALL"))
+  (setenv "LC_ALL" "pt_BR.UTF-8"))
+
+
+
 ;; Creating folders
 (when (not (file-exists-p bin-folder))
   (make-directory bin-folder t))
@@ -60,6 +66,8 @@
     pkg-info
     pretty-lambdada
     python-mode
+    jedi
+    company-jedi
     web-mode
     molokai-theme
     ag

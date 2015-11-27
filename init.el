@@ -73,7 +73,11 @@
     ag
     projectile
     tup-mode
-    glsl-mode))
+    glsl-mode
+    clojure-mode
+    clj-refactor
+    clojure-snippets
+    align-cljlet))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -272,6 +276,11 @@
 
 ;; react cfg
 (require 'reactcfg)
+
+
+
+;; clojure cfg
+(require 'cljcfg)
 
 
 

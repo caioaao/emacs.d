@@ -61,7 +61,7 @@
     magit
     paredit
     ggtags
-    molokai-theme
+    colorsarenice-theme
     helm
     pkg-info
     pretty-lambdada

@@ -26,7 +26,7 @@
 
 
 ;; theme
-(load-theme 'molokai t)
+(load-theme 'colorsarenice-light t)
 
 
 

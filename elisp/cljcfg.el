@@ -28,22 +28,22 @@
 (require 'clojure-mode)
 
 (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojure-mode))
-(setq inferior-lisp-program "lein repl")
-
 
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
+                               (cider-mode 1)
                                (clj-refactor-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-o")))
 
 (require 'paredit)
 (add-hook 'clojure-mode-hook 'paredit-mode)
 
-(add-hook 'clojure-mode-hook
-          '(lambda ()
-             (define-key clojure-mode-map "\C-c\C-e" 'lisp-eval-region)))
-
 (require 'clojure-snippets)
+
+(require 'cider)
+
+(add-hook 'cider-repl-mode-hook (lambda ()
+                                  (paredit-mode)))
 
 (provide 'cljcfg)
 ;;; cljcfg.el ends here

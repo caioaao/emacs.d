@@ -34,6 +34,7 @@
 ;; sets extended mode curly braces as default
 (setq c-default-style "linux"
       c-basic-offset 4)
+
 ;; C++11 as standard
 (add-hook 'c++-mode-hook
           (lambda () (setq flycheck-gcc-language-standard "c++11")))
@@ -87,44 +88,9 @@
 (add-hook 'c++-mode-hook 'cccfg:cedet-hook)
 
 
-
-;; (require 'cc-mode)
-;; (require 'cedet)
-;; (require 'semantic)
-;; (require 'semantic/ia)
-;; (require 'semantic/bovine/gcc)
-;;
-;; (defun semantic-enable-other-helpers ()
-;;   "Manually adding helpers."
-;;   (semantic-idle-completions-mode 1)
-;;   (semantic-idle-summary-mode 1)
-;;   (semantic-idle-local-symbol-highlight-mode 1)
-;;   (semantic-auto-parse-mode 1)
-;;   (semantic-stickyfunc-menu 1)
-;;   (semanticdb-minor-mode 1)
-;;   (semantic-idle-scheduler-mode 1)
-;;   (semantic-mode 1))
-;;
-;;
-;; (defun c-like-semantic-hook ()
-;;   "C-like modes should call this hook."
-;;
-;;   (semantic-enable-other-helpers)
-;;   ;; (complete-instance-variables-and-methods)
-;;   (when (cedet-gnu-global-version-check t)
-;;       (progn
-;;         (message "AUE")
-;;         (semanticdb-enable-gnu-global-databases 'c-mode)
-;;         (semanticdb-enable-gnu-global-databases 'c++-mode))
-;;     (message "NAUE")))
-;;
-;; (add-hook 'c-mode-common-hook 'c-like-semantic-hook)
-;; (add-hook 'java-mode-common-hook 'c-like-semantic-hook)
-;; (add-hook 'python-mode-common-hook 'c-like-semantic-hook)
-;; (add-hook 'common-lisp-mode-common-hook 'c-like-semantic-hook)
-
 (require 'company)
 (global-company-mode 1)
+
 
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -132,6 +98,20 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(defun setup-flycheck-proj-path ()
+  (let ((prj-root (ignore-errors (projectile-project-root))))
+    (when prj-root
+      (add-to-list (make-variable-buffer-local 'flycheck-gcc-include-path)
+                   prj-root)
+      (let ((prj-src-dir (expand-file-name "src" prj-root)))
+        (when (file-exists-p prj-src-dir)
+          (add-to-list (make-variable-buffer-local 'flycheck-gcc-include-path)
+                       prj-src-dir))))))
+
+(add-hook 'c-mode-common-hook 'setup-flycheck-proj-path)
+(add-hook 'c-mode-hook 'setup-flycheck-proj-path)
+(add-hook 'c++-mode-hook 'setup-flycheck-proj-path)
 
 (provide 'cccfg)
 ;;; cccfg.el ends here

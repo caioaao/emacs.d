@@ -151,9 +151,9 @@
 
 ;; Set encoding
 (setenv "LC_CTYPE" "UTF-8")
-(prefer-coding-system 'utf-8)
-(setq coding-system-for-read 'utf-8)
-(setq coding-system-for-write 'utf-8)
+(prefer-coding-system 'utf-8-unix)
+(setq coding-system-for-read 'utf-8-unix)
+(setq coding-system-for-write 'utf-8-unix)
 
 
 
@@ -284,15 +284,14 @@
 
 
 
-;; no idea
+;; deleting trailing whitespaces
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
+
+
+;; reenabling useful functions
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
-
-;; deleting trailing whitespaces
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-
 (put 'set-goal-column 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)

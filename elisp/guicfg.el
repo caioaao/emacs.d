@@ -76,10 +76,11 @@
 
 
 ;; window navigation
-(global-set-key (kbd "C-M-h") 'windmove-left)
-(global-set-key (kbd "C-M-l") 'windmove-right)
-(global-set-key (kbd "C-M-k") 'windmove-up)
-(global-set-key (kbd "C-M-j") 'windmove-down)
+(global-set-key (kbd "C-c o h") 'windmove-left)
+(global-set-key (kbd "C-c o l") 'windmove-right)
+(global-set-key (kbd "C-c o k") 'windmove-up)
+(global-set-key (kbd "C-c o j") 'windmove-down)
+(setq windmove-wrap-around t)
 
 
 

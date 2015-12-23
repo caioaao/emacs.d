@@ -152,8 +152,6 @@
 ;; Set encoding
 (setenv "LC_CTYPE" "UTF-8")
 (prefer-coding-system 'utf-8-unix)
-(setq coding-system-for-read 'utf-8-unix)
-(setq coding-system-for-write 'utf-8-unix)
 
 
 
@@ -196,9 +194,9 @@
 (require 'smartrep)
 (smartrep-define-key
     global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
-			   ("<right>" . 'shrink-window-horizontally)
-			   ("<up>" . 'shrink-window)
-			   ("<down>" . 'enlarge-window)))
+                           ("<right>" . 'shrink-window-horizontally)
+                           ("<up>" . 'shrink-window)
+                           ("<down>" . 'enlarge-window)))
 
 
 

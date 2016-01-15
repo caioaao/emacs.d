@@ -47,8 +47,21 @@
       path)))
 
 
+;; using old defadvice to be compatible with projectile
+(defadvice find-file (around w32-find-file)
+    "Expand filename and dir before calling 'find-file'."
+    (ad-set-arg 0 (w32utils-expand-subst (ad-get-arg 0))) ;; expand filename
+    ad-do-it)
+
+(defadvice compilation-find-file (around w32-compilation-find-file)
+    "Expand filename and dir before calling 'compilation-find-file'."
+    (ad-set-arg 1 (w32utils-expand-subst (ad-get-arg 1))) ;; expand filename
+    (ad-set-arg 2 (w32utils-expand-subst (ad-get-arg 2))) ;; expand directory
+    ad-do-it)
+
 
 (defvar w32utils-mode-keymap (make-sparse-keymap) "Keymap for pw-mode.")
+
 (define-minor-mode global-w32utils-mode "Minor mode for Windows"
   :lighter " w32utils" :group 'w32utils
   :keymap w32utils-mode-keymap
@@ -58,21 +71,8 @@
        (eq system-type 'ms-dos)
        (eq system-type 'windows-nt)
        (eq system-type 'cygwin))
-  (advice-add 'find-file  :around
-              (lambda(old-find-file &rest args)
-                (destructuring-bind (filename &rest wildcards) args
-                  (apply old-find-file
-                         (w32utils-expand-subst filename)
-                         wildcards))))
-
-  (advice-add 'compilation-find-file  :around
-              (lambda (oldfun &rest args)
-                (destructuring-bind
-                    (marker filename directory &rest formats) args
-                  (apply oldfun marker
-                         (w32utils-expand-subst filename)
-                         (w32utils-expand-subst directory)
-                         formats))))
+  (ad-activate 'compilation-find-file)
+  (ad-activate 'find-file)
   (global-w32utils-mode t))
 
 (provide 'win32-utils)

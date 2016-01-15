@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: static const unsigned int
-# key: scu
-# --
-static const unsigned int $1 =

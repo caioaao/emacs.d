@@ -52,6 +52,8 @@
 (defvar main-packages
   '(fill-column-indicator
     golden-ratio
+    smart-mode-line
+    smart-mode-line-powerline-theme
     yasnippet
     flycheck
     company
@@ -283,7 +285,7 @@
 
 
 ;; deleting trailing whitespaces
-(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
 

@@ -89,6 +89,14 @@
 (golden-ratio-mode 1)
 
 
+;; smart-line
+(require 'smart-mode-line)
+(require 'smart-mode-line-powerline-theme)
+(setq sml/no-confirm-load-theme t)
+(setq sml/theme 'light-powerline)
+(sml/setup)
+
+
 
 (provide 'guicfg)
 ;;; guicfg.el ends here

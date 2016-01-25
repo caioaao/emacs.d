@@ -85,11 +85,6 @@
 
 
 
-;; golden ratio auto resizing
-(require 'golden-ratio)
-(golden-ratio-mode 1)
-
-
 ;; smart-line
 (require 'smart-mode-line)
 (require 'smart-mode-line-powerline-theme)

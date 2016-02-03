@@ -79,7 +79,8 @@
     clojure-mode
     clj-refactor
     clojure-snippets
-    align-cljlet))
+    align-cljlet
+    rainbow-delimiters))
 
 
 (when (not (file-exists-p flag-file-path))

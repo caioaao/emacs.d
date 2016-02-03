@@ -93,6 +93,13 @@
 (sml/setup)
 
 
+;; parenthesis
+(add-hook
+ 'prog-mode-hook
+ (lambda()
+   (rainbow-delimiters-mode 1)
+   (show-paren-mode 1)))
+
 
 (provide 'guicfg)
 ;;; guicfg.el ends here

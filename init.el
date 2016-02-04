@@ -80,7 +80,8 @@
     clj-refactor
     clojure-snippets
     align-cljlet
-    rainbow-delimiters))
+    rainbow-delimiters
+    exec-path-from-shell))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -282,6 +283,11 @@
 
 ;; clojure cfg
 (require 'cljcfg)
+
+
+
+;; OSX compat cfg
+(require 'osxcfg)
 
 
 

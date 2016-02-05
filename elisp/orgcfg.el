@@ -59,5 +59,7 @@
 (load-org-agenda-files-recursively my-org-files-dir)
                                         ; trailing slash required
 
+(setq org-src-fontify-natively t)
+
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

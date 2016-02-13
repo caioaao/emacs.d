@@ -42,8 +42,7 @@
 
 (require 'cider)
 
-(add-hook 'cider-repl-mode-hook (lambda ()
-                                  (paredit-mode)))
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
 
 (provide 'cljcfg)
 ;;; cljcfg.el ends here

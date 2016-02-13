@@ -292,7 +292,9 @@
 
 
 ;; deleting trailing whitespaces
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook (lambda ()
+                              (set (make-local-variable 'delete-trailing-lines) nil)
+                              (delete-trailing-whitespace)))
 
 
 

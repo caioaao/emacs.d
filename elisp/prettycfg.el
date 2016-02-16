@@ -29,13 +29,19 @@
  (lambda ()
    (push '(">=" . ?≥) prettify-symbols-alist)
    (push '("INF" . ?∞) prettify-symbols-alist)
-   (prettify-symbols-mode)))
+   (prettify-symbols-mode 1)))
 
 (add-hook
  'c++-mode-hook
  (lambda ()
    (push '("INF" . ?∞) prettify-symbols-alist)
-   (prettify-symbols-mode)))
+   (prettify-symbols-mode 1)))
+
+(add-hook
+ 'clojure-mode-hook
+ (lambda ()
+   (push '("fn" . ?λ) prettify-symbols-alist)
+   (prettify-symbols-mode 1)))
 
 (provide 'prettycfg)
 ;;; prettycfg.el ends here

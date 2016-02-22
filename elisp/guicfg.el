@@ -26,7 +26,7 @@
 
 
 ;; theme
-(load-theme 'colorsarenice-light t)
+(load-theme 'colorsarenice-dark t)
 
 
 
@@ -89,7 +89,7 @@
 (require 'smart-mode-line)
 (require 'smart-mode-line-powerline-theme)
 (setq sml/no-confirm-load-theme t)
-(setq sml/theme 'light-powerline)
+(setq sml/theme 'powerline)
 (sml/setup)
 
 

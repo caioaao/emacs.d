@@ -20,9 +20,6 @@
 
 ;;; Commentary:
 
-;; Most of it was copied from the article "clojure and emacs without cider":
-;; http://martintrojer.github.io/clojure/2014/10/02/clojure-and-emacs-without-cider/
-
 ;;; Code:
 
 (require 'clojure-mode)

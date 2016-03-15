@@ -80,6 +80,7 @@
     clj-refactor
     clojure-snippets
     align-cljlet
+    midje-mode
     rainbow-delimiters
     exec-path-from-shell))
 

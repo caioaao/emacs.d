@@ -262,6 +262,11 @@
 
 
 
+;; edit config
+(require 'editcfg)
+
+
+
 ;; pretty symbols
 (require 'prettycfg)
 
@@ -305,6 +310,11 @@
 (put 'set-goal-column 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+
+
+
+;; set scratch mode to clojure
+(setq initial-major-mode 'clojure-mode)
 
 (provide 'init)
 ;;; init.el ends here

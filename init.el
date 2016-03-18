@@ -82,7 +82,8 @@
     align-cljlet
     midje-mode
     rainbow-delimiters
-    exec-path-from-shell))
+    exec-path-from-shell
+    undo-tree))
 
 
 (when (not (file-exists-p flag-file-path))

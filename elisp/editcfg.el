@@ -25,8 +25,7 @@
 ;;; Code:
 (require 'undo-tree)
 (global-undo-tree-mode 1)
-(global-set-key (kbd "C-z") 'undo)
-(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+(global-set-key (kbd "C-;") 'undo-tree-redo)
 
 (provide 'editcfg)
 ;;; editcfg.el ends here

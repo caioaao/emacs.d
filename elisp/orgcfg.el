@@ -24,40 +24,35 @@
 
 ;;; Code:
 
+;; trailing slash required when dir is a symlink
+(defvar my-org-files-dirs '("~/.emacs.d/orgfiles"))
+
 (require 'org)
-
-(defvar my-org-files-dir)
-(defvar my-org-agenda-dir)
-(defvar my-org-local-agenda-dir)
-
-
-
-(setq my-org-files-dir "~/.emacs.d/orgfiles/")
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (setq  org-return-follows-link t)
 
-;; initial org folders setup
-(when (not (file-exists-p my-org-files-dir))
-  (make-directory my-org-files-dir t))
 
 ;; Snippet to collect all .org from my Org directory and subdirs
-(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'") ; default value
-(defun load-org-agenda-files-recursively (dir) "Find all directories in DIR."
+(defun load-org-agenda-files-recursively (dir)
+  "Find all directories in DIR."
+  (let ((file-regexp "\\`[^.].*\\.org\\'"))
     (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
-    (unless (equal (directory-files dir nil org-agenda-file-regexp t) nil)
-      (add-to-list 'org-agenda-files dir)
-    )
-    (dolist (file (directory-files dir nil nil t))
-        (unless (member file '("." ".."))
-            (let ((file (concat dir file "/")))
-                (when (file-directory-p file)
-                    (load-org-agenda-files-recursively file))))))
+    (unless (equal (directory-files dir nil file-regexp t) nil)
+      (add-to-list 'org-agenda-files dir))
+    (dolist (file-name (directory-files dir nil nil t))
+      (unless (member file-name '("." ".."))
+        (let ((file-path (expand-file-name file-name dir)))
+          (when (file-directory-p file-path)
+            (load-org-agenda-files-recursively file-path)))))))
 
-(load-org-agenda-files-recursively my-org-files-dir)
-                                        ; trailing slash required
+(dolist (p my-org-files-dirs)
+  (unless (file-exists-p p)
+    (make-directory p t))
+  (load-org-agenda-files-recursively p))
+                                        
 
 (setq org-src-fontify-natively t)
 

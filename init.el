@@ -83,7 +83,8 @@
     midje-mode
     rainbow-delimiters
     exec-path-from-shell
-    undo-tree))
+    undo-tree
+    dockerfile-mode))
 
 
 (when (not (file-exists-p flag-file-path))

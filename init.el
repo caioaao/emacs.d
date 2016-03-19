@@ -84,7 +84,8 @@
     rainbow-delimiters
     exec-path-from-shell
     undo-tree
-    dockerfile-mode))
+    dockerfile-mode
+    yaml-mode))
 
 
 (when (not (file-exists-p flag-file-path))

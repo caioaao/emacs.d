@@ -85,7 +85,8 @@
     exec-path-from-shell
     undo-tree
     dockerfile-mode
-    yaml-mode))
+    yaml-mode
+    keyfreq-mode))
 
 
 (when (not (file-exists-p flag-file-path))

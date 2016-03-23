@@ -76,11 +76,22 @@
 
 
 
+;; window resizing shortcuts
+(smartrep-define-key
+    global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
+                           ("<right>" . 'shrink-window-horizontally)
+                           ("<up>" . 'shrink-window)
+                           ("<down>" . 'enlarge-window)))
+
+
+
 ;; window navigation
-(global-set-key (kbd "C-c o h") 'windmove-left)
-(global-set-key (kbd "C-c o l") 'windmove-right)
-(global-set-key (kbd "C-c o k") 'windmove-up)
-(global-set-key (kbd "C-c o j") 'windmove-down)
+(require 'windmove)
+(smartrep-define-key
+    global-map "C-c o" '(("h" . 'windmove-left)
+                         ("l" . 'windmove-right)
+                         ("k" . 'windmove-up)
+                         ("j" . 'windmove-down)))
 (setq windmove-wrap-around t)
 
 

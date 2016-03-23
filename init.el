@@ -106,6 +106,11 @@
 
 
 
+;; some (potentially) global dependencies
+(require 'smartrep)
+
+
+
 ;; Getting local config file
 (when (file-exists-p (expand-file-name "local-init.el" local-elisp-folder))
   (require 'local-init))
@@ -196,16 +201,6 @@
 
 ;; org mode
 (require 'orgcfg)
-
-
-
-;; window resizing shortcuts
-(require 'smartrep)
-(smartrep-define-key
-    global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
-                           ("<right>" . 'shrink-window-horizontally)
-                           ("<up>" . 'shrink-window)
-                           ("<down>" . 'enlarge-window)))
 
 
 

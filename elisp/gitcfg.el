@@ -28,6 +28,8 @@
 
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-git-executable "git")
+(global-set-key (kbd "C-c m s") 'magit-status)
+(global-set-key (kbd "C-c m b") 'magit-blame)
 
 (provide 'gitcfg)
 ;;; gitcfg.el ends here

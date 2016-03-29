@@ -52,13 +52,14 @@
   (unless (file-exists-p p)
     (make-directory p t))
   (load-org-agenda-files-recursively p))
-                                        
 
 (setq org-src-fontify-natively t)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((dot . t)))
+ '((dot . t)
+   (sh . t)
+   (python . t)))
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

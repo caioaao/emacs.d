@@ -55,5 +55,11 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key [remap move-beginning-of-line]
                 'prelude-move-beginning-of-line)
 
+
+
+;; imenu
+(require 'helm)
+(global-set-key (kbd "C-c M-i") 'helm-imenu)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

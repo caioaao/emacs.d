@@ -40,7 +40,6 @@
           (lambda () (setq flycheck-gcc-language-standard "c++11")))
 ;; auto complete
 ;; (require 'auto-complete-clang)
-(define-auto-insert "sol\.cpp$" "competitive-template.cpp")
 
 ;; ggtags
 (require 'ggtags)

@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: google code jam case io
+# key: gcj
+# --
+int t;
+cin >> t;
+for(int i = 1; i <= t; ++i) {
+    cout << "Case #" << i << ": ";
+    $0
+    cout << '\n';
+}

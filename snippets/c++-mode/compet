@@ -2,7 +2,19 @@
 # name: competitive header and defs
 # key: compet
 # --
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <list>
+#include <stack>
+#include <queue>
+#include <deque>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
 
 #define ff first
 #define ss second
@@ -21,6 +33,7 @@
 using namespace std;
 
 typedef long long L;
+typedef unsigned long long UL;
 typedef double D;
 typedef pair<L,L> PL;
 typedef vector<L> VL;

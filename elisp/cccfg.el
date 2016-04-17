@@ -70,7 +70,7 @@
 (global-semantic-idle-scheduler-mode 1)
 (global-semantic-stickyfunc-mode 1)
 
-(semantic-mode 1)
+;(semantic-mode 1)
 
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)

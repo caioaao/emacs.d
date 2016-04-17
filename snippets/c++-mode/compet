@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <bitset>
 #include <list>
 #include <stack>
 #include <queue>

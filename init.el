@@ -86,7 +86,8 @@
     undo-tree
     dockerfile-mode
     yaml-mode
-    keyfreq-mode))
+    keyfreq-mode
+    haskell-mode))
 
 
 (when (not (file-exists-p flag-file-path))

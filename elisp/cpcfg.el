@@ -31,7 +31,7 @@
 The output file will have the same name as the input file, but with a `.out' extension."
   (interactive "fInput file: ")
   (setq last-gcj-input-file input-file)
-  (let ((output-file (concat input-file ".sol")))
+  (let ((output-file (concat input-file ".out")))
     (compile (format "make sol && ./sol < %s > %s && head -n100 %s" input-file output-file output-file))))
 
 (defun redo-gcj ()

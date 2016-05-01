@@ -24,13 +24,6 @@
 
 #define ms(x,v) memset((x), (v), sizeof(x))
 
-#define _NO_USE_LOG
-#ifdef _USE_LOG
-#define LOG(x) cout << x;
-#else
-#define LOG(x)
-#endif
-
 using namespace std;
 
 typedef long long L;
@@ -41,6 +34,13 @@ typedef vector<L> VL;
 typedef vector<VL> VVL;
 typedef vector<PL> VPL;
 typedef vector<VPL>VVPL;
+
+#define _NO_USE_LOG
+#ifdef _USE_LOG
+#define LOG(x) cout << x;
+#else
+#define LOG(x)
+#endif
 
 int main() {
     ios_base::sync_with_stdio(0);

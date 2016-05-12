@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: drawing code block
+# key: draw
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+#+BEGIN_SRC artist :exports code
+$1
+#+END_SRC

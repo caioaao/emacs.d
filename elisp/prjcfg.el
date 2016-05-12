@@ -25,9 +25,11 @@
 ;;; Code:
 
 (require 'projectile)
+(helm-projectile-on)
+
+(require 'helm-projectile)
 
 (projectile-global-mode t)
-
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching t)
 

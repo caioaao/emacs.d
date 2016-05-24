@@ -88,7 +88,8 @@
     dockerfile-mode
     yaml-mode
     keyfreq-mode
-    haskell-mode))
+    haskell-mode
+    fic-mode))
 
 
 (when (not (file-exists-p flag-file-path))

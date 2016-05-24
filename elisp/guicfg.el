@@ -104,12 +104,20 @@
 (sml/setup)
 
 
+
 ;; parenthesis
 (add-hook
  'prog-mode-hook
  (lambda()
    (rainbow-delimiters-mode 1)
    (show-paren-mode 1)))
+
+
+
+;; fic-mode
+(require 'fic-mode)
+(add-hook 'prog-mode-hook (lambda () (fic-mode 1)))
+
 
 
 (provide 'guicfg)

@@ -24,13 +24,13 @@
 
 ;;; Code:
 
+(defvar quicklisp-path (expand-file-name "~/.local/opt/quicklisp/"))
+(defvar slime-helper-path (concat (file-name-as-directory quicklisp-path) "slime-helper.el"))
+
 (setq inferior-lisp-program "sbcl")
 
 (if (executable-find inferior-lisp-program)
     (progn
-      (defvar quicklisp-path (expand-file-name "~/.local/opt/quicklisp/"))
-      (defvar slime-helper-path (concat (file-name-as-directory quicklisp-path) "slime-helper.el"))
-
       (when (and (not (file-exists-p quicklisp-path))
                  (y-or-n-p (format "Quicklisp is not installed in %s.  Do you wish to download and install? " quicklisp-path)))
         (let ((quicklisp-installscript-path "~/tmp/quicklisp.lisp")
@@ -39,16 +39,12 @@
           (with-temp-file quicklisp-install-instructions-path
             (insert (format "(load \"%s\") (quicklisp-quickstart:install :path \"%s\") (ql:quickload \"quicklisp-slime-helper\") (quit)"
                             quicklisp-installscript-path quicklisp-path)))
-          (shell-command (concat inferior-lisp-program " < " quicklisp-install-instructions-path))))
-
-      (load slime-helper-path))
+          (shell-command (concat inferior-lisp-program " < " quicklisp-install-instructions-path)))))
   (message (format "Inferior lisp program % not found. Couldn't load SLIME" inferior-lisp-program)))
 
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/slime")
-;; (require 'slime)
-;; (setq slime-contribs '(slime-fancy))
-;; (slime-setup)
-
+(when (and (executable-find inferior-lisp-program)
+           (file-exists-p slime-helper-path))
+  (load slime-helper-path))
 
 (provide 'clcfg)
 ;;; clcfg.el ends here

@@ -1,8 +1,8 @@
-;;; gitcfg.el --- Config for GIT packages            -*- lexical-binding: t; -*-
+;;; clcfg.el --- Common Lisp config                  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2016
 
-;; Author:  <coliveira@POS6419D>
+;; Author:  <caio@caio-ntb>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,13 +24,12 @@
 
 ;;; Code:
 
-(setq tramp-ssh-controlmaster-options "") ;; see https://debbugs.gnu.org/cgi/bugreport.cgi?bug=20015
-(require 'magit)
+(setq inferior-lisp-program "/usr/bin/sbcl")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/slime")
+(require 'slime)
+(setq slime-contribs '(slime-fancy))
+(slime-setup)
 
-(setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-git-executable "git")
-(global-set-key (kbd "C-c m s") 'magit-status)
-(global-set-key (kbd "C-c m b") 'magit-blame)
 
-(provide 'gitcfg)
-;;; gitcfg.el ends here
+(provide 'clcfg)
+;;; clcfg.el ends here

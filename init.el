@@ -74,6 +74,7 @@
     molokai-theme
     ag
     projectile
+    helm-projectile
     tup-mode
     glsl-mode
     clojure-mode
@@ -299,6 +300,11 @@
 
 ;; Competitive programming cfg
 (require 'cpcfg)
+
+
+
+;; Common Lisp cfg
+(require 'clcfg)
 
 
 

@@ -49,7 +49,7 @@
 
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 
-
+(define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)
 
 ;; Clojure imenu support (from https://gist.github.com/luxbock/0f9d6c05c9a8f0002715)
 (defconst clojure-imenu-generic-expression
@@ -61,7 +61,6 @@
     ("Protocol" "^\\s-*(\\(?:def\\(?:-abstract-type\\|interface\\+?\\|protocol\\)\\)\\s-+\\([^[:space:]\n]+\\)" 1)
     ("Multimethod" "^\\s-*(defmulti\\s-+\\([^[:space:]\n]+\\)" 1)
     ("Multimethod" "^\\s-*(defmethod\\s-+\\([^[:space:]\n]+\\)" 1)))
-
 
 (defun after-clj-mode ()
   "Add clojure support to imenu."

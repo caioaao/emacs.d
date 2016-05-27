@@ -59,7 +59,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 ;; imenu
 (require 'helm)
-(global-set-key (kbd "C-c M-i") 'helm-imenu)
+(global-set-key (kbd "C-c i") 'helm-imenu)
 
 (provide 'editcfg)
 ;;; editcfg.el ends here

@@ -52,25 +52,28 @@
 
 
 ;; Clojure imenu support (from https://gist.github.com/luxbock/0f9d6c05c9a8f0002715)
-(setq clojure-imenu-generic-expression
-      '((nil "^\\s-*(\\(?:s\\|t/\\)?defn-?\\s-+\\(?:\\^[^[:space:]\n]+\\s-+\\)?\\([^[:space:]\n]+\\)" 1)
-        ("Variable""^\\s-*(\\(?:s\\|t/\\)?def[[:space:]\n]+\\(?:\\(?:\\^{[^}]+}[[:space:]\n]+\\)\\|\\(?:\\^:[^[:space:]\n]+\\s-+\\)\\)?\\([^[:space:]\n\)]+\\)" 1)
-        ("Macro" "^\\s-*(defmacro\\s-+\\([^[:space:]\n]+\\)" 1)
-        ("Record" "^\\s-*(\\(?:s/\\)?defrecord\\s-+\\([^[:space:]\n]+\\)" 1)
-        ("Type" "^\\s-*(deftype\\+?\\s-+\\([^[:space:]\n]+\\)" 1)
-        ("Protocol" "^\\s-*(\\(?:def\\(?:-abstract-type\\|interface\\+?\\|protocol\\)\\)\\s-+\\([^[:space:]\n]+\\)" 1)
-        ("Multimethod" "^\\s-*(defmulti\\s-+\\([^[:space:]\n]+\\)" 1)
-        ("Multimethod" "^\\s-*(defmethod\\s-+\\([^[:space:]\n]+\\)" 1)))
+(defconst clojure-imenu-generic-expression
+  '((nil "^\\s-*(\\(?:s\\|t/\\)?defn-?\\s-+\\(?:\\^[^[:space:]\n]+\\s-+\\)?\\([^[:space:]\n]+\\)" 1)
+    ("Variable""^\\s-*(\\(?:s\\|t/\\)?def[[:space:]\n]+\\(?:\\(?:\\^{[^}]+}[[:space:]\n]+\\)\\|\\(?:\\^:[^[:space:]\n]+\\s-+\\)\\)?\\([^[:space:]\n\)]+\\)" 1)
+    ("Macro" "^\\s-*(defmacro\\s-+\\([^[:space:]\n]+\\)" 1)
+    ("Record" "^\\s-*(\\(?:s/\\)?defrecord\\s-+\\([^[:space:]\n]+\\)" 1)
+    ("Type" "^\\s-*(deftype\\+?\\s-+\\([^[:space:]\n]+\\)" 1)
+    ("Protocol" "^\\s-*(\\(?:def\\(?:-abstract-type\\|interface\\+?\\|protocol\\)\\)\\s-+\\([^[:space:]\n]+\\)" 1)
+    ("Multimethod" "^\\s-*(defmulti\\s-+\\([^[:space:]\n]+\\)" 1)
+    ("Multimethod" "^\\s-*(defmethod\\s-+\\([^[:space:]\n]+\\)" 1)))
 
+
+(defun after-clj-mode ()
+  "Add clojure support to imenu."
+  (add-hook
+     'clojure-mode-hook
+     (lambda ()
+       (progn
+         (setq imenu-generic-expression clojure-imenu-generic-expression
+               imenu-create-index-function 'imenu-default-create-index-function)))))
 
 (eval-after-load "clojure-mode"
-  '(progn
-     (add-hook
-      'clojure-mode-hook
-      (lambda ()
-        (progn
-          (setq imenu-generic-expression clojure-imenu-generic-expression
-                imenu-create-index-function 'imenu-default-create-index-function))))))
+  #'after-clj-mode)
 
 (provide 'cljcfg)
 ;;; cljcfg.el ends here

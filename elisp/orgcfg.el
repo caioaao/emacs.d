@@ -61,5 +61,7 @@
    (sh . t)
    (python . t)))
 
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

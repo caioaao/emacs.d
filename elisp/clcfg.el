@@ -46,5 +46,8 @@
            (file-exists-p slime-helper-path))
   (load slime-helper-path))
 
+(require 'paredit)
+(add-hook 'inferior-lisp-mode-hook 'paredit-mode)
+
 (provide 'clcfg)
 ;;; clcfg.el ends here

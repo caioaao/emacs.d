@@ -47,6 +47,7 @@
                   '(display-buffer-same-window)))))
 
 (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+(add-hook 'git-commit-mode-hook 'markdown-mode)
 
 (provide 'gitcfg)
 ;;; gitcfg.el ends here

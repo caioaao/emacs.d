@@ -53,7 +53,7 @@
 
 ;; Clojure imenu support (from https://gist.github.com/luxbock/0f9d6c05c9a8f0002715)
 (defconst clojure-imenu-generic-expression
-  '((nil "^\\s-*(\\(?:s\\|t/\\)?defn-?\\s-+\\(?:\\^[^[:space:]\n]+\\s-+\\)?\\([^[:space:]\n]+\\)" 1)
+  '((nil "^\\s-*(\\(?:[st]/\\)?defn-?\\s-+\\(?:\\^[^[:space:]\n]+\\s-+\\)?\\([^[:space:]\n]+\\)" 1)
     ("Variable""^\\s-*(\\(?:s\\|t/\\)?def[[:space:]\n]+\\(?:\\(?:\\^{[^}]+}[[:space:]\n]+\\)\\|\\(?:\\^:[^[:space:]\n]+\\s-+\\)\\)?\\([^[:space:]\n\)]+\\)" 1)
     ("Macro" "^\\s-*(defmacro\\s-+\\([^[:space:]\n]+\\)" 1)
     ("Record" "^\\s-*(\\(?:s/\\)?defrecord\\s-+\\([^[:space:]\n]+\\)" 1)

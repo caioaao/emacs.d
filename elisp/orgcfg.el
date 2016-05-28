@@ -59,7 +59,8 @@
  'org-babel-load-languages
  '((dot . t)
    (sh . t)
-   (python . t)))
+   (python . t)
+   (lisp . t)))
 
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 

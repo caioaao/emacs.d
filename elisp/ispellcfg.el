@@ -1,8 +1,8 @@
-;;; prettycfg.el --- Config to show pretty symbols   -*- lexical-binding: t; -*-
+;;; ispellcfg.el --- ispell config                   -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2016
 
-;; Author:  <coliveira@POS6419D>
+;; Author:  <caio@caio-ntb>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,17 +24,8 @@
 
 ;;; Code:
 
-(add-hook
- 'clojure-mode-hook
- (lambda ()
-   (push '("fn" . ?λ) prettify-symbols-alist)
-   (prettify-symbols-mode 1)))
+(require 'ispell)
+(setq ispell-dictionary "en")
 
-(add-hook
- 'lisp-mode-hook
- (lambda ()
-   (push '("lambda" . ?λ) prettify-symbols-alist)
-   (prettify-symbols-mode 1)))
-
-(provide 'prettycfg)
-;;; prettycfg.el ends here
+(provide 'ispellcfg)
+;;; ispellcfg.el ends here

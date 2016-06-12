@@ -66,7 +66,8 @@
  '((dot . t)
    (sh . t)
    (python . t)
-   (ipython . t)))
+   (ipython . t)
+   (lisp . t))
 
 (setq org-confirm-babel-evaluate nil)
 

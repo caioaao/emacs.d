@@ -89,7 +89,8 @@
     yaml-mode
     keyfreq-mode
     haskell-mode
-    fic-mode))
+    fic-mode
+    ob-ipython))
 
 
 (when (not (file-exists-p flag-file-path))

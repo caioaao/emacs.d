@@ -27,9 +27,12 @@
 
 
 
+;; Locale
 ;; Emacs server not getting this from env?
 (when (not (getenv "LC_ALL"))
   (setenv "LC_ALL" "pt_BR.UTF-8"))
+(require 'ispell)
+(setq ispell-dictionary "en")
 
 
 

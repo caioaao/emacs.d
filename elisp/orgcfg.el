@@ -24,6 +24,10 @@
 
 ;;; Code:
 
+;;======================
+;; agenda
+;;======================
+
 ;; trailing slash required when dir is a symlink
 (defvar my-org-files-dirs '("~/.emacs.d/orgfiles"))
 
@@ -53,14 +57,30 @@
     (make-directory p t))
   (load-org-agenda-files-recursively p))
 
-(setq org-src-fontify-natively t)
+;;======================
+;; babel
+;;======================
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((dot . t)
    (sh . t)
    (python . t)
-   (lisp . t)))
+   (ipython . t)
+   (lisp . t))
+
+(setq org-confirm-babel-evaluate nil)
+
+;;======================
+;; UI
+;;======================
+
+(setq org-src-fontify-natively t)
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
+;;======================
+;; Other
+;;======================
 
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 

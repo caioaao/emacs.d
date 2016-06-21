@@ -67,7 +67,8 @@
    (sh . t)
    (python . t)
    (ipython . t)
-   (lisp . t))
+   (lisp . t)
+   (clojure . t)))
 
 (setq org-confirm-babel-evaluate nil)
 

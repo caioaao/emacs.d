@@ -39,6 +39,8 @@
                                (clj-refactor-mode 1)
                                (midje-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-o")))
+(setq cljr-favor-prefix-notation nil)
+(setq cljr-auto-clean-ns t)
 
 (require 'paredit)
 (add-hook 'clojure-mode-hook 'paredit-mode)

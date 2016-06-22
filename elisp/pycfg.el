@@ -24,68 +24,28 @@
 
 ;;; Code:
 
-
-;; virtualenvwrapper
-(require 'virtualenvwrapper)
-(defun virtualenvwrapper-init-full-shell-support()
-  "Just initializes some support functions."
-  (interactive)
-  (venv-initialize-interactive-shells) ;; interactive shell support
-  (venv-initialize-eshell)) ;; eshell support
-(setq venv-location "~/my/dev/venvs/")
-(setenv "WORKON_HOME" venv-location)
-
+(require 'pyvenv)
 (require 'flycheck)
-
-;; We can safely declare this function, since we'll only call it in Python Mode,
-;; that is, when python.el was already loaded.
-(declare-function python-shell-calculate-exec-path "python")
-
-(defun flycheck-virtualenv-set-python-executables ()
-  "Set Python executables for the current buffer."
-  (let ((exec-path (python-shell-calculate-exec-path)))
-    (setq-local flycheck-python-pylint-executable
-                (executable-find "pylint"))
-    (setq-local flycheck-python-flake8-executable
-                (executable-find "flake8"))))
-
-(defun flycheck-virtualenv-setup ()
-  "Setup Flycheck for the current virtualenv."
-  (interactive)
-  (when (derived-mode-p 'python-mode)
-    (add-hook 'hack-local-variables-hook
-              #'flycheck-virtualenv-set-python-executables 'local)))
 
 (require 'company)
 (require 'company-jedi)
 (add-to-list 'company-backends 'company-jedi)
 
-;; (require 'ac-python)
-;; (add-hook 'python-mode-hook '(lambda() (ac-python)))
+(defun flycheck-set-execs ()
+  "Local vars to for flycheck."
+  (let ((exec-path (python-shell-calculate-exec-path)))
+    (setq-local flycheck-python-pylint-executable (executable-find "pylint"))
+    (setq-local flycheck-python-flake8-executable (executable-find "flake8"))
+    (setq python-shell-interpreter (executable-find "python"))))
 
-;; Auto insert template
-(define-auto-insert "\.py$" "python-template.py")
+(defun flycheck-setup ()
+  "Setup flycheck-mode to check correct executables."
+  (when (derived-mode-p 'python-mode)
+    (add-hook 'hack-local-variables-hook #'flycheck-set-execs)))
 
-;; jedi.el - python autocomplete
-;; (require 'jedi)
-;;
-;; (setq jedi:complete-on-dot t)
-;; (add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'pyvenv-post-activate-hooks #'flycheck-set-execs)
 
-;; ipython
-;; (require 'python-mode)
-;;
-;; (setq
-;;  python-shell-interpreter "ipython"
-;;  python-shell-interpreter-args ""
-;;  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-;;  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-;;  python-shell-completion-setup-code
-;;    "from IPython.core.completerlib import module_completion"
-;;  python-shell-completion-module-string-code
-;;    "';'.join(module_completion('''%s'''))\n"
-;;  python-shell-completion-string-code
-;;    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+(add-hook 'flycheck-mode-hook #'flycheck-setup)
 
 (provide 'pycfg)
 ;;; pycfg.el ends here

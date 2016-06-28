@@ -92,7 +92,9 @@
     python-mode
     company-jedi
     pyvenv
-    ob-ipython))
+    ob-ipython
+    anaconda-mode
+    company-anaconda))
 
 
 (when (not (file-exists-p flag-file-path))

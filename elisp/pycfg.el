@@ -24,12 +24,21 @@
 
 ;;; Code:
 
-
+;; Shared packages config (probably shared with other languages
+(require 'company)
 (require 'flycheck)
 
-;; We can safely declare this function, since we'll only call it in Python Mode,
-;; that is, when python.el was already loaded.
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+;;(add-hook 'python-mode-hook 'turn-on-eldoc-mode)
+(add-to-list 'company-backends 'company-anaconda)
+
+
+;; flycheck config
 (declare-function python-shell-calculate-exec-path "python")
+                                        ; We can safely declare this function,
+                                        ; since we'll only call it in Python
+                                        ; Mode, that is, when python.el was
+                                        ; already loaded.
 
 (defun flycheck-virtualenv-set-python-executables ()
   "Set Python executables for the current buffer."
@@ -47,9 +56,9 @@
     (add-hook 'hack-local-variables-hook
               #'flycheck-virtualenv-set-python-executables 'local)))
 
-(require 'company)
-(require 'company-jedi)
-(add-to-list 'company-backends 'company-jedi)
+
+;; anaconda-mode setup
+(add-hook 'python-mode-hook 'anaconda-mode)
 
 ;; Auto insert template
 (define-auto-insert "\.py$" "python-template.py")

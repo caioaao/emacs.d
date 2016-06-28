@@ -61,7 +61,6 @@
     flycheck
     company
     smartrep
-    virtualenvwrapper
     ledger-mode
     magit
     paredit
@@ -70,8 +69,6 @@
     helm
     pkg-info
     pretty-lambdada
-    python-mode
-    company-jedi
     web-mode
     molokai-theme
     ag
@@ -92,6 +89,9 @@
     keyfreq-mode
     haskell-mode
     fic-mode
+    python-mode
+    company-jedi
+    pyvenv
     ob-ipython))
 
 

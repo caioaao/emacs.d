@@ -71,7 +71,6 @@
     pkg-info
     pretty-lambdada
     python-mode
-    jedi
     company-jedi
     web-mode
     molokai-theme

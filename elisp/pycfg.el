@@ -25,16 +25,6 @@
 ;;; Code:
 
 
-;; virtualenvwrapper
-(require 'virtualenvwrapper)
-(defun virtualenvwrapper-init-full-shell-support()
-  "Just initializes some support functions."
-  (interactive)
-  (venv-initialize-interactive-shells) ;; interactive shell support
-  (venv-initialize-eshell)) ;; eshell support
-(setq venv-location "~/my/dev/venvs/")
-(setenv "WORKON_HOME" venv-location)
-
 (require 'flycheck)
 
 ;; We can safely declare this function, since we'll only call it in Python Mode,
@@ -47,7 +37,8 @@
     (setq-local flycheck-python-pylint-executable
                 (executable-find "pylint"))
     (setq-local flycheck-python-flake8-executable
-                (executable-find "flake8"))))
+                (executable-find "flake8"))
+    (setenv "PYTHONPATH" )))
 
 (defun flycheck-virtualenv-setup ()
   "Setup Flycheck for the current virtualenv."
@@ -60,32 +51,8 @@
 (require 'company-jedi)
 (add-to-list 'company-backends 'company-jedi)
 
-;; (require 'ac-python)
-;; (add-hook 'python-mode-hook '(lambda() (ac-python)))
-
 ;; Auto insert template
 (define-auto-insert "\.py$" "python-template.py")
-
-;; jedi.el - python autocomplete
-;; (require 'jedi)
-;;
-;; (setq jedi:complete-on-dot t)
-;; (add-hook 'python-mode-hook 'jedi:setup)
-
-;; ipython
-;; (require 'python-mode)
-;;
-;; (setq
-;;  python-shell-interpreter "ipython"
-;;  python-shell-interpreter-args ""
-;;  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-;;  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-;;  python-shell-completion-setup-code
-;;    "from IPython.core.completerlib import module_completion"
-;;  python-shell-completion-module-string-code
-;;    "';'.join(module_completion('''%s'''))\n"
-;;  python-shell-completion-string-code
-;;    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
 (provide 'pycfg)
 ;;; pycfg.el ends here

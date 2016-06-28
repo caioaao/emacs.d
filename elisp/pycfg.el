@@ -24,28 +24,46 @@
 
 ;;; Code:
 
-(require 'pyvenv)
+;; Shared packages config (probably shared with other languages
+(require 'company)
 (require 'flycheck)
 
-(require 'company)
-(require 'company-jedi)
-(add-to-list 'company-backends 'company-jedi)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+;;(add-hook 'python-mode-hook 'turn-on-eldoc-mode)
+(add-to-list 'company-backends 'company-anaconda)
 
-(defun flycheck-set-execs ()
-  "Local vars to for flycheck."
+
+;; flycheck config
+(declare-function python-shell-calculate-exec-path "python")
+                                        ; We can safely declare this function,
+                                        ; since we'll only call it in Python
+                                        ; Mode, that is, when python.el was
+                                        ; already loaded.
+
+(defun flycheck-virtualenv-set-python-executables ()
+  "Set Python executables for the current buffer."
   (let ((exec-path (python-shell-calculate-exec-path)))
-    (setq-local flycheck-python-pylint-executable (executable-find "pylint"))
-    (setq-local flycheck-python-flake8-executable (executable-find "flake8"))
-    (setq python-shell-interpreter (executable-find "python"))))
+    (setq-local flycheck-python-pylint-executable
+                (executable-find "pylint"))
+    (setq-local flycheck-python-flake8-executable
+                (executable-find "flake8"))
+    (setenv "PYTHONPATH" )))
+
+(defun flycheck-virtualenv-setup ()
+  "Setup Flycheck for the current virtualenv."
+  (interactive)
+  (when (derived-mode-p 'python-mode)
+    (add-hook 'hack-local-variables-hook
+              #'flycheck-virtualenv-set-python-executables 'local)))
+
+
+;; anaconda-mode setup
+(add-hook 'python-mode-hook 'anaconda-mode)
 
 (defun flycheck-setup ()
   "Setup flycheck-mode to check correct executables."
   (when (derived-mode-p 'python-mode)
     (add-hook 'hack-local-variables-hook #'flycheck-set-execs)))
-
-(add-hook 'pyvenv-post-activate-hooks #'flycheck-set-execs)
-
-(add-hook 'flycheck-mode-hook #'flycheck-setup)
 
 (provide 'pycfg)
 ;;; pycfg.el ends here

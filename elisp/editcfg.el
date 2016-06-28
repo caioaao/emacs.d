@@ -61,5 +61,7 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'helm)
 (global-set-key (kbd "C-c i") 'helm-imenu)
 
+(add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode))
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

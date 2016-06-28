@@ -61,7 +61,6 @@
     flycheck
     company
     smartrep
-    virtualenvwrapper
     ledger-mode
     magit
     paredit
@@ -70,9 +69,6 @@
     helm
     pkg-info
     pretty-lambdada
-    python-mode
-    jedi
-    company-jedi
     web-mode
     molokai-theme
     ag
@@ -93,7 +89,12 @@
     keyfreq-mode
     haskell-mode
     fic-mode
-    ob-ipython))
+    python-mode
+    company-jedi
+    pyvenv
+    ob-ipython
+    anaconda-mode
+    company-anaconda))
 
 
 (when (not (file-exists-p flag-file-path))

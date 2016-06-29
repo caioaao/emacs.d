@@ -57,6 +57,10 @@
               #'flycheck-virtualenv-set-python-executables 'local)))
 
 
+(eval-after-load "python-mode"
+  (lambda () (setq python-fill-docstring-style 'django)))
+
+
 ;; anaconda-mode setup
 (add-hook 'python-mode-hook 'anaconda-mode)
 

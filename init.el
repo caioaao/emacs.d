@@ -61,7 +61,7 @@
     magit
     paredit
     ggtags
-    colorsarenice-theme
+    material-theme
     helm
     pkg-info
     pretty-lambdada

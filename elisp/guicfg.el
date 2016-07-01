@@ -26,7 +26,7 @@
 
 
 ;; theme
-(load-theme 'colorsarenice-dark t)
+(load-theme 'material t) ; last: colorsarenice-dark
 
 
 

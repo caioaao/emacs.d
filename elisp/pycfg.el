@@ -69,5 +69,7 @@
   (when (derived-mode-p 'python-mode)
     (add-hook 'hack-local-variables-hook #'flycheck-set-execs)))
 
+(setq python-fill-docstring-style 'django)
+
 (provide 'pycfg)
 ;;; pycfg.el ends here

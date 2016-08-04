@@ -82,7 +82,6 @@
     undo-tree
     dockerfile-mode
     yaml-mode
-    keyfreq-mode
     haskell-mode
     fic-mode
     python-mode

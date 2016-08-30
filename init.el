@@ -30,7 +30,7 @@
 ;; Locale
 ;; Emacs server not getting this from env?
 (when (not (getenv "LC_ALL"))
-  (setenv "LC_ALL" "pt_BR.UTF-8"))
+  (setenv "LC_ALL" "en_US.UTF-8"))
 
 ;; Creating folders
 (when (not (file-exists-p bin-folder))
@@ -68,6 +68,7 @@
     web-mode
     molokai-theme
     ag
+    helm-ag
     projectile
     helm-projectile
     tup-mode
@@ -306,6 +307,11 @@
 
 ;; Common Lisp cfg
 (require 'clcfg)
+
+
+
+;; ispell
+(require 'ispellcfg)
 
 
 

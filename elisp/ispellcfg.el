@@ -25,7 +25,7 @@
 ;;; Code:
 
 (require 'ispell)
-(setq ispell-dictionary "en")
+(setq ispell-dictionary "american")
 
 (provide 'ispellcfg)
 ;;; ispellcfg.el ends here

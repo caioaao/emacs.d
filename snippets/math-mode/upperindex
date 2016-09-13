@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: upper index
+# key: upri
+# --
+^{(${1:n})}

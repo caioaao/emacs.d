@@ -72,6 +72,8 @@
 
 (setq org-confirm-babel-evaluate nil)
 
+(setq org-export-babel-evaluate nil)
+
 ;;======================
 ;; UI
 ;;======================

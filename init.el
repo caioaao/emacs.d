@@ -90,7 +90,8 @@
     pyvenv
     ob-ipython
     anaconda-mode
-    company-anaconda))
+    company-anaconda
+    ein))
 
 
 (when (not (file-exists-p flag-file-path))

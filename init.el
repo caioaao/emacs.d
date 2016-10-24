@@ -91,7 +91,8 @@
     ob-ipython
     anaconda-mode
     company-anaconda
-    ein))
+    ein
+    json-mode))
 
 
 (when (not (file-exists-p flag-file-path))

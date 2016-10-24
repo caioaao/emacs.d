@@ -120,15 +120,5 @@
 
 
 
-;; inspecting font faces (from http://stackoverflow.com/a/1242366)
-(defun what-face (pos)
-  "Font face at point POS."
-  (interactive "d")
-  (let ((face (or (get-char-property (point) 'read-face-name)
-                  (get-char-property (point) 'face))))
-    (if face (message "Face: %s" face) (message "No face at %d" pos))))
-
-
-
 (provide 'guicfg)
 ;;; guicfg.el ends here

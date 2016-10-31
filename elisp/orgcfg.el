@@ -29,7 +29,7 @@
 ;;======================
 
 ;; trailing slash required when dir is a symlink
-(defvar my-org-files-dirs '("~/.emacs.d/orgfiles"))
+(defvar my-org-files-dirs '("~/.emacs.d/orgfiles/"))
 
 (require 'org)
 

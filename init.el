@@ -92,7 +92,8 @@
     anaconda-mode
     company-anaconda
     ein
-    json-mode))
+    json-mode
+    restclient))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -40,7 +40,7 @@
             (insert (format "(load \"%s\") (quicklisp-quickstart:install :path \"%s\") (ql:quickload \"quicklisp-slime-helper\") (quit)"
                             quicklisp-installscript-path quicklisp-path)))
           (shell-command (concat inferior-lisp-program " < " quicklisp-install-instructions-path)))))
-  (message (format "Inferior lisp program % not found. Couldn't load SLIME" inferior-lisp-program)))
+  (message (format "Inferior lisp program %s not found. Couldn't load SLIME" inferior-lisp-program)))
 
 (when (and (executable-find inferior-lisp-program)
            (file-exists-p slime-helper-path))

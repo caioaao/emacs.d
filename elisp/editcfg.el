@@ -63,5 +63,10 @@ point reaches the beginning or end of the buffer, stop there."
 
 (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode))
 
+(require 'tramp)
+;; run this to make tramp+ssh work with colored shells
+(setq tramp-shell-prompt-pattern "\\(?:^\\|\\)[^]#$%>
+]*#?[]#$%>].* *\\(\\[[0-9;]*[a-zA-Z] *\\)*")
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

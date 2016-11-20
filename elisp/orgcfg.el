@@ -29,7 +29,7 @@
 ;;======================
 
 ;; trailing slash required when dir is a symlink
-(defvar my-org-files-dirs '("~/.emacs.d/orgfiles"))
+(defvar my-org-files-dirs '("~/.emacs.d/orgfiles/"))
 
 (require 'org)
 
@@ -71,6 +71,8 @@
    (clojure . t)))
 
 (setq org-confirm-babel-evaluate nil)
+
+(setq org-export-babel-evaluate nil)
 
 ;;======================
 ;; UI

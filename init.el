@@ -92,6 +92,7 @@
     anaconda-mode
     company-anaconda
     ein
+    json-mode
     restclient))
 
 

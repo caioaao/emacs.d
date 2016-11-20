@@ -91,7 +91,8 @@
     ob-ipython
     anaconda-mode
     company-anaconda
-    ein))
+    ein
+    restclient))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -120,5 +120,10 @@
 
 
 
+;; info+
+(require 'info+)
+
+
+
 (provide 'guicfg)
 ;;; guicfg.el ends here

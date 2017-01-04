@@ -93,7 +93,8 @@
     ein
     json-mode
     restclient
-    anzu))
+    anzu
+    info+))
 
 
 (when (not (file-exists-p flag-file-path))

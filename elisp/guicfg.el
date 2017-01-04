@@ -96,12 +96,12 @@
 
 
 
-;; smart-line
-(require 'smart-mode-line)
-(require 'smart-mode-line-powerline-theme)
-(setq sml/no-confirm-load-theme t)
-(setq sml/theme 'powerline)
-(sml/setup)
+;; modeline
+(require 'spaceline-config)
+(spaceline-emacs-theme)
+;; (setq powerline-height 20)
+;; (setq powerline-raw " ")
+(setq ns-use-srgb-colorspace nil)
 
 
 

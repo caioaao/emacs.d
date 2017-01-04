@@ -51,8 +51,7 @@
 (defvar main-packages
   '(fill-column-indicator
     golden-ratio
-    smart-mode-line
-    smart-mode-line-powerline-theme
+    spaceline
     yasnippet
     flycheck
     company

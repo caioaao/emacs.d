@@ -101,6 +101,7 @@
 (setq powerline-default-separator 'wave)
 (setq ns-use-srgb-colorspace nil)
 (spaceline-emacs-theme)
+(spaceline-helm-mode)
 
 
 

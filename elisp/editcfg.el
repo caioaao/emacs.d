@@ -68,5 +68,8 @@ point reaches the beginning or end of the buffer, stop there."
 (setq tramp-shell-prompt-pattern "\\(?:^\\|\\)[^]#$%>
 ]*#?[]#$%>].* *\\(\\[[0-9;]*[a-zA-Z] *\\)*")
 
+(require 'anzu)
+(global-anzu-mode 1)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

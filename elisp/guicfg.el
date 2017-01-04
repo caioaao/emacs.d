@@ -98,10 +98,9 @@
 
 ;; modeline
 (require 'spaceline-config)
-(spaceline-emacs-theme)
-;; (setq powerline-height 20)
-;; (setq powerline-raw " ")
+(setq powerline-default-separator 'wave)
 (setq ns-use-srgb-colorspace nil)
+(spaceline-emacs-theme)
 
 
 

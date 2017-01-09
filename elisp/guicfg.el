@@ -96,16 +96,6 @@
 
 
 
-;; modeline
-(require 'spaceline-config)
-(setq powerline-default-separator 'wave)
-(setq ns-use-srgb-colorspace nil)
-(spaceline-emacs-theme)
-(spaceline-helm-mode)
-
-
-
-;; parenthesis
 (add-hook
  'prog-mode-hook
  (lambda()
@@ -125,5 +115,29 @@
 
 
 
+;; modeline
+(require 'spaceline-config)
+(setq powerline-default-separator 'arrow)
+(setq ns-use-srgb-colorspace nil)
+(spaceline-emacs-theme)
+(spaceline-helm-mode)
+
+
+
+;; hiding minor modes
+(require 'diminish)
+(eval-after-load "anzu" '(diminish 'anzu-mode))
+(eval-after-load "auto-revert" '(diminish 'auto-revert-mode))
+(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+(eval-after-load "flycheck" '(diminish 'flycheck-mode))
+(eval-after-load "yas-minor-mode" '(diminish 'yas-minor-mode))
+(eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+(eval-after-load "clj-refactor" '(diminish 'clj-refactor-mode))
+(eval-after-load "company" '(diminish 'company-mode))
+(eval-after-load "paredit" '(diminish 'paredit-mode))
+
+
+
+;; parenthesis
 (provide 'guicfg)
 ;;; guicfg.el ends here

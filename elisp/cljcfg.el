@@ -48,7 +48,7 @@
 (require 'clojure-snippets)
 
 (require 'cider)
-
+(setq cider-repl-pop-to-buffer-on-connect nil)
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)

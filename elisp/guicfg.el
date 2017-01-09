@@ -127,7 +127,7 @@
 ;; hiding minor modes
 (require 'diminish)
 (eval-after-load "anzu" '(diminish 'anzu-mode))
-(eval-after-load "auto-revert" '(diminish 'auto-revert-mode))
+(eval-after-load "auto-revert-mode" '(diminish 'auto-revert-mode))
 (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
 (eval-after-load "flycheck" '(diminish 'flycheck-mode))
 (eval-after-load "yas-minor-mode" '(diminish 'yas-minor-mode))

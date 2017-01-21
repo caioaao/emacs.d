@@ -320,6 +320,11 @@
 
 
 
+;; gym
+(require 'gym)
+
+
+
 ;; deleting trailing whitespaces
 (add-hook 'before-save-hook (lambda ()
                               (set (make-local-variable 'delete-trailing-lines) nil)

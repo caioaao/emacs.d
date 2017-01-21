@@ -95,7 +95,9 @@
     restclient
     anzu
     info+
-    diminish))
+    diminish
+    gnuplot
+    gnuplot-mode))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -28,14 +28,6 @@
     forearm-r
     thigh-r
     calf-r
-    biceps-r
-    forearm-r
-    thigh-r
-    calf-r
-    biceps-l
-    forearm-l
-    thigh-l
-    calf-l
     biceps-l
     forearm-l
     thigh-l
@@ -90,16 +82,12 @@
 (defun gym-register-day ()
   "Insert day measurements in current file."
   (interactive)
-  (insert (mapconcat (apply-partially #'format "%.3f")
-                     (gym-ask-all)
-                     ",")
-          "\n"))
-
-(defun gym-add-header ()
-  (interactive)
-  (insert (mapconcat (apply-partially #'format "%S")
-                     gym-bodyparts
-                     ",")))
+  (org-table-insert-row t)
+  (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)"))
+  (loop for res in (gym-ask-all)
+        do
+        (org-table-next-field)
+        (insert (format "%.3f" res))))
 
 (provide 'gym)
 ;;; gym.el ends here

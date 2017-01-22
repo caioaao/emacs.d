@@ -68,7 +68,8 @@
    (python . t)
    (ipython . t)
    (lisp . t)
-   (clojure . t)))
+   (clojure . t)
+   (gnuplot . t)))
 
 (setq org-confirm-babel-evaluate nil)
 

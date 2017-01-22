@@ -46,6 +46,8 @@
            (file-exists-p slime-helper-path))
   (load slime-helper-path))
 
+(slime-setup '(slime-fancy slime-tramp))
+
 (require 'paredit)
 (add-hook 'inferior-lisp-mode-hook 'paredit-mode)
 

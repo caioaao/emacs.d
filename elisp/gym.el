@@ -41,13 +41,6 @@
   "Ask BODYPART measure number N."
   (read-number (format "Enter %S size (measurement %d): " bodypart n)))
 
-(defun gym-ask-for (bodypart)
-  "Ask for BODYPART measures and return mean."
-  (/ (reduce #'+
-             (mapcar (lambda (i) (gym-ask-one bodypart i))
-                     ))
-     gym-num-measurements))
-
 (defun gym-ask-all* (prev next res)
   "Recursion.  Allows for going back in time."
   (if next
@@ -67,10 +60,11 @@
 
 (defun gym-aggregate-results (answers)
   (loop for bodypart in gym-bodyparts
-        collect (reduce #'+ answers
-                        :key (lambda (tup)
-                               (or (and (equal (car tup) bodypart) (cadr tup))
-                                   0)))))
+        collect (/ (reduce #'+ answers
+                           :key (lambda (tup)
+                                  (or (and (equal (car tup) bodypart) (cadr tup))
+                                      0)))
+                   gym-num-measurements)))
 
 (defun gym-ask-all ()
   "Ask all and return list of measures."

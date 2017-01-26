@@ -97,7 +97,8 @@
     info+
     diminish
     gnuplot
-    gnuplot-mode))
+    gnuplot-mode
+    ess))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -98,7 +98,8 @@
     diminish
     gnuplot
     gnuplot-mode
-    ess))
+    ess
+    slime))
 
 
 (when (not (file-exists-p flag-file-path))

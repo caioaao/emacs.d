@@ -29,8 +29,8 @@
 
 ;; Locale
 ;; Emacs server not getting this from env?
-(when (not (getenv "LC_ALL"))
-  (setenv "LC_ALL" "en_US.UTF-8"))
+;; (when (not (getenv "LC_ALL"))
+;;   (setenv "LC_ALL" "en_US.UTF-8"))
 
 ;; Creating folders
 (when (not (file-exists-p bin-folder))
@@ -88,8 +88,7 @@
     company-jedi
     pyvenv
     ob-ipython
-    anaconda-mode
-    company-anaconda
+    elpy
     ein
     json-mode
     restclient

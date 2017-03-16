@@ -32,6 +32,7 @@
 (defvar my-org-files-dirs '("~/.emacs.d/orgfiles/"))
 
 (require 'org)
+(require 'org-agenda)
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -56,6 +57,15 @@
   (unless (file-exists-p p)
     (make-directory p t))
   (load-org-agenda-files-recursively p))
+
+;; Define command to show daily habits
+(setq org-agenda-custom-commands
+      '(("h" "Daily habits"
+         ((agenda ""))
+         ((org-agenda-show-log t)
+          (org-agenda-ndays 7)
+          (org-agenda-log-mode-items '(state))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))))
 
 ;;======================
 ;; babel

@@ -55,7 +55,7 @@ The output file will have the same name as the input file, but with a `.out' ext
 (defvar *cp-last-testcase-name* "sample")
 
 (defun sbcl-compilation-cmd (src-fname test-name)
-  (concatenate 'string "sbcl --noinform --load "
+  (concatenate 'string "time sbcl --noinform --load "
                src-fname " --eval \"(progn (main) (quit))\" < "
                test-name ".in | tee " test-name ".out && diff "
                test-name ".out "

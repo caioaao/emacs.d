@@ -24,6 +24,9 @@
 
 ;;; Code:
 
+(require 'cc-mode)
+(require 'lisp-mode)
+
 (defvar last-gcj-input-file "in.txt")
 
 (defun do-gcj (input-file)
@@ -42,17 +45,37 @@ The output file will have the same name as the input file, but with a `.out' ext
 (defun do-or-redo-gcj (arg)
   "To accept prefix argument (stored as ARG)."
   (interactive "P")
-  (print (listp arg))
   (if (and arg (listp arg))
       (call-interactively 'do-gcj)
     (redo-gcj)))
 
+(defun sbcl-eval-sol% (sol-name)
+  (interactive))
 
-(defun set-competitive-cc-keys ()
-  "Set competitive cc keys."
-  (define-key c++-mode-map (kbd "C-c C-c") 'do-or-redo-gcj))
+(defvar *cp-last-testcase-name* "sample")
+
+(defun sbcl-compilation-cmd (src-fname test-name)
+  (concatenate 'string "sbcl --noinform --load "
+               src-fname " --eval \"(progn (main) (quit))\" < "
+               test-name ".in | tee " test-name ".out && diff "
+               test-name ".out "
+               test-name ".sol"))
+
+(defun sbcl-eval-sol (arg)
+  (interactive "P")
+  (print arg)
+  (let ((fname (buffer-file-name))
+        (test-name (if (and arg (listp arg))
+                       (read-string "Enter testcase name: ")
+                     *cp-last-testcase-name*)))
+    (compile (sbcl-compilation-cmd fname test-name))
+    (setq *cp-last-testcase-name* test-name)))
 
 (eval-after-load 'cc-mode
-  '(set-competitive-cc-keys))
+  '(define-key c++-mode-map (kbd "C-c g") 'do-or-redo-gcj))
+
+(eval-after-load 'lisp-mode
+  '(define-key lisp-mode-map (kbd "C-c g") 'sbcl-eval-sol))
+
 (provide 'cpcfg)
 ;;; cpcfg.el ends here

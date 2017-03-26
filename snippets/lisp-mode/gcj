@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: google code jam case io
+# key: gcj
+# --
+(defun solve ()
+  $0)
+
+(defun main ()
+  (loop for case-num from 1 to (read) do
+       (format t "Case #~a: ~a~%" case-num (solve))))

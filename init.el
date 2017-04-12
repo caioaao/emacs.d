@@ -98,7 +98,8 @@
     gnuplot
     gnuplot-mode
     ess
-    slime))
+    slime
+    graphviz-dot-mode))
 
 
 (when (not (file-exists-p flag-file-path))

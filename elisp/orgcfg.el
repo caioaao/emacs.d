@@ -53,10 +53,16 @@
           (when (file-directory-p file-path)
             (load-org-agenda-files-recursively file-path)))))))
 
-(dolist (p my-org-files-dirs)
-  (unless (file-exists-p p)
-    (make-directory p t))
-  (load-org-agenda-files-recursively p))
+(defun load-my-agenda-files ()
+  "Load all agenda files recursively."
+  (interactive)
+  (dolist (p my-org-files-dirs)
+    (unless (file-exists-p p)
+      (make-directory p t))
+    (load-org-agenda-files-recursively p)))
+
+(eval-after-load "org-mode"
+  #'load-my-agenda-files)
 
 ;; Define command to show daily habits
 (setq org-agenda-custom-commands

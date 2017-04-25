@@ -71,5 +71,7 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'anzu)
 (global-anzu-mode 1)
 
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

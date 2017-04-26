@@ -61,8 +61,7 @@
       (make-directory p t))
     (load-org-agenda-files-recursively p)))
 
-(eval-after-load "org-mode"
-  #'load-my-agenda-files)
+(load-my-agenda-files)
 
 ;; Define command to show daily habits
 (setq org-agenda-custom-commands

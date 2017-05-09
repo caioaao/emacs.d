@@ -73,5 +73,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
+(require 'avy)
+(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

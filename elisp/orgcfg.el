@@ -63,15 +63,6 @@
 
 (load-my-agenda-files)
 
-;; Define command to show daily habits
-(setq org-agenda-custom-commands
-      '(("h" "Daily habits"
-         ((agenda ""))
-         ((org-agenda-show-log t)
-          (org-agenda-ndays 7)
-          (org-agenda-log-mode-items '(state))
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))))
-
 ;;======================
 ;; babel
 ;;======================
@@ -103,6 +94,11 @@
 ;;======================
 
 (add-hook 'org-mode-hook 'turn-on-flyspell)
+
+(custom-set-variables
+ '(org-agenda-start-on-weekday nil)
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-log-into-drawer t))
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

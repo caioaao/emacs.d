@@ -76,5 +76,8 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'avy)
 (global-set-key (kbd "M-g e") 'avy-goto-word-0)
 
+(require 'ido)
+(ido-mode t)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

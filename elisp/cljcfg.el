@@ -76,5 +76,10 @@
 (eval-after-load "clojure-mode"
   #'after-clj-mode)
 
+
+(require 'ob-clojure)
+(setq org-babel-clojure-backend 'cider)
+
+
 (provide 'cljcfg)
 ;;; cljcfg.el ends here

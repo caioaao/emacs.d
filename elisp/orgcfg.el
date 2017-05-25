@@ -70,13 +70,16 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((dot . t)
-   (sh . t)
+   (shell . t)
    (python . t)
    (ipython . t)
    (lisp . t)
    (clojure . t)
    (gnuplot . t)
-   (R . t)))
+   (R . t)
+   (plantuml . t)))
+
+(add-to-list 'org-src-lang-modes '("edn" . "clojure"))
 
 (setq org-confirm-babel-evaluate nil)
 

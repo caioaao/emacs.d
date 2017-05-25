@@ -100,7 +100,9 @@
     ess
     slime
     graphviz-dot-mode
-    avy))
+    avy
+    plantuml-mode
+    org-present))
 
 
 (when (not (file-exists-p flag-file-path))

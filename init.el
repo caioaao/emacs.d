@@ -102,7 +102,8 @@
     graphviz-dot-mode
     avy
     plantuml-mode
-    org-present))
+    org-present
+    cython-mode))
 
 
 (when (not (file-exists-p flag-file-path))

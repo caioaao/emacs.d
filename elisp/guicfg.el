@@ -30,9 +30,10 @@
 
 
 
-;; Remove toolbar and menubar
+;; Remove toolbar, menubar and scroll-bar
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 
 

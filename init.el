@@ -103,7 +103,8 @@
     avy
     plantuml-mode
     org-present
-    cython-mode))
+    cython-mode
+    org-tree-slide))
 
 
 (when (not (file-exists-p flag-file-path))

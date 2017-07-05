@@ -103,5 +103,11 @@
  '(org-agenda-skip-scheduled-if-done t)
  '(org-log-into-drawer t))
 
+
+(require 'org-tree-slide)
+
+(define-key org-tree-slide-mode-map (kbd "<right>") 'org-tree-slide-move-next-tree)
+(define-key org-tree-slide-mode-map (kbd "<left>") 'org-tree-slide-move-previous-tree)
+
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

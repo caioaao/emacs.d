@@ -107,7 +107,8 @@
     org-tree-slide
     rust-mode
     racer
-    flycheck-rust))
+    flycheck-rust
+    toml-mode))
 
 
 (when (not (file-exists-p flag-file-path))

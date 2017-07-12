@@ -104,7 +104,10 @@
     plantuml-mode
     org-present
     cython-mode
-    org-tree-slide))
+    org-tree-slide
+    rust-mode
+    racer
+    flycheck-rust))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -321,6 +324,11 @@
 
 ;; Common Lisp cfg
 (require 'clcfg)
+
+
+
+;; Rust cfg
+(require 'rustcfg)
 
 
 

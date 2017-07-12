@@ -1,8 +1,8 @@
-;;; pycfg.el --- Python configs                      -*- lexical-binding: t; -*-
+;;; rustcfg.el --- Rust config                       -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2017
 
-;; Author:  <caio@caio-ntb>
+;; Author:  <caio>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,9 +24,17 @@
 
 ;;; Code:
 
-;; Shared packages config (probably shared with other languages
 (require 'company)
+(require 'racer)
+(require 'rust-mode)
+(require 'eldoc)
 (require 'flycheck)
+(require 'flycheck-rust)
 
-(provide 'pycfg)
-;;; pycfg.el ends here
+(add-to-list 'auto-mode-alist '("\\.rs\\'". rust-mode))
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'rust-mode-hook #'eldoc-mode)
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+
+(provide 'rustcfg)
+;;; rustcfg.el ends here

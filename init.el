@@ -5,6 +5,12 @@
 
 ;;; Code:
 
+;; REALLY important macro
+
+(defmacro comment (&rest body)
+  "Ignore BODY."
+  nil)
+
 ;; package managers
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")

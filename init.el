@@ -114,7 +114,8 @@
     rust-mode
     racer
     flycheck-rust
-    toml-mode))
+    toml-mode
+    scala-mode))
 
 
 (when (not (file-exists-p flag-file-path))

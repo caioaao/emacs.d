@@ -115,7 +115,7 @@
     racer
     flycheck-rust
     toml-mode
-    scala-mode))
+    ensime))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -115,7 +115,8 @@
     racer
     flycheck-rust
     toml-mode
-    ensime))
+    ensime
+    evil-paredit))
 
 
 (when (not (file-exists-p flag-file-path))

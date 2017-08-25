@@ -116,7 +116,8 @@
     flycheck-rust
     toml-mode
     ensime
-    evil-paredit))
+    evil-paredit
+    docker-tramp))
 
 
 (when (not (file-exists-p flag-file-path))

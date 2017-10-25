@@ -105,6 +105,7 @@
 
 
 (require 'org-tree-slide)
+(require 'ox-gfm)
 
 (define-key org-tree-slide-mode-map (kbd "<right>") 'org-tree-slide-move-next-tree)
 (define-key org-tree-slide-mode-map (kbd "<left>") 'org-tree-slide-move-previous-tree)

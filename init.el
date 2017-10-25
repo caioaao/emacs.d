@@ -117,7 +117,8 @@
     toml-mode
     ensime
     evil-paredit
-    docker-tramp))
+    docker-tramp
+    ox-gfm))
 
 
 (when (not (file-exists-p flag-file-path))

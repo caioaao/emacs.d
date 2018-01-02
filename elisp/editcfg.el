@@ -79,8 +79,8 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'ido)
 (ido-mode t)
 
-(require 'evil-paredit)
-(add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
+(require 'markdown-mode)
+(add-hook 'markdown-mode-hook 'turn-on-flyspell)
 
 (provide 'editcfg)
 ;;; editcfg.el ends here

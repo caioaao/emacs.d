@@ -92,6 +92,9 @@
 (setq org-src-fontify-natively t)
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
+;; increase inline latex images size
+(plist-put org-format-latex-options :scale 1.5)
+
 ;;======================
 ;; Other
 ;;======================

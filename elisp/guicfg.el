@@ -26,7 +26,7 @@
 
 
 ;; theme
-(load-theme 'material t) ; last: colorsarenice-dark
+(load-theme 'spacemacs-dark t) ; last: material
 
 
 

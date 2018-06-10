@@ -118,7 +118,8 @@
     ensime
     evil-paredit
     docker-tramp
-    ox-gfm))
+    ox-gfm
+    spacemacs-theme))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -77,6 +77,7 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "M-g e") 'avy-goto-word-0)
 
 (require 'ido)
+(setq ido-enable-flex-matching t)
 (ido-mode t)
 
 (require 'markdown-mode)

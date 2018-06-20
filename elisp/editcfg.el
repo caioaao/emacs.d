@@ -83,5 +83,8 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'markdown-mode)
 (add-hook 'markdown-mode-hook 'turn-on-flyspell)
 
+(require 'flyspell)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

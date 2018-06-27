@@ -119,7 +119,8 @@
     evil-paredit
     docker-tramp
     ox-gfm
-    spacemacs-theme))
+    spacemacs-theme
+    toc-org))
 
 
 (when (not (file-exists-p flag-file-path))

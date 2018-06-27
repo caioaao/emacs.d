@@ -113,5 +113,8 @@
 (define-key org-tree-slide-mode-map (kbd "<right>") 'org-tree-slide-move-next-tree)
 (define-key org-tree-slide-mode-map (kbd "<left>") 'org-tree-slide-move-previous-tree)
 
+(require 'toc-org nil t)
+(add-hook 'org-mode-hook 'toc-org-enable)
+
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

@@ -26,13 +26,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojure-mode))
 
-(require 'midje-mode)
-;; Remap midje-mode (`C-c p` is the prefix cmd to projectile).
-(define-key midje-mode-map (kbd "C-c n") nil)
-(define-key midje-mode-map (kbd "C-c p") nil)
-(define-key midje-mode-map (kbd "C-c m n") 'midje-next-fact)
-(define-key midje-mode-map (kbd "C-c m p") 'midje-previous-fact)
-
 (require 'clj-refactor)
 (add-hook 'clojure-mode-hook (lambda ()
                                (cider-mode 1)

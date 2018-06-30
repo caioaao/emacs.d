@@ -137,8 +137,6 @@
 (eval-after-load "company" '(diminish 'company-mode))
 (eval-after-load "paredit" '(diminish 'paredit-mode))
 (eval-after-load "projectile" '(diminish 'projectile-mode))
-(eval-after-load "midje" '(diminish 'midje-mode))
-
 
 
 ;; parenthesis

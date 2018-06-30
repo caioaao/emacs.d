@@ -30,7 +30,6 @@
 (add-hook 'clojure-mode-hook (lambda ()
                                (cider-mode 1)
                                (clj-refactor-mode 1)
-                               (midje-mode 1)
                                (cljr-add-keybindings-with-prefix "C-c C-o")
                                (setq clojure-align-forms-automatically t)))
 (setq cljr-favor-prefix-notation nil)

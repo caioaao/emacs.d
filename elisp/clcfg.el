@@ -24,7 +24,7 @@
 
 ;;; Code:
 
-(defvar quicklisp-path (expand-file-name "~/.local/opt/quicklisp/"))
+(defvar quicklisp-path (expand-file-name "~/quicklisp/quicklisp/"))
 (defvar slime-helper-path (concat (file-name-as-directory quicklisp-path) "slime-helper.el"))
 
 (setq inferior-lisp-program "sbcl")

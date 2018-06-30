@@ -35,6 +35,7 @@
 (setq c-default-style "linux"
       c-basic-offset 4)
 
+(require 'flycheck)
 ;; C++11 as standard
 (add-hook 'c++-mode-hook
           (lambda () (setq flycheck-gcc-language-standard "c++11")))

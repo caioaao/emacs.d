@@ -28,5 +28,7 @@
 (require 'company)
 (require 'flycheck)
 
+(add-hook 'python-mode-hook (lambda () (set-fill-column 79)))
+
 (provide 'pycfg)
 ;;; pycfg.el ends here

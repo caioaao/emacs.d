@@ -373,5 +373,10 @@
 ;; set scratch mode to clojure
 (setq initial-major-mode 'clojure-mode)
 
+
+
+;; set default browser
+(setq browse-url-browser-function 'browse-url-chromium)
+
 (provide 'init)
 ;;; init.el ends here

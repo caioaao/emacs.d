@@ -120,7 +120,8 @@
     ox-gfm
     spacemacs-theme
     toc-org
-    typescript-mode))
+    typescript-mode
+    dired-narrow))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -119,7 +119,8 @@
     docker-tramp
     ox-gfm
     spacemacs-theme
-    toc-org))
+    toc-org
+    typescript-mode))
 
 
 (when (not (file-exists-p flag-file-path))

@@ -37,7 +37,7 @@
               (quicklisp-install-instructions-path "~/tmp/qlinstall.lisp"))
           (url-copy-file "http://beta.quicklisp.org/quicklisp.lisp" quicklisp-installscript-path)
           (with-temp-file quicklisp-install-instructions-path
-            (insert (format "(load \"%s\") (quicklisp-quickstart:install :path \"%s\") (ql:quickload \"quicklisp-slime-helper\") (quit)"
+            (insert (format "(load \"%s\") (quicklisp-quickstart:install :path \"%s\") (ql:quickload \"quicklisp-slime-helper\") (ql-util:without-prompting (ql:add-to-init-file)) (quit)"
                             quicklisp-installscript-path quicklisp-path)))
           (shell-command (concat inferior-lisp-program " < " quicklisp-install-instructions-path)))))
   (message (format "Inferior lisp program %s not found. Couldn't load SLIME" inferior-lisp-program)))

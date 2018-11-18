@@ -112,7 +112,7 @@
 
 
 ;; info+
-(require 'info+)
+;; (require 'info+)
 
 
 

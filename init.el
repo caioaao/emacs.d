@@ -98,7 +98,6 @@
     json-mode
     restclient
     anzu
-    info+
     diminish
     gnuplot
     gnuplot-mode

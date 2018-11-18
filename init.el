@@ -384,5 +384,12 @@
 ;; set default browser
 (setq browse-url-browser-function 'browse-url-chromium)
 
+
+
+;; open agenda when emacs starts
+(setq initial-buffer-choice (lambda ()
+    (org-agenda-list)
+    (get-buffer "*Org Agenda*")))
+
 (provide 'init)
 ;;; init.el ends here

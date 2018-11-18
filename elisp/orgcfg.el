@@ -29,7 +29,7 @@
 ;;======================
 
 ;; trailing slash required when dir is a symlink
-(defvar my-org-files-dirs '("~/.emacs.d/orgfiles/"))
+(defvar my-org-files-dirs '("~/reps/orgfiles/"))
 
 (require 'org)
 (require 'org-agenda)
@@ -40,18 +40,15 @@
 (setq  org-return-follows-link t)
 
 
-;; Snippet to collect all .org from my Org directory and subdirs
 (defun load-org-agenda-files-recursively (dir)
-  "Find all directories in DIR."
-  (let ((file-regexp "\\`[^.].*\\.org\\'"))
-    (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
-    (unless (equal (directory-files dir nil file-regexp t) nil)
-      (add-to-list 'org-agenda-files dir))
-    (dolist (file-name (directory-files dir nil nil t))
-      (unless (member file-name '("." ".."))
-        (let ((file-path (expand-file-name file-name dir)))
-          (when (file-directory-p file-path)
-            (load-org-agenda-files-recursively file-path)))))))
+  "Collect all org agenda files in DIR."
+  (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
+  (add-to-list 'org-agenda-files dir)
+  (dolist (file-name (directory-files dir nil nil t))
+    (unless (member file-name '("." ".."))
+      (let ((file-path (expand-file-name file-name dir)))
+        (when (file-directory-p file-path)
+          (load-org-agenda-files-recursively file-path))))))
 
 (defun load-my-agenda-files ()
   "Load all agenda files recursively."

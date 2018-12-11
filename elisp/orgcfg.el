@@ -61,6 +61,19 @@
 (load-my-agenda-files)
 
 ;;======================
+;; clocking
+;;======================
+(require 'org-mru-clock)
+
+(setq org-mru-clock-how-many 20)
+(setq org-mru-clock-completing-read #'ivy-completing-read)
+
+;; global keys with history for clocking in and out
+(global-set-key (kbd "C-c I") #'org-mru-clock-in)
+(global-set-key (kbd "C-c J") #'org-mru-clock-select-recent-task)
+(global-set-key (kbd "C-c O") #'org-clock-out)
+
+;;======================
 ;; babel
 ;;======================
 

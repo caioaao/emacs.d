@@ -120,7 +120,8 @@
     spacemacs-theme
     toc-org
     typescript-mode
-    dired-narrow))
+    dired-narrow
+    org-mru-clock))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -393,3 +394,20 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-agenda-start-on-weekday nil)
+ '(org-log-into-drawer t)
+ '(package-selected-packages
+   (quote
+    (org-mru-clock yaml-mode web-mode typescript-mode tup-mode toml-mode toc-org spacemacs-theme spaceline smartrep slime restclient rainbow-delimiters racer python-mode pretty-lambdada plantuml-mode pinentry ox-gfm org-tree-slide org-present ob-ipython molokai-theme material-theme magit ledger-mode json-mode helm-projectile helm-ag haskell-mode graphviz-dot-mode golden-ratio gnuplot-mode gnuplot glsl-mode ggtags flycheck-rust fill-column-indicator fic-mode exec-path-from-shell evil-paredit ess ensime elpy ein dockerfile-mode docker-tramp dired-narrow diminish cython-mode company-jedi clojure-snippets clj-refactor avy anzu align-cljlet ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

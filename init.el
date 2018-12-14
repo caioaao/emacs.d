@@ -146,7 +146,12 @@
 
 
 
-;; Getting local config file
+;; important env vars
+(defvar default-external-term "urxvt")
+
+
+
+;; local config file
 (when (file-exists-p (expand-file-name "local-init.el" local-elisp-folder))
   (require 'local-init))
 

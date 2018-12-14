@@ -57,6 +57,15 @@
     ("Multimethod" "^\\s-*(defmulti\\s-+\\([^[:space:]\n]+\\)" 1)
     ("Multimethod" "^\\s-*(defmethod\\s-+\\([^[:space:]\n]+\\)" 1)))
 
+(defun cljcfg:cider-launch-external-repl ()
+  "Launch a REPL in a separate terminal."
+  (interactive)
+  (cl-flet ((nrepl-start-server-process (directory cmd &rest _)
+                                        (async-shell-command (format "cd %s && urxvt -e zsh -c '%s'" directory cmd))))
+    (call-interactively 'cider-jack-in)))
+
+(define-key clojure-mode-map (kbd "C-c s-j") 'cljcfg:cider-launch-external-repl)
+
 (defun after-clj-mode ()
   "Add clojure support to imenu."
   (add-hook

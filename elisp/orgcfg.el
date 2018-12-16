@@ -29,7 +29,7 @@
 ;;======================
 
 ;; trailing slash required when dir is a symlink
-(defvar my-org-files-dirs '("~/reps/orgfiles/"))
+(defvar my-org-files-dir "~/reps/orgfiles/")
 
 (require 'org)
 (require 'org-agenda)
@@ -53,10 +53,9 @@
 (defun load-my-agenda-files ()
   "Load all agenda files recursively."
   (interactive)
-  (dolist (p my-org-files-dirs)
-    (unless (file-exists-p p)
-      (make-directory p t))
-    (load-org-agenda-files-recursively p)))
+  (unless (file-exists-p my-org-files-dir)
+    (make-directory my-org-files-dir t))
+  (load-org-agenda-files-recursively my-org-files-dir))
 
 (load-my-agenda-files)
 
@@ -125,6 +124,14 @@
 
 (require 'toc-org nil t)
 (add-hook 'org-mode-hook 'toc-org-enable)
+
+
+;; GTD
+
+(setq org-refile-targets (mapcar (lambda (args) (cons (concat my-org-files-dir (car args)) (cdr args)))
+                                 '(("gtd/main.org" :maxlevel . 3)
+                                   ("gtd/someday.org" :level . 1)
+                                   ("gtd/tickler.org" :maxlevel . 2))))
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

@@ -34,8 +34,8 @@
 (require 'org)
 (require 'org-agenda)
 
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map (kbd "C-c l") 'org-store-link)
+(define-key global-map (kbd "C-c a") 'org-agenda)
 (setq org-log-done t)
 (setq  org-return-follows-link t)
 
@@ -92,7 +92,7 @@
 
 (setq org-confirm-babel-evaluate nil)
 
-(setq org-export-babel-evaluate nil)
+(setq org-export-use-babel nil)
 
 ;;======================
 ;; UI
@@ -125,13 +125,28 @@
 (require 'toc-org nil t)
 (add-hook 'org-mode-hook 'toc-org-enable)
 
-
+;;======================
 ;; GTD
+;;======================
 
-(setq org-refile-targets (mapcar (lambda (args) (cons (concat my-org-files-dir (car args)) (cdr args)))
-                                 '(("gtd/main.org" :maxlevel . 3)
-                                   ("gtd/someday.org" :level . 1)
-                                   ("gtd/tickler.org" :maxlevel . 2))))
+(defvar gtd-inbox-p (concat my-org-files-dir "gtd/inbox.org"))
+(defvar gtd-main-p (concat my-org-files-dir "gtd/main.org"))
+(defvar gtd-someday-p (concat my-org-files-dir "gtd/someday.org"))
+(defvar gtd-tickler-p (concat my-org-files-dir "gtd/tickler.org"))
+
+(setq org-refile-targets '((gtd-main-p :maxlevel . 3)
+                           (gtd-someday-p :level . 1)
+                           (gtd-tickler-p :maxlevel . 2)))
+
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline gtd-inbox-p "Tasks")
+                               "* TODO %i%?\n  %U\n"
+                               :prepend t :empty-lines 1)
+                              ("T" "Tickler" entry
+                               (file+headline gtd-tickler-p "Tickler")
+                               "* %i%? \n %U")))
+
+(global-set-key (kbd "C-M-r") 'org-capture)
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

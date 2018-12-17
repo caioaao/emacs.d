@@ -148,7 +148,20 @@
 
 (global-set-key (kbd "C-M-r") 'org-capture)
 
-(setq org-stuck-projects '("CATEGORY=\"PROJECTS\"+LEVEL=2" ("DOING") nil ""))
+(defvar my:org-projects-pattern "CATEGORY=\"PROJECTS\"+LEVEL=2")
+
+(setq org-stuck-projects `(,my:org-projects-pattern ("DOING") nil ""))
+
+(setq org-agenda-custom-commands
+           `(("W" "Weekly Review"
+              ((agenda "" ((org-agenda-span 7)))
+               (todo "DONE")
+               (tags-todo "CATEGORY=\"INBOX\"")
+               (stuck "")
+               (todo "DOING")
+               (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
+               (tags-todo "CATEGORY=\"SOMEDAY\"")
+               (todo "WAITING")))))
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

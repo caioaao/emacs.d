@@ -121,7 +121,8 @@
     toc-org
     typescript-mode
     dired-narrow
-    org-mru-clock))
+    org-mru-clock
+    helpful))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -409,7 +410,7 @@
  '(org-log-into-drawer t)
  '(package-selected-packages
    (quote
-    (org-mru-clock yaml-mode web-mode typescript-mode tup-mode toml-mode toc-org spacemacs-theme spaceline smartrep slime restclient rainbow-delimiters racer python-mode pretty-lambdada plantuml-mode pinentry ox-gfm org-tree-slide org-present ob-ipython molokai-theme material-theme magit ledger-mode json-mode helm-projectile helm-ag haskell-mode graphviz-dot-mode golden-ratio gnuplot-mode gnuplot glsl-mode ggtags flycheck-rust fill-column-indicator fic-mode exec-path-from-shell evil-paredit ess ensime elpy ein dockerfile-mode docker-tramp dired-narrow diminish cython-mode company-jedi clojure-snippets clj-refactor avy anzu align-cljlet ag))))
+    (helpful org-mru-clock yaml-mode web-mode typescript-mode tup-mode toml-mode toc-org spacemacs-theme spaceline smartrep slime restclient rainbow-delimiters racer python-mode pretty-lambdada plantuml-mode pinentry ox-gfm org-tree-slide org-present ob-ipython molokai-theme material-theme magit ledger-mode json-mode helm-projectile helm-ag haskell-mode graphviz-dot-mode golden-ratio gnuplot-mode gnuplot glsl-mode ggtags flycheck-rust fill-column-indicator fic-mode exec-path-from-shell evil-paredit ess ensime elpy ein dockerfile-mode docker-tramp dired-narrow diminish cython-mode company-jedi clojure-snippets clj-refactor avy anzu align-cljlet ag))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

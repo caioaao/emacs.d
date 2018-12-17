@@ -86,8 +86,20 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'flyspell)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
+
+
 ;; Useful for reading logs (by disabling line-wrap)
 (global-set-key (kbd "C-c $") 'toggle-truncate-lines)
+
+
+
+;; better *help* buffer
+(require 'helpful)
+(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+(global-set-key (kbd "C-h F") #'helpful-function)
+(global-set-key (kbd "C-h C") #'helpful-command)
 
 (provide 'editcfg)
 ;;; editcfg.el ends here

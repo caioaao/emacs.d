@@ -148,5 +148,7 @@
 
 (global-set-key (kbd "C-M-r") 'org-capture)
 
+(setq org-stuck-projects '("CATEGORY=\"PROJECTS\"+LEVEL=2" ("DOING") nil ""))
+
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

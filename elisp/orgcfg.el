@@ -155,7 +155,7 @@
 (setq org-agenda-custom-commands
            `(("W" "Weekly Review"
               ((agenda "" ((org-agenda-span 7)))
-               (todo "DONE")
+               (tags "CATEGORY=\"TASKS\"|CATEGORY=\"PROJECTS\"/DONE")
                (tags-todo "CATEGORY=\"INBOX\"")
                (stuck "")
                (todo "DOING")

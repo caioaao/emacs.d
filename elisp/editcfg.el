@@ -101,5 +101,9 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "C-h F") #'helpful-function)
 (global-set-key (kbd "C-h C") #'helpful-command)
 
+;; helpful keybinds
+(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+(global-set-key (kbd "C-x C-:") 'eval-expression)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

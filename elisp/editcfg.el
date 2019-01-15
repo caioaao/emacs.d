@@ -105,5 +105,8 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 (global-set-key (kbd "C-x C-:") 'eval-expression)
 
+(require 'company)
+(global-set-key (kbd "C-<tab>") 'company-complete)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

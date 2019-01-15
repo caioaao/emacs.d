@@ -161,7 +161,11 @@
                (todo "DOING")
                (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
                (tags-todo "CATEGORY=\"SOMEDAY\"")
-               (todo "WAITING")))))
+               (todo "WAITING")))
+             ("E" "Export TODOS"
+              ((tags-todo "CATEGORY=\"TASKS\""))
+              nil
+              ("/tmp/org-exported/todos.org"))))
 
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

@@ -186,6 +186,11 @@
 
 
 
+;; copying GPG stuff (needed in Ubuntu for some reason)
+(exec-path-from-shell-copy-env "SSH_AUTH_SOCK")
+
+
+
 ;; Indent using spaces only
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)

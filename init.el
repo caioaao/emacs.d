@@ -178,7 +178,9 @@
 
 
 
-;; Adding a bin folders
+;; Adding all bin folders
+(exec-path-from-shell-initialize)
+
 (add-to-list 'exec-path bin-folder)
 (add-to-list 'exec-path local-bin-folder)
 
@@ -329,11 +331,6 @@
 
 ;; clojure cfg
 (require 'cljcfg)
-
-
-
-;; OSX compat cfg
-(require 'osxcfg)
 
 
 

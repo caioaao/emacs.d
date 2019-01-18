@@ -366,6 +366,7 @@
 
 ;; plantuml
 (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
+(setq plantuml-jar-path "~/utils/jars/plantuml.jar")
 
 
 

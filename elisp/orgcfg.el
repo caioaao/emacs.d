@@ -81,7 +81,7 @@
  '((dot . t)
    (shell . t)
    (python . t)
-   (ipython . t)
+   ;; (ipython . t) this breaks everything if jupyter is not installed
    (lisp . t)
    (clojure . t)
    (gnuplot . t)

@@ -19,6 +19,8 @@
 
 ;; Init packages before
 (setq package-enable-at-startup nil)
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+
 (package-initialize)
 
 

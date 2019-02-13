@@ -167,5 +167,10 @@
               nil
               ("/tmp/org-exported/todos.org"))))
 
+;; FIXME: workaround
+;; https://github.com/syl20bnr/spacemacs/issues/11798
+(when (version<= "9.2" (org-version))
+  (require 'org-tempo))
+
 (provide 'orgcfg)
 ;;; orgcfg.el ends here

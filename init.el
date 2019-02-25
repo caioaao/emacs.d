@@ -121,7 +121,9 @@
     typescript-mode
     dired-narrow
     org-mru-clock
-    helpful))
+    helpful
+    jsonnet-mode
+    terraform-mode))
 
 
 (when (not (file-exists-p flag-file-path))

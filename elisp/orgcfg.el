@@ -86,7 +86,8 @@
    (clojure . t)
    (gnuplot . t)
    (R . t)
-   (plantuml . t)))
+   (plantuml . t)
+   (lua . t)))
 
 (add-to-list 'org-src-lang-modes '("edn" . "clojure"))
 
@@ -165,7 +166,14 @@
              ("E" "Export TODOS"
               ((tags-todo "CATEGORY=\"TASKS\""))
               nil
-              ("/tmp/org-exported/todos.org"))))
+              ("/tmp/org-exported/todos.org"))
+             ("g" . "GTD contexts")
+             ("gw" "Work" tags-todo "@work")
+             ("gh" "Home" tags-todo "@home")
+             ("gp" "Pc" tags-todo "@pc")
+             ("gi" "Internet" tags-todo "@internet")
+             ("ge" "Errands" tags-todo "@errands")
+             ("gf" "Freetime" tags-todo "@freetime")))
 
 ;; FIXME: workaround
 ;; https://github.com/syl20bnr/spacemacs/issues/11798

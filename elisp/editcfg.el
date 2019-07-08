@@ -61,7 +61,9 @@ point reaches the beginning or end of the buffer, stop there."
 (require 'helm)
 (global-set-key (kbd "C-c i") 'helm-imenu)
 
+;; auto modes
 (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode))
 
 (require 'tramp)
 ;; run this to make tramp+ssh work with colored shells

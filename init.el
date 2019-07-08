@@ -123,7 +123,8 @@
     org-mru-clock
     helpful
     jsonnet-mode
-    terraform-mode))
+    terraform-mode
+    lua-mode))
 
 
 (when (not (file-exists-p flag-file-path))

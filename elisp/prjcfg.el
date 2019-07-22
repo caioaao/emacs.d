@@ -34,6 +34,7 @@
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching t)
+(setq projectile-git-submodule-command "") ;; ignore submodules on search
 
 (provide 'prjcfg)
 ;;; prjcfg.el ends here

@@ -42,6 +42,7 @@
 
 (require 'cider)
 (setq cider-repl-pop-to-buffer-on-connect nil)
+(add-to-list 'cider-test-defining-forms "defflow")
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 
 (define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)

@@ -127,7 +127,9 @@
     lua-mode
     doom-themes
     go-mode
-    company-go))
+    company-go
+    proto-mode
+    gradle-mode))
 
 
 (when (not (file-exists-p flag-file-path))

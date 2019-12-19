@@ -125,7 +125,9 @@
     jsonnet-mode
     terraform-mode
     lua-mode
-    doom-themes))
+    doom-themes
+    go-mode
+    company-go))
 
 
 (when (not (file-exists-p flag-file-path))

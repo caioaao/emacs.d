@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: tap
+# key: deftap
+# --
+(defmacro tap [x]
+  `(let [res# ~x]
+     (clojure.pprint/pprint '~x)
+     (clojure.pprint/pprint res#)
+     (println "###############################################################################")
+     res#))

@@ -1,9 +1,9 @@
 ;;; ledger-helper.el --- Helper funcs for ledger app  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015  
+;; Copyright (C) 2015
 
-;; Author:  <caio@caio-ntb>
-;; Keywords: 
+;; Author:  Caio Oliveira
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 

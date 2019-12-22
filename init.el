@@ -129,7 +129,8 @@
     go-mode
     company-go
     proto-mode
-    gradle-mode))
+    gradle-mode
+    groovy-mode))
 
 
 (when (not (file-exists-p flag-file-path))
@@ -276,22 +277,6 @@
 
 
 
-;; Python config
-(require 'pycfg)
-
-
-
-;; web-mode (html, css, javascript)
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
-
-
-;; C/C++ config
-(require 'cccfg)
-
-
-
 ;; ledger-mode (accounting)
 (require 'ledger-mode)
 (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
@@ -299,75 +284,24 @@
 
 
 
-;; git stuff
-(require 'gitcfg)
-
-
-
-;; paredit
-(require 'paredit)
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-
-
-
-;; edit config
+;; Specific configurations
 (require 'editcfg)
-
-
-
-;; pretty symbols
 (require 'prettycfg)
-
-
-
-;; project related
 (require 'prjcfg)
-
-
-
-;; web config
 (require 'webcfg)
-
-
-
-;; react cfg
 (require 'reactcfg)
-
-
-
-;; clojure cfg
 (require 'cljcfg)
-
-
-
-;; Competitive programming cfg
 (require 'cpcfg)
-
-
-
-;; Common Lisp cfg
 (require 'clcfg)
-
-
-
-;; Rust cfg
 (require 'rustcfg)
-
-
-
-;; ispell
 (require 'ispellcfg)
-
-
-
-;; utils
 (require 'utils)
+(require 'pycfg)
+(require 'cccfg)
+(require 'gitcfg)
+(require 'lispcfg)
+(require 'javacfg)
+(require 'gocfg)
 
 
 

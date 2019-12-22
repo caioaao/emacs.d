@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2016  Caio Augusto Araujo Oliveira
 
-;; Author: Caio Augusto Araujo Oliveira <caiooliveira@Caios-MacBook-Pro-2.local>
+;; Author: Caio Augusto Araujo Oliveira
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify

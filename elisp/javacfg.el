@@ -1,8 +1,9 @@
-;;; gocfj.el --- golang config                       -*- lexical-binding: t; -*-
+;;; javacfg.el --- Java config                       -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019
 
-;; Author:  <caiobrv@pop-os>
+;; Author:  Caio Oliveira
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -23,10 +24,7 @@
 
 ;;; Code:
 
-(defun my-go-mode-hook ()
-  ; Godef jump key binding
-  (local-set-key (kbd "M-.") 'godef-jump))
-(add-hook 'go-mode-hook 'my-go-mode-hook)
+(add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
 
-(provide 'gocfj)
-;;; gocfj.el ends here
+(provide 'javacfg)
+;;; javacfg.el ends here

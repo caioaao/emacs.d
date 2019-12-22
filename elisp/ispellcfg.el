@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2016
 
-;; Author:  <caio@caio-ntb>
+;; Author:  Caio Oliveira
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify

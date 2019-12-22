@@ -1,6 +1,6 @@
 ;;; win32-utils.el --- Some util functions for win32 environment  -*- lexical-binding: t; -*-
 
-;; Author:  <caio@caio-ntb>
+;; Author:  Caio Oliveira
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify

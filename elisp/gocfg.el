@@ -1,9 +1,8 @@
-;;; pycfg.el --- Python configs                      -*- lexical-binding: t; -*-
+;;; gocfj.el --- golang config                       -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2019
 
 ;; Author:  Caio Oliveira
-;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -16,7 +15,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -24,15 +23,10 @@
 
 ;;; Code:
 
-;; Shared packages config (probably shared with other languages
-(require 'company)
-(require 'company-jedi)
-(require 'flycheck)
+(defun my-go-mode-hook ()
+  ; Godef jump key binding
+  (local-set-key (kbd "M-.") 'godef-jump))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            (set-fill-column 79)
-             (add-to-list 'company-backends 'company-jedi)))
-
-(provide 'pycfg)
-;;; pycfg.el ends here
+(provide 'gocfg)
+;;; gocfj.el ends here

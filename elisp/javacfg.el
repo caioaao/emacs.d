@@ -24,7 +24,20 @@
 
 ;;; Code:
 
+(require 'groovy-mode)
+(require 'gradle-mode)
+(require 'eclim)
+(require 'eclimd)
+
 (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
+
+(add-hook 'java-mode-hook '(lambda()
+                             (gradle-mode 1)
+                             (eclim-mode 1)))
+
+(custom-set-variables
+  '(eclim-eclipse-dirs '("/opt/eclipse"))
+  '(eclimd-executable "~/.eclipse/org.eclipse.platform_4.14.0_1473617060_linux_gtk_x86_64/eclimd"))
 
 (provide 'javacfg)
 ;;; javacfg.el ends here

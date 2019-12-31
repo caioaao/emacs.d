@@ -284,6 +284,12 @@
 
 
 
+;; flatbuffer
+(require 'flatbuffers-mode)
+(add-to-list 'auto-mode-alist '("\\.flatc$" . flatbuffers-mode))
+
+
+
 ;; Specific configurations
 (require 'editcfg)
 (require 'prettycfg)

@@ -23,10 +23,23 @@
 
 ;;; Code:
 
+(require 'exec-path-from-shell)
+(require 'go-mode)
+
 (defun my-go-mode-hook ()
   ; Godef jump key binding
   (local-set-key (kbd "M-.") 'godef-jump))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
+
+(defun set-exec-path-from-shell-PATH ()
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-copy-env "GOROOT"))
+
+(when (memq window-system '(mac ns x))
+  (set-exec-path-from-shell-PATH))
+
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 (provide 'gocfg)
 ;;; gocfj.el ends here

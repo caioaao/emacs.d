@@ -285,6 +285,7 @@
 
 
 ;; flatbuffer
+(add-to-list 'load-path "~/.emacs.d/vendor/flatbuffers-mode")
 (require 'flatbuffers-mode)
 (add-to-list 'auto-mode-alist '("\\.flatc$" . flatbuffers-mode))
 

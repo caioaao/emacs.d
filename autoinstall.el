@@ -3,7 +3,7 @@
 ;; Copyright (C) 2020  Caio Oliveira
 
 ;; Author: Caio Oliveira
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -64,8 +64,7 @@
       (package-refresh-contents)
       (dolist (package missing-packages)
         (package-install package))
-      (write-region (prin1-to-string autoinstall:required-packages) nil flag-file-path nil)
-      (save-buffers-kill-terminal))))
+      (write-region (prin1-to-string autoinstall:required-packages) nil flag-file-path nil))))
 
 (provide 'autoinstall)
 ;;; autoinstall.el ends here

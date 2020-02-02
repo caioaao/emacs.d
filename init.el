@@ -132,7 +132,9 @@
         proto-mode
         gradle-mode
         groovy-mode
-        eclim))
+        eclim
+        lsp-mode
+        company-lsp))
 
 
 (autoinstall:install-missing "~/.emacs.d/.installed")
@@ -343,3 +345,23 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(eclim-eclipse-dirs (quote ("/opt/eclipse")))
+ '(eclimd-executable
+   "~/.eclipse/org.eclipse.platform_4.14.0_1473617060_linux_gtk_x86_64/eclimd")
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-agenda-start-on-weekday nil)
+ '(org-log-into-drawer t)
+ '(package-selected-packages
+   (quote
+    (company-lsp lsp-mode yaml-mode web-mode typescript-mode tup-mode toml-mode toc-org spacemacs-theme spaceline smartrep slime shut-up restclient rainbow-delimiters racer python-mode pretty-lambdada plantuml-mode ox-gfm org-tree-slide org-present org-mru-clock ob-ipython molokai-theme material-theme magit-popup magit lua-mode ledger-mode jsonnet-mode json-mode helpful helm-projectile helm-ag haskell-mode groovy-mode graphviz-dot-mode gradle-mode golden-ratio gnuplot-mode gnuplot gnu-elpa-keyring-update glsl-mode ggtags flycheck-rust fill-column-indicator fic-mode exec-path-from-shell evil-paredit ess ensime elpy ein eclim doom-themes dockerfile-mode docker-tramp dired-narrow diminish cython-mode company-jedi company-go clojure-snippets clj-refactor avy anzu align-cljlet ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

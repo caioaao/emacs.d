@@ -1,0 +1,3 @@
+[submodule "vendor/flatbuffers-mode"]
+	path = vendor/flatbuffers-mode
+	url = git@github.com:caioaao/flatbuffers-mode.git

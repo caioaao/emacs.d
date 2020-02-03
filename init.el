@@ -63,8 +63,6 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; Binary paths
-(exec-path-from-shell-initialize)
-
 (add-to-list 'exec-path bin-folder)
 (add-to-list 'exec-path local-bin-folder)
 
@@ -77,6 +75,7 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(require 'gpgcfg)
 (require 'guicfg)
 (require 'orgcfg)
 (require 'texcfg)

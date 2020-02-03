@@ -24,12 +24,11 @@
 
 ;;; Code:
 
+;; copying GPG stuff (needed in Ubuntu for some reason)
 (use-package exec-path-from-shell
   :ensure t
   :config
   (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
-;; copying GPG stuff (needed in Ubuntu for some reason)
-
 
 (provide 'gpgcfg)
 ;;; gpgcfg.el ends here

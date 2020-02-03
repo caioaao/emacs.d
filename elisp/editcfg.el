@@ -55,7 +55,6 @@
 
 (use-package undo-tree
   :ensure t
-  :bind (("C-;" . undo-tree-redo))
   :config
   (progn (global-undo-tree-mode 1)
          (diminish 'undo-tree-mode)))

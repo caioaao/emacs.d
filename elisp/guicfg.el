@@ -26,119 +26,71 @@
 
 
 ;; theme
-(load-theme 'doom-nord t)
+(use-package doom-themes
+  :ensure t
+  :config (load-theme 'doom-nord t))
 
-
-
-;; Remove toolbar, menubar and scroll-bar
+;; customizing UI
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-
-
-
-;; Auto linum-mode
 (global-linum-mode 1)
-
-
-
-;; Highlight current line
 (global-hl-line-mode 1)
+(setq-default inhibit-startup-screen t)
+(setq-default initial-scratch-message nil)
+(setq-default fill-column 80)
 
-
-
-;; Better scrolling
-(setq scroll-step 1)
-
-
-
-;; Column number
 (define-globalized-minor-mode
   global-colnum-mode column-number-mode (lambda ()
                                           (column-number-mode 1)))
-
 (global-colnum-mode t)
 
-
-
-
-;; No initial screen
-(setq-default inhibit-startup-screen t)
-
-
-
-;; Clear scratch buffer
-(setq-default initial-scratch-message nil)
-
-
-
-;; 80 character rule
-(setq-default fill-column 80)
-
-
-
-;; window resizing shortcuts
-(smartrep-define-key
-    global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
-                           ("<right>" . 'shrink-window-horizontally)
-                           ("<up>" . 'shrink-window)
-                           ("<down>" . 'enlarge-window)))
-
-
+(use-package smartrep
+  :ensure t
+  :config
+  (smartrep-define-key
+      global-map "C-c w r" '(("<left>" . 'enlarge-window-horizontally)
+                             ("<right>" . 'shrink-window-horizontally)
+                             ("<up>" . 'shrink-window)
+                             ("<down>" . 'enlarge-window))))
 
 ;; window navigation
-(require 'windmove)
-(smartrep-define-key
-    global-map "C-c o" '(("h" . 'windmove-left)
-                         ("l" . 'windmove-right)
-                         ("k" . 'windmove-up)
-                         ("j" . 'windmove-down)))
-(setq windmove-wrap-around t)
+(use-package windmove
+  :ensure t
+  :config
+  (progn
+    (smartrep-define-key
+        global-map "C-c o" '(("h" . 'windmove-left)
+                             ("l" . 'windmove-right)
+                             ("k" . 'windmove-up)
+                             ("j" . 'windmove-down)))
+    (setq windmove-wrap-around t)))
 
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
 
-
-(add-hook
- 'prog-mode-hook
- (lambda()
-   (rainbow-delimiters-mode 1)
-   (show-paren-mode 1)))
-
-
+(add-hook 'prog-mode-hook (lambda () (show-paren-mode 1)))
 
 ;; fic-mode
-(require 'fic-mode)
-(add-hook 'prog-mode-hook (lambda () (fic-mode 1)))
+(use-package fic-mode
+  :ensure t
+  :hook (prog-mode . fic-mode))
 
-
-
-;; info+
-;; (require 'info+)
-
-
-
-;; modeline
-(require 'spaceline-config)
-(setq powerline-default-separator 'arrow)
 (setq ns-use-srgb-colorspace nil)
-(spaceline-emacs-theme)
-(spaceline-helm-mode)
 
+(use-package powerline
+  :ensure t
+  :config (setq powerline-default-separator 'arrow))
 
+(use-package spaceline
+  :ensure t
+  :config (progn
+            (spaceline-emacs-theme)
+            (spaceline-helm-mode)))
 
-;; hiding minor modes
-(require 'diminish)
-(eval-after-load "anzu" '(diminish 'anzu-mode))
-(eval-after-load "auto-revert-mode" '(diminish 'auto-revert-mode))
-(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
-(eval-after-load "flycheck" '(diminish 'flycheck-mode))
-(eval-after-load "yas-minor-mode" '(diminish 'yas-minor-mode))
-(eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
-(eval-after-load "clj-refactor" '(diminish 'clj-refactor-mode))
-(eval-after-load "company" '(diminish 'company-mode))
-(eval-after-load "paredit" '(diminish 'paredit-mode))
-(eval-after-load "projectile" '(diminish 'projectile-mode))
+(add-hook 'eldoc-mode-hook (lambda () (diminish 'eldoc-mode)))
+(add-hook 'auto-revert-mode-hook (lambda () (diminish 'auto-revert-mode)))
 
-
-;; parenthesis
 (provide 'guicfg)
 ;;; guicfg.el ends here

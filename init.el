@@ -20,7 +20,10 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-
+(when (not (require 'use-package nil 'noerror))
+  (message "Package 'use-package' not found. Updating package list and installing it.")
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;; Some vars
 (defvar bin-folder "~/.emacs.d/bin")
@@ -29,13 +32,6 @@
 (defvar local-root-folder "~/.emacs.d/local")
 (defvar local-bin-folder (concat local-root-folder "/bin"))
 (defvar local-elisp-folder (concat local-root-folder "/elisp"))
-
-
-
-;; Locale
-;; Emacs server not getting this from env?
-;; (when (not (getenv "LC_ALL"))
-;;   (setenv "LC_ALL" "en_US.UTF-8"))
 
 ;; Creating folders
 (when (not (file-exists-p bin-folder))
@@ -48,132 +44,17 @@
 (when (not (file-exists-p local-bin-folder))
   (make-directory local-bin-folder t))
 
-
-
-;; Initial config
-(load "~/.emacs.d/prelude.el")
-(load "~/.emacs.d/autoinstall.el")
-
-(setq autoinstall:required-packages
-      '(fill-column-indicator
-        golden-ratio
-        spaceline
-        yasnippet
-        flycheck
-        company
-        smartrep
-        ledger-mode
-        magit
-        paredit
-        ggtags
-        material-theme
-        helm
-        pkg-info
-        pretty-lambdada
-        web-mode
-        molokai-theme
-        ag
-        helm-ag
-        projectile
-        helm-projectile
-        tup-mode
-        glsl-mode
-        clojure-mode
-        clj-refactor
-        clojure-snippets
-        align-cljlet
-        rainbow-delimiters
-        exec-path-from-shell
-        undo-tree
-        dockerfile-mode
-        yaml-mode
-        haskell-mode
-        fic-mode
-        python-mode
-        company-jedi
-        pyvenv
-        ob-ipython
-        elpy
-        ein
-        json-mode
-        restclient
-        anzu
-        diminish
-        gnuplot
-        gnuplot-mode
-        ess
-        slime
-        graphviz-dot-mode
-        avy
-        plantuml-mode
-        org-present
-        cython-mode
-        org-tree-slide
-        rust-mode
-        racer
-        flycheck-rust
-        toml-mode
-        ensime
-        evil-paredit
-        docker-tramp
-        ox-gfm
-        spacemacs-theme
-        toc-org
-        typescript-mode
-        dired-narrow
-        org-mru-clock
-        helpful
-        jsonnet-mode
-        terraform-mode
-        lua-mode
-        doom-themes
-        go-mode
-        company-go
-        proto-mode
-        gradle-mode
-        groovy-mode
-        eclim
-        lsp-mode
-        company-lsp))
-
-
-(autoinstall:install-missing "~/.emacs.d/.installed")
-
-
+;;; Initial config
 
 ;; Adding package paths
 (add-to-list 'load-path elisp-folder)
 (add-to-list 'load-path local-elisp-folder)
 
-
-
-;; some (potentially) global dependencies
-(require 'smartrep)
-
-
-
-;; important env vars
-(defvar default-external-term "urxvt")
-
-
+(require 'prelude)
 
 ;; local config file
 (when (file-exists-p (expand-file-name "local-init.el" local-elisp-folder))
   (require 'local-init))
-
-
-
-;; windows utility functions (required for setting PATH)
-(require 'win32-utils)
-
-;; setting path for command line processes in win32
-(when (or (eq 'windows-nt system-type) (eq 'ms-dos system-type))
-  (setenv "PATH" (concat
-                  (w32utils-convert-to-std-path local-bin-folder) ";"
-                  (w32utils-convert-to-std-path bin-folder) ";"
-                  (getenv "PATH"))))
-
-
 
 ;; Fixing autosave/backup files
 (setq backup-directory-alist
@@ -181,119 +62,25 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-
-
-;; Adding all bin folders
+;; Binary paths
 (exec-path-from-shell-initialize)
 
 (add-to-list 'exec-path bin-folder)
 (add-to-list 'exec-path local-bin-folder)
 
-
-
-;; copying GPG stuff (needed in Ubuntu for some reason)
-(exec-path-from-shell-copy-env "SSH_AUTH_SOCK")
-
-
-
-;; Indent using spaces only
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq-default c-basic-offset 4)
-
-
+(require 'win32-utils)
+(require 'editcfg)
 
 ;; markdown mode
-(require 'markdown-mode)
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-
-
-;; For pt-Br dead keys to work
-(set-input-mode nil nil 1)
-(require 'iso-transl)
-
-
-
-;; Set encoding
-(setenv "LC_CTYPE" "UTF-8")
-(prefer-coding-system 'utf-8-unix)
-
-
-
 (require 'guicfg)
-
-
-;; yes or no becomes y or n
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-
-
-;; yasnippet
-; (should be loaded before auto complete so that they can work
-; together)
-(require 'yasnippet)
-(yas-global-mode 1)
-
-;; Fix yasnippet 0.8/ac bug
-(defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
-(defalias 'yas/table-hash 'yas--table-hash)
-
-(setq yas-snippet-dirs (append yas-snippet-dirs
-                               '("~/.emacs.d/snippets")))
-
-
-
-;; flycheck
-(require 'flymake)
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-
-
-;; org mode
 (require 'orgcfg)
-
-
-
-;; latex
-; force latex to use pdflatex
-(set-variable (quote latex-run-command) "pdflatex")
-(set-variable (quote tex-dvi-view-command) "evince")
-
-; add latex mode to auto-complete
-;; (add-to-list 'ac-modes 'latex-mode)
-
-
-
-;; Auto-insert mode
-(auto-insert-mode)
-(setq auto-insert-directory "~/.emacs.d/templates/")
-(setq auto-insert-query nil)
-
-
-
-;; ledger-mode (accounting)
-(require 'ledger-mode)
-(add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
-(require 'ledger-helper)
-
-
-
-;; flatbuffer
-(add-to-list 'load-path "~/.emacs.d/vendor/flatbuffers-mode")
-(require 'flatbuffers-mode)
-(add-to-list 'auto-mode-alist '("\\.flatc$" . flatbuffers-mode))
-
-
-
-;; Specific configurations
-(require 'editcfg)
-(require 'prettycfg)
-(require 'prjcfg)
+(require 'texcfg)
 (require 'webcfg)
-(require 'reactcfg)
 (require 'cljcfg)
 (require 'cpcfg)
 (require 'clcfg)
@@ -307,6 +94,18 @@
 (require 'javacfg)
 (require 'gocfg)
 
+
+;; ledger-mode (accounting)
+(require 'ledger-mode)
+(add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+(require 'ledger-helper)
+
+
+
+;; flatbuffer
+(add-to-list 'load-path "~/.emacs.d/vendor/flatbuffers-mode")
+(require 'flatbuffers-mode)
+(add-to-list 'auto-mode-alist '("\\.flatc$" . flatbuffers-mode))
 
 
 ;; plantuml
@@ -358,7 +157,7 @@
  '(org-log-into-drawer t)
  '(package-selected-packages
    (quote
-    (company-lsp lsp-mode yaml-mode web-mode typescript-mode tup-mode toml-mode toc-org spacemacs-theme spaceline smartrep slime shut-up restclient rainbow-delimiters racer python-mode pretty-lambdada plantuml-mode ox-gfm org-tree-slide org-present org-mru-clock ob-ipython molokai-theme material-theme magit-popup magit lua-mode ledger-mode jsonnet-mode json-mode helpful helm-projectile helm-ag haskell-mode groovy-mode graphviz-dot-mode gradle-mode golden-ratio gnuplot-mode gnuplot gnu-elpa-keyring-update glsl-mode ggtags flycheck-rust fill-column-indicator fic-mode exec-path-from-shell evil-paredit ess ensime elpy ein eclim doom-themes dockerfile-mode docker-tramp dired-narrow diminish cython-mode company-jedi company-go clojure-snippets clj-refactor avy anzu align-cljlet ag))))
+    (ob-clojure use-package lsp-ui company-lsp lsp-mode yaml-mode web-mode typescript-mode tup-mode toml-mode toc-org spacemacs-theme spaceline smartrep slime shut-up restclient rainbow-delimiters racer python-mode pretty-lambdada plantuml-mode ox-gfm org-tree-slide org-present org-mru-clock ob-ipython molokai-theme material-theme magit-popup magit lua-mode ledger-mode jsonnet-mode json-mode helpful helm-projectile helm-ag haskell-mode groovy-mode graphviz-dot-mode gradle-mode golden-ratio gnuplot-mode gnuplot gnu-elpa-keyring-update glsl-mode ggtags flycheck-rust fill-column-indicator fic-mode exec-path-from-shell evil-paredit ess ensime elpy ein eclim doom-themes dockerfile-mode docker-tramp dired-narrow diminish cython-mode company-jedi company-go clojure-snippets clj-refactor avy anzu align-cljlet ag))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

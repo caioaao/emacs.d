@@ -24,11 +24,41 @@
 
 ;;; Code:
 
-(require 'undo-tree)
-(global-undo-tree-mode 1)
-(global-set-key (kbd "C-;") 'undo-tree-redo)
+(use-package diminish :ensure t)
+
+;; Indent using spaces only
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
+
+(global-auto-revert-mode 1)
+(diminish 'auto-revert-mode)
+
+;; better scrolling
+(setq scroll-step 1)
+
+;; yasnippet
+; (should be loaded before auto complete so that they can work
+; together)
+(use-package yasnippet
+  :ensure t
+  :config
+  (progn
+    (yas-global-mode 1)
+    ;; Fix yasnippet 0.8/ac bug
+    (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
+    (defalias 'yas/table-hash 'yas--table-hash)
+    (setq yas-snippet-dirs (append yas-snippet-dirs
+                                   '("~/.emacs.d/snippets")))
+    (diminish 'yas-minor-mode)))
 
 
+(use-package undo-tree
+  :ensure t
+  :bind (("C-;" . undo-tree-redo))
+  :config
+  (progn (global-undo-tree-mode 1)
+         (diminish 'undo-tree-mode)))
 
 ;; from Emacs Prelude (https://github.com/bbatsov/prelude)
 ;; Unfortunatelly, Prelude core library is not available as package :(
@@ -56,60 +86,106 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key [remap move-beginning-of-line]
                 'prelude-move-beginning-of-line)
 
+(use-package helm
+  :ensure t
+  :bind (("C-c i" . helm-imenu)
+         ("M-y" . helm-show-kill-ring)))
 
+(use-package json-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
 
-;; imenu
-(require 'helm)
-(global-set-key (kbd "C-c i") 'helm-imenu)
+(use-package jsonnet-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode)))
 
-;; auto modes
-(add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode))
+(use-package tramp
+  ;; run this to make tramp+ssh work with colored shells
+  :config (setq tramp-shell-prompt-pattern "\\(?:^\\|\\)[^]#$%>
+]*#?[]#$%>].* *\\(\\[[0-9;]*[a-zA-Z] *\\)*"))
 
-(require 'tramp)
-;; run this to make tramp+ssh work with colored shells
-(setq tramp-shell-prompt-pattern "\\(?:^\\|\\)[^]#$%>
-]*#?[]#$%>].* *\\(\\[[0-9;]*[a-zA-Z] *\\)*")
+(use-package anzu
+  :ensure t
+  :config (progn
+            (global-anzu-mode 1)
+            (diminish 'anzu-mode)))
 
-(require 'anzu)
-(global-anzu-mode 1)
+(use-package avy
+  :ensure t
+  :bind (("M-g e" . avy-goto-word-0)))
 
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(use-package ido
+  :ensure t
+  :config (progn
+            (setq ido-enable-flex-matching t)
+            (ido-mode 1)))
 
-(require 'avy)
-(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+(use-package flycheck
+  :ensure t
+  :config (diminish 'flycheck-mode))
 
-(require 'ido)
-(setq ido-enable-flex-matching t)
-(ido-mode t)
+(use-package flyspell
+  :ensure t
+  :hook ((prog-mode . flyspell-prog-mode)
+         (text-mode . flyspell-mode))
+  :config (progn
+            (diminish 'flyspell-mode)
+            (diminish 'flyspell-prog-mode)))
 
-(require 'markdown-mode)
-(add-hook 'markdown-mode-hook 'turn-on-flyspell)
+;; better *help* buffer
+(use-package helpful
+  :ensure t
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h f" . helpful-function)
+         ("C-h c" . helpful-command)))
 
-(require 'flyspell)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(use-package company
+  :ensure t
+  :bind ("C-<tab>" . company-complete)
+  :config
+  (diminish 'company-mode))
 
+(use-package paredit
+  :ensure t
+  :config
+  (diminish 'paredit-mode))
 
+(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+(global-set-key (kbd "M-x") nil)
 
 ;; Useful for reading logs (by disabling line-wrap)
 (global-set-key (kbd "C-c $") 'toggle-truncate-lines)
 
+(use-package projectile
+  :ensure t
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map))
+  :config
+  (progn
+    (projectile-mode 1)
+    (diminish 'projectile-mode)
+    (setq projectile-enable-caching t)
+    (setq projectile-git-submodule-command "")))
 
+(use-package helm-projectile
+  :ensure t
+  :config
+  (progn
+    (helm-projectile-on)
+    (setq projectile-completion-system 'helm)))
 
-;; better *help* buffer
-(require 'helpful)
-(global-set-key (kbd "C-h f") #'helpful-callable)
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-(global-set-key (kbd "C-h F") #'helpful-function)
-(global-set-key (kbd "C-h C") #'helpful-command)
+(use-package flymake :ensure t)
+(use-package flycheck
+  :ensure t
+  :hook (after-init . global-flycheck-mode))
 
-;; helpful keybinds
-(global-set-key (kbd "C-x C-m") 'execute-extended-command)
-(global-set-key (kbd "C-x C-:") 'eval-expression)
-
-(require 'company)
-(global-set-key (kbd "C-<tab>") 'company-complete)
+(auto-insert-mode)
+(setq auto-insert-directory "~/.emacs.d/templates/")
+(setq auto-insert-query nil)
 
 (provide 'editcfg)
 ;;; editcfg.el ends here

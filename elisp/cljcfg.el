@@ -22,67 +22,73 @@
 
 ;;; Code:
 
-(require 'clojure-mode)
+(use-package paredit
+  :ensure t)
 
-(add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojure-mode))
-
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook (lambda ()
-                               (cider-mode 1)
-                               (clj-refactor-mode 1)
-                               (cljr-add-keybindings-with-prefix "C-c C-o")
-                               (setq clojure-align-forms-automatically t)))
-(setq cljr-favor-prefix-notation nil)
-(setq cljr-auto-clean-ns t)
-
-(require 'paredit)
-(add-hook 'clojure-mode-hook 'paredit-mode)
-
-(require 'clojure-snippets)
-
-(require 'cider)
-(setq cider-repl-pop-to-buffer-on-connect nil)
-(add-to-list 'cider-test-defining-forms "defflow")
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
-
-(define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)
-
-;; Clojure imenu support (from https://gist.github.com/luxbock/0f9d6c05c9a8f0002715)
-(defconst clojure-imenu-generic-expression
-  '((nil "^\\s-*(\\(?:[st]/\\)?defn-?\\s-+\\(?:\\^[^[:space:]\n]+\\s-+\\)?\\([^[:space:]\n]+\\)" 1)
-    ("Variable""^\\s-*(\\(?:s\\|t/\\)?def[[:space:]\n]+\\(?:\\(?:\\^{[^}]+}[[:space:]\n]+\\)\\|\\(?:\\^:[^[:space:]\n]+\\s-+\\)\\)?\\([^[:space:]\n\)]+\\)" 1)
-    ("Macro" "^\\s-*(defmacro\\s-+\\([^[:space:]\n]+\\)" 1)
-    ("Record" "^\\s-*(\\(?:s/\\)?defrecord\\s-+\\([^[:space:]\n]+\\)" 1)
-    ("Type" "^\\s-*(deftype\\+?\\s-+\\([^[:space:]\n]+\\)" 1)
-    ("Protocol" "^\\s-*(\\(?:def\\(?:-abstract-type\\|interface\\+?\\|protocol\\)\\)\\s-+\\([^[:space:]\n]+\\)" 1)
-    ("Multimethod" "^\\s-*(defmulti\\s-+\\([^[:space:]\n]+\\)" 1)
-    ("Multimethod" "^\\s-*(defmethod\\s-+\\([^[:space:]\n]+\\)" 1)))
-
-(defun cljcfg:cider-launch-external-repl ()
-  "Launch a REPL in a separate terminal."
-  (interactive)
-  (cl-flet ((nrepl-start-server-process (directory cmd &rest _)
-                                        (async-shell-command (format "cd %s && urxvt -e zsh -c '%s'" directory cmd))))
-    (call-interactively 'cider-jack-in)))
-
-(define-key clojure-mode-map (kbd "C-c s-j") 'cljcfg:cider-launch-external-repl)
-
-(defun after-clj-mode ()
-  "Add clojure support to imenu."
-  (add-hook
-     'clojure-mode-hook
-     (lambda ()
-       (progn
-         (setq imenu-generic-expression clojure-imenu-generic-expression
-               imenu-create-index-function 'imenu-default-create-index-function)))))
-
-(eval-after-load "clojure-mode"
-  #'after-clj-mode)
+(use-package clojure-mode
+  :ensure t
+  :mode ("\\.cljs\\'" . clojure-mode)
+  :hook (clojure-mode . paredit-mode)
+  :config
+  (setq clojure-align-forms-automatically t))
 
 
 (require 'ob-clojure)
-(setq org-babel-clojure-backend 'cider)
 
+(use-package cider
+  :ensure t
+  :hook ((cider-repl-mode . paredit-mode)
+         (clojure-mode . cider-mode))
+  :bind (:map cider-repl-mode-map
+              ("C-c C-l" . cider-repl-clear-buffer))
+  :config
+  (setq cider-repl-pop-to-buffer-on-connect nil)
+  (add-to-list 'cider-test-defining-forms "defflow")
+  (setq org-babel-clojure-backend 'cider))
+
+(use-package clj-refactor
+  :ensure t
+  :hook (clojure-mode . clj-refactor-mode)
+  :config
+  (cljr-add-keybindings-with-prefix "C-c C-o")
+  (setq cljr-favor-prefix-notation nil)
+  (setq cljr-auto-clean-ns t)
+  (diminish 'clj-refactor-mode))
+
+(use-package clojure-snippets :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook
+  ((clojure-mode . lsp)
+   (clojurec-mode . lsp)
+   (clojurescript-mode . lsp))
+  :config
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  (diminish 'lsp-mode)
+  :init
+  (setq lsp-enable-indentation nil))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+;; (defun cljcfg:cider-launch-external-repl ()
+;;   "Launch a REPL in a separate terminal."
+;;   (interactive)
+;;   (cl-flet ((nrepl-start-server-process (directory cmd &rest _)
+;;                                         (async-shell-command (format "cd %s && urxvt -e zsh -c '%s'" directory cmd))))
+;;     (call-interactively 'cider-jack-in)))
+;; (define-key clojure-mode-map (kbd "C-c s-j") 'cljcfg:cider-launch-external-repl)
 
 (provide 'cljcfg)
 ;;; cljcfg.el ends here

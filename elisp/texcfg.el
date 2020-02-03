@@ -1,8 +1,8 @@
-;;; prettycfg.el --- Config to show pretty symbols   -*- lexical-binding: t; -*-
+;;; texcfg.el --- tex/latex stuff                    -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2020  Caio Oliveira
 
-;; Author:  <coliveira@POS6419D>
+;; Author: Caio Oliveira
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -24,17 +24,12 @@
 
 ;;; Code:
 
-(add-hook
- 'clojure-mode-hook
- (lambda ()
-   (push '("fn" . ?λ) prettify-symbols-alist)
-   (prettify-symbols-mode 1)))
+(use-package tex-mode
+  :ensure t
+  :config
+  (progn
+    (setq latex-run-command "pdflatex")
+    (setq tex-dvi-view-command "evince")))
 
-(add-hook
- 'lisp-mode-hook
- (lambda ()
-   (push '("lambda" . ?λ) prettify-symbols-alist)
-   (prettify-symbols-mode 1)))
-
-(provide 'prettycfg)
-;;; prettycfg.el ends here
+(provide 'texcfg)
+;;; texcfg.el ends here

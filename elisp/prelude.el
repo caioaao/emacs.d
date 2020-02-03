@@ -1,9 +1,9 @@
-;;; prelude.el --- Small helper functions used everywhere  -*- lexical-binding: t; -*-
+;;; prelude.el --- Helper functions and global dependencies used everywhere  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  Caio Oliveira
 
 ;; Author: Caio Oliveira
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
 ;;; Code:
 
 (defun sorted (xs compare)
@@ -27,6 +29,21 @@
 (defun symbol-name< (a b)
   "Compare symbols A and B by their names."
   (string< (symbol-name a) (symbol-name b)))
+
+(defvar default-external-term "urxvt")
+
+;; For pt-Br dead keys to work
+(set-input-mode nil nil 1)
+(require 'iso-transl)
+
+;; Set encoding
+(setenv "LC_CTYPE" "UTF-8")
+(prefer-coding-system 'utf-8-unix)
+
+;; yes or no becomes y or n
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(use-package diminish :ensure t)
 
 (provide 'prelude)
 ;;; prelude.el ends here

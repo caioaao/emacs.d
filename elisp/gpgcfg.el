@@ -1,8 +1,8 @@
-;;; prjcfg.el --- Configs for project-aware editing in emacs  -*- lexical-binding: t; -*-
+;;; gpgcfg.el --- Generic GPG config                  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2020  Caio Oliveira
 
-;; Author:  <coliveira@POS6419D>
+;; Author: Caio Oliveira <caio@pop-os>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -24,17 +24,12 @@
 
 ;;; Code:
 
-(require 'projectile)
-(helm-projectile-on)
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
+;; copying GPG stuff (needed in Ubuntu for some reason)
 
-(require 'helm-projectile)
 
-(projectile-mode +1)
-
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(setq projectile-completion-system 'helm)
-(setq projectile-enable-caching t)
-(setq projectile-git-submodule-command "") ;; ignore submodules on search
-
-(provide 'prjcfg)
-;;; prjcfg.el ends here
+(provide 'gpgcfg)
+;;; gpgcfg.el ends here

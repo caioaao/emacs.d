@@ -49,6 +49,9 @@
 ;; Adding package paths
 (add-to-list 'load-path elisp-folder)
 (add-to-list 'load-path local-elisp-folder)
+(dolist (filepath (directory-files (expand-file-name "~/.emacs.d/vendor")
+                                   t "^[a-zA-Z0-9]" nil))
+        (add-to-list 'load-path filepath))
 
 (require 'prelude)
 
@@ -99,12 +102,12 @@
 (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
 (require 'ledger-helper)
 
+;; vendor packages
+(use-package flatbuffers-mode
+  :mode ("\\.flatc$" . flatbuffers-mode))
 
-
-;; flatbuffer
-(add-to-list 'load-path "~/.emacs.d/vendor/flatbuffers-mode")
-(require 'flatbuffers-mode)
-(add-to-list 'auto-mode-alist '("\\.flatc$" . flatbuffers-mode))
+(use-package ebnf-mode
+  :mode ("\\.ebnf$" . ebnf-mode))
 
 
 ;; plantuml

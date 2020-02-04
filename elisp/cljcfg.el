@@ -38,22 +38,22 @@
 (use-package cider
   :ensure t
   :hook ((cider-repl-mode . paredit-mode)
-         (clojure-mode . cider-mode))
+         (clojure-mode . cider-mode)
+         (cider-mode . (lambda () (unbind-key "C-c C-o" cider-mode-map))))
   :bind (:map cider-repl-mode-map
               ("C-c C-l" . cider-repl-clear-buffer))
   :config
-  (setq cider-repl-pop-to-buffer-on-connect nil)
   (add-to-list 'cider-test-defining-forms "defflow")
   (setq org-babel-clojure-backend 'cider))
 
-(use-package clj-refactor
-  :ensure t
-  :hook (clojure-mode . clj-refactor-mode)
-  :config
-  (cljr-add-keybindings-with-prefix "C-c C-o")
-  (setq cljr-favor-prefix-notation nil)
-  (setq cljr-auto-clean-ns t)
-  (diminish 'clj-refactor-mode))
+;; (use-package clj-refactor
+;;   :ensure t
+;;   :hook (clojure-mode . clj-refactor-mode)
+;;   :config
+;;   (cljr-add-keybindings-with-prefix "C-c C-o")
+;;   (setq cljr-favor-prefix-notation nil)
+;;   (setq cljr-auto-clean-ns t)
+;;   (diminish 'clj-refactor-mode))
 
 (use-package clojure-snippets :ensure t)
 
@@ -63,7 +63,11 @@
   :hook
   ((clojure-mode . lsp)
    (clojurec-mode . lsp)
-   (clojurescript-mode . lsp))
+   (clojurescript-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
+  :bind
+  (:map lsp-command-map
+        ("c n" . lsp-clojure-clean-ns))
   :config
   (dolist (m '(clojure-mode
                clojurec-mode
@@ -72,11 +76,13 @@
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (diminish 'lsp-mode)
   :init
-  (setq lsp-enable-indentation nil))
+  (setq lsp-enable-indentation nil)
+  (setq lsp-keymap-prefix "C-c C-o"))
 
-(use-package lsp-ui
+(use-package which-key
   :ensure t
-  :commands lsp-ui-mode)
+  :config
+  (which-key-mode))
 
 (use-package company-lsp
   :ensure t

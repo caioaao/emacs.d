@@ -46,14 +46,14 @@
   (add-to-list 'cider-test-defining-forms "defflow")
   (setq org-babel-clojure-backend 'cider))
 
-;; (use-package clj-refactor
-;;   :ensure t
-;;   :hook (clojure-mode . clj-refactor-mode)
-;;   :config
-;;   (cljr-add-keybindings-with-prefix "C-c C-o")
-;;   (setq cljr-favor-prefix-notation nil)
-;;   (setq cljr-auto-clean-ns t)
-;;   (diminish 'clj-refactor-mode))
+(use-package clj-refactor
+  :ensure t
+  :hook (clojure-mode . clj-refactor-mode)
+  :config
+  (cljr-add-keybindings-with-prefix "C-c C-o")
+  (setq cljr-favor-prefix-notation nil)
+  (setq cljr-auto-clean-ns t)
+  (diminish 'clj-refactor-mode))
 
 (use-package clojure-snippets :ensure t)
 
@@ -76,8 +76,7 @@
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (diminish 'lsp-mode)
   :init
-  (setq lsp-enable-indentation nil)
-  (setq lsp-keymap-prefix "C-c C-o"))
+  (setq lsp-enable-indentation nil))
 
 (use-package which-key
   :ensure t

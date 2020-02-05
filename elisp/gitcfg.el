@@ -25,29 +25,38 @@
 ;;; Code:
 
 (setq tramp-ssh-controlmaster-options "") ;; see https://debbugs.gnu.org/cgi/bugreport.cgi?bug=20015
-(require 'magit)
 
-(setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-git-executable "git")
-(global-set-key (kbd "C-c m s") 'magit-status)
-(global-set-key (kbd "C-c m b") 'magit-blame)
+(use-package magit
+  :ensure t
+  :bind
+  (("C-c m s" . magit-status)
+   ("C-c m b" . magit-blame-addition))
+  :init
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  (setq magit-git-executable "git")
+  ;; See https://github.com/magit/magit/issues/2541
+  (setq magit-display-buffer-function
+        (lambda (buffer)
+          (display-buffer
+           buffer (if (and (derived-mode-p 'magit-mode)
+                           (memq (with-current-buffer buffer major-mode)
+                                 '(magit-process-mode
+                                   magit-revision-mode
+                                   magit-diff-mode
+                                   magit-stash-mode
+                                   magit-status-mode)))
+                      nil
+                    '(display-buffer-same-window))))))
 
-;; See https://github.com/magit/magit/issues/2541
-(setq magit-display-buffer-function
-      (lambda (buffer)
-        (display-buffer
-         buffer (if (and (derived-mode-p 'magit-mode)
-                         (memq (with-current-buffer buffer major-mode)
-                               '(magit-process-mode
-                                 magit-revision-mode
-                                 magit-diff-mode
-                                 magit-stash-mode
-                                 magit-status-mode)))
-                    nil
-                  '(display-buffer-same-window)))))
+(use-package flyspell
+  :ensure t
+  :hook
+  (git-commit-mode . turn-on-flyspell))
 
-(add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-(add-hook 'git-commit-mode-hook 'markdown-mode)
+(use-package markdown-mode
+  :ensure t
+  :hook
+  (git-commit-mode . markdown-mode))
 
 (provide 'gitcfg)
 ;;; gitcfg.el ends here

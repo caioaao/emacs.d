@@ -24,8 +24,10 @@
 
 ;;; Code:
 
-(require 'ispell)
-(setq ispell-dictionary "american")
+(use-package ispell
+  :ensure t
+  :init
+  (setq ispell-dictionary "american"))
 
 (provide 'ispellcfg)
 ;;; ispellcfg.el ends here

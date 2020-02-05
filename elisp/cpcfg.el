@@ -24,8 +24,10 @@
 
 ;;; Code:
 
-(require 'cc-mode)
-(require 'lisp-mode)
+(use-package cc-mode
+  :ensure t)
+
+(use-package lisp-mode)
 
 (defvar last-gcj-input-file "in.txt")
 

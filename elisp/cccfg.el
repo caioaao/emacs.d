@@ -25,58 +25,54 @@
 ;;; Code:
 
 ;; cc-mode
-(require 'cc-mode)
+(use-package cc-mode
+  :ensure t
+  :hook
+  (c-c++-mode . (lambda () (setq require-final-newline t)))
+  :init
+  (setq c-default-style "linux"
+        c-basic-offset 4))
 
-;; Adding newline after files
-(add-hook 'c-c++-mode-hook
-          (lambda () (setq require-final-newline t)))
-
-;; sets extended mode curly braces as default
-(setq c-default-style "linux"
-      c-basic-offset 4)
-
-(require 'flycheck)
-;; C++11 as standard
-(add-hook 'c++-mode-hook
-          (lambda () (setq flycheck-gcc-language-standard "c++11")))
+(use-package flycheck
+  :ensure t
+  :hook
+  (c++-mode . (lambda () (setq flycheck-gcc-language-standard "c++11"))))
 ;; auto complete
 ;; (require 'auto-complete-clang)
 
 ;; ggtags
-(require 'ggtags)
+(use-package ggtags
+  :ensure t
+  :hook
+  (dired-mode . (lambda () (ggtags-mode 1)))
+  (c-mode . (lambda () (ggtags-mode 1)))
+  (c++-mode . (lambda () (ggtags-mode 1)))
+  (java-mode . (lambda () (ggtags-mode 1)))
+  :bind
+  (:map ggtags-mode-map
+        ("C-c g s" . ggtags-find-other-symbol)
+        ("C-c g h" . ggtags-view-tag-history)
+        ("C-c g r" . ggtags-find-reference)
+        ("C-c g f" . ggtags-find-file)
+        ("C-c g c" . ggtags-create-tags)
+        ("C-c g u" . ggtags-update-tags)
+        ("M-," . pop-tag-mark))
+  :init
+  (setq ggtags-oversize-limit (* 1 1024 1024)))
 
-(setq ggtags-oversize-limit (* 1 1024 1024))
+(use-package semantic
+  :ensure t
+  :init
+  (setq semantic-c-obey-conditional-section-parsing-flag nil)
+  :config
+  (global-semanticdb-minor-mode 1)
+  (global-semantic-idle-scheduler-mode 1)
+  (global-semantic-stickyfunc-mode 1)
+  (semanticdb-enable-gnu-global-databases 'c-mode)
+  (semanticdb-enable-gnu-global-databases 'c++-mode))
 
-
-(add-hook 'dired-mode-hook (lambda () (ggtags-mode 1)))
-(add-hook 'c-mode-hook (lambda () (ggtags-mode 1)))
-(add-hook 'c++-mode-hook (lambda () (ggtags-mode 1)))
-(add-hook 'java-mode-hook (lambda () (ggtags-mode 1)))
-
-
-(define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
-(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
-(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
-(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
-(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
-(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
-
-(define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
-
-(require 'cc-mode)
-(require 'semantic)
-(require 'cedet)
-
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(global-semantic-stickyfunc-mode 1)
-
-;(semantic-mode 1)
-
-(semanticdb-enable-gnu-global-databases 'c-mode)
-(semanticdb-enable-gnu-global-databases 'c++-mode)
-
-(setq semantic-c-obey-conditional-section-parsing-flag nil)
+(use-package cedet
+  :ensure t)
 
 (defun cccfg:cedet-hook ()
   (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
@@ -86,31 +82,26 @@
 (add-hook 'c-mode-hook 'cccfg:cedet-hook)
 (add-hook 'c++-mode-hook 'cccfg:cedet-hook)
 
+;; (use-package ansi-color :ensure t)
+;; (defun colorize-compilation-buffer ()
+;;   (toggle-read-only)
+;;   (ansi-color-apply-on-region (point-min) (point-max))
+;;   (toggle-read-only))
+;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-(require 'company)
-(global-company-mode 1)
+;; (defun setup-flycheck-proj-path ()
+;;   (let ((prj-root (ignore-errors (projectile-project-root))))
+;;     (when prj-root
+;;       (add-to-list (make-variable-buffer-local 'flycheck-gcc-include-path)
+;;                    prj-root)
+;;       (let ((prj-src-dir (expand-file-name "src" prj-root)))
+;;         (when (file-exists-p prj-src-dir)
+;;           (add-to-list (make-variable-buffer-local 'flycheck-gcc-include-path)
+;;                        prj-src-dir))))))
 
-
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-(defun setup-flycheck-proj-path ()
-  (let ((prj-root (ignore-errors (projectile-project-root))))
-    (when prj-root
-      (add-to-list (make-variable-buffer-local 'flycheck-gcc-include-path)
-                   prj-root)
-      (let ((prj-src-dir (expand-file-name "src" prj-root)))
-        (when (file-exists-p prj-src-dir)
-          (add-to-list (make-variable-buffer-local 'flycheck-gcc-include-path)
-                       prj-src-dir))))))
-
-(add-hook 'c-mode-common-hook 'setup-flycheck-proj-path)
-(add-hook 'c-mode-hook 'setup-flycheck-proj-path)
-(add-hook 'c++-mode-hook 'setup-flycheck-proj-path)
+;; (add-hook 'c-mode-common-hook 'setup-flycheck-proj-path)
+;; (add-hook 'c-mode-hook 'setup-flycheck-proj-path)
+;; (add-hook 'c++-mode-hook 'setup-flycheck-proj-path)
 
 (provide 'cccfg)
 ;;; cccfg.el ends here

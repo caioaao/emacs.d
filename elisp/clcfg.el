@@ -24,12 +24,20 @@
 
 ;;; Code:
 
-(require 'slime)
-
 (defvar quicklisp-path (expand-file-name "~/quicklisp/quicklisp/"))
 (defvar slime-helper-path (concat (file-name-as-directory quicklisp-path) "slime-helper.el"))
 
-(setq inferior-lisp-program "sbcl")
+(use-package slime
+  :ensure t
+  :init
+  (setq inferior-lisp-program "sbcl")
+
+  :config
+  (when (and (executable-find inferior-lisp-program)
+             (file-exists-p slime-helper-path))
+    (load slime-helper-path))
+
+  (slime-setup '(slime-fancy slime-tramp)))
 
 (defun install-quicklisp ()
   "Install quicklisp."
@@ -48,14 +56,9 @@
         (install-quicklisp)))
   (message (format "Inferior lisp program %s not found. Couldn't load SLIME" inferior-lisp-program)))
 
-(when (and (executable-find inferior-lisp-program)
-           (file-exists-p slime-helper-path))
-  (load slime-helper-path))
-
-(slime-setup '(slime-fancy slime-tramp))
-
-(require 'paredit)
-(add-hook 'inferior-lisp-mode-hook 'paredit-mode)
+(use-package paredit
+  :ensure t
+  :hook (inferior-lisp-mode . paredit-mode))
 
 (provide 'clcfg)
 ;;; clcfg.el ends here

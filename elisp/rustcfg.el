@@ -24,17 +24,25 @@
 
 ;;; Code:
 
-(require 'company)
-(require 'racer)
-(require 'rust-mode)
-(require 'eldoc)
-(require 'flycheck)
-(require 'flycheck-rust)
+(use-package company
+  :ensure t)
 
-(add-to-list 'auto-mode-alist '("\\.rs\\'". rust-mode))
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'rust-mode-hook #'eldoc-mode)
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+(use-package rust-mode
+  :ensure t
+  :mode ("\\.rs\\'". rust-mode))
+
+(use-package racer
+  :ensure t
+  :hook (rust-mode . racer-mode))
+
+(use-package eldoc :ensure t
+  :hook (rust-mode . eldoc-mode))
+
+(use-package flycheck :ensure t)
+
+;(use-package flycheck-rust
+;  :ensure t
+;  :hook (flycheck-mode . 'flycheck-rust-setup))
 
 (provide 'rustcfg)
 ;;; rustcfg.el ends here

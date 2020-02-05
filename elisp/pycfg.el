@@ -25,14 +25,18 @@
 ;;; Code:
 
 ;; Shared packages config (probably shared with other languages
-(require 'company)
-(require 'company-jedi)
-(require 'flycheck)
+(use-package company :ensure t)
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            (set-fill-column 79)
-             (add-to-list 'company-backends 'company-jedi)))
+(use-package company-jedi
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-jedi))
+
+(use-package flycheck :ensure t)
+
+(use-package python-mode
+  :hook
+  (python-mode . (lambda () (set-fill-column 79))))
 
 (provide 'pycfg)
 ;;; pycfg.el ends here

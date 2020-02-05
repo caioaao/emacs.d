@@ -146,6 +146,7 @@ point reaches the beginning or end of the buffer, stop there."
   :ensure t
   :bind ("C-<tab>" . company-complete)
   :config
+  (global-company-mode 1)
   (diminish 'company-mode))
 
 (use-package paredit
@@ -185,6 +186,19 @@ point reaches the beginning or end of the buffer, stop there."
 (auto-insert-mode)
 (setq auto-insert-directory "~/.emacs.d/templates/")
 (setq auto-insert-query nil)
+
+;; deleting trailing whitespaces
+(add-hook 'before-save-hook
+          (lambda ()
+            (set (make-local-variable 'delete-trailing-lines) nil)
+            (delete-trailing-whitespace)))
+
+;; reenabling useful functions
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
 (provide 'editcfg)
 ;;; editcfg.el ends here

@@ -32,8 +32,7 @@
   :config
   (setq clojure-align-forms-automatically t))
 
-
-(require 'ob-clojure)
+(use-package ob-clojure)
 
 (use-package cider
   :ensure t

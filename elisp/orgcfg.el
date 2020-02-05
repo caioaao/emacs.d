@@ -24,122 +24,30 @@
 
 ;;; Code:
 
-;;======================
-;; agenda
-;;======================
-
 ;; trailing slash required when dir is a symlink
 (defvar my-org-files-dir "~/reps/orgfiles/")
 
-(require 'org)
-(require 'org-agenda)
-
-(define-key global-map (kbd "C-c l") 'org-store-link)
-(define-key global-map (kbd "C-c a") 'org-agenda)
-(setq org-log-done t)
-(setq  org-return-follows-link t)
-
-
-(defun load-org-agenda-files-recursively (dir)
-  "Collect all org agenda files in DIR."
-  (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
-  (add-to-list 'org-agenda-files dir)
-  (dolist (file-name (directory-files dir nil nil t))
-    (unless (member file-name '("." ".."))
-      (let ((file-path (expand-file-name file-name dir)))
-        (when (file-directory-p file-path)
-          (load-org-agenda-files-recursively file-path))))))
-
-(defun load-my-agenda-files ()
-  "Load all agenda files recursively."
-  (interactive)
-  (unless (file-exists-p my-org-files-dir)
-    (make-directory my-org-files-dir t))
-  (load-org-agenda-files-recursively my-org-files-dir))
-
-(load-my-agenda-files)
-
-;;======================
-;; clocking
-;;======================
-(require 'org-mru-clock)
-
-(setq org-mru-clock-how-many 20)
-(setq org-mru-clock-completing-read #'ivy-completing-read)
-
-;; global keys with history for clocking in and out
-(global-set-key (kbd "C-c I") #'org-mru-clock-in)
-(global-set-key (kbd "C-c J") #'org-mru-clock-select-recent-task)
-(global-set-key (kbd "C-c O") #'org-clock-out)
-
-;;======================
-;; babel
-;;======================
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((dot . t)
-   (shell . t)
-   (python . t)
-   ;; (ipython . t) this breaks everything if jupyter is not installed
-   (lisp . t)
-   (clojure . t)
-   (gnuplot . t)
-   (R . t)
-   (plantuml . t)
-   (lua . t)))
-
-(add-to-list 'org-src-lang-modes '("edn" . "clojure"))
-
-(setq org-confirm-babel-evaluate nil)
-
-(setq org-export-use-babel nil)
-
-;;======================
-;; UI
-;;======================
-
-(setq org-src-fontify-natively t)
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-
-;; increase inline latex images size
-(plist-put org-format-latex-options :scale 1.5)
-
-;;======================
-;; Other
-;;======================
-
-(add-hook 'org-mode-hook 'turn-on-flyspell)
-
-(custom-set-variables
- '(org-agenda-start-on-weekday nil)
- '(org-agenda-skip-scheduled-if-done t)
- '(org-log-into-drawer t))
-
-
-(require 'org-tree-slide)
-(require 'ox-gfm)
-
-(define-key org-tree-slide-mode-map (kbd "<right>") 'org-tree-slide-move-next-tree)
-(define-key org-tree-slide-mode-map (kbd "<left>") 'org-tree-slide-move-previous-tree)
-
-(require 'toc-org nil t)
-(add-hook 'org-mode-hook 'toc-org-enable)
-
-;;======================
-;; GTD
-;;======================
-
+;; gtd stuff
 (defvar gtd-inbox-p (concat my-org-files-dir "gtd/inbox.org"))
 (defvar gtd-main-p (concat my-org-files-dir "gtd/main.org"))
 (defvar gtd-someday-p (concat my-org-files-dir "gtd/someday.org"))
 (defvar gtd-tickler-p (concat my-org-files-dir "gtd/tickler.org"))
+(defvar my:org-projects-pattern "CATEGORY=\"PROJECTS\"+LEVEL=2")
 
-(setq org-refile-targets '((gtd-main-p :maxlevel . 3)
-                           (gtd-someday-p :level . 1)
-                           (gtd-tickler-p :maxlevel . 2)))
-
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
+(use-package org
+  :bind
+  (:map global-map
+        ("C-c l" . org-store-link)
+        ("C-M-r" . org-capture))
+  :init
+  (setq org-log-done t)
+  (setq org-return-follows-link t)
+  (setq org-src-fontify-natively t)
+  (setq org-log-into-drawer t)
+  (setq org-refile-targets '((gtd-main-p :maxlevel . 3)
+                             (gtd-someday-p :level . 1)
+                             (gtd-tickler-p :maxlevel . 2)))
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file+headline gtd-inbox-p "Tasks")
                                "* TODO %i%?\n  %U\n"
                                :prepend t :empty-lines 1)
@@ -147,33 +55,95 @@
                                (file+headline gtd-tickler-p "Tickler")
                                "* %i%? \n %U")))
 
-(global-set-key (kbd "C-M-r") 'org-capture)
+  :config
+  (plist-put org-format-latex-options :scale 1.5))
 
-(defvar my:org-projects-pattern "CATEGORY=\"PROJECTS\"+LEVEL=2")
+(use-package org-agenda
+  :bind
+  (:map global-map
+        ("C-c a" . org-agenda))
+  :init
+  (setq org-agenda-start-on-weekday nil)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-stuck-projects `(,my:org-projects-pattern ("DOING") nil ""))
+  (setq org-agenda-custom-commands
+        `(("W" "Weekly Review"
+           ((agenda "" ((org-agenda-span 7)))
+            (tags "CATEGORY=\"TASKS\"|CATEGORY=\"PROJECTS\"/DONE")
+            (tags-todo "CATEGORY=\"INBOX\"")
+            (stuck "")
+            (todo "DOING")
+            (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
+            (tags-todo "CATEGORY=\"SOMEDAY\"")
+            (todo "WAITING")))
+          ("E" "Export TODOS"
+           ((tags-todo "CATEGORY=\"TASKS\""))
+           nil
+           ("/tmp/org-exported/todos.org"))
+          ("g" . "GTD contexts")
+          ("gw" "Work" tags-todo "@work")
+          ("gh" "Home" tags-todo "@home")
+          ("gp" "Pc" tags-todo "@pc")
+          ("gi" "Internet" tags-todo "@internet")
+          ("ge" "Errands" tags-todo "@errands")
+          ("gf" "Freetime" tags-todo "@freetime")))
+  :config
+  (defun load-org-agenda-files-recursively (dir)
+    "Collect all org agenda files in DIR."
+    (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
+    (add-to-list 'org-agenda-files dir)
+    (dolist (file-name (directory-files dir nil nil t))
+      (unless (member file-name '("." ".."))
+        (let ((file-path (expand-file-name file-name dir)))
+          (when (file-directory-p file-path)
+            (load-org-agenda-files-recursively file-path))))))
+  (defun load-my-agenda-files ()
+    "Load all agenda files recursively."
+    (interactive)
+    (unless (file-exists-p my-org-files-dir)
+      (make-directory my-org-files-dir t))
+    (load-org-agenda-files-recursively my-org-files-dir))
+  (load-my-agenda-files))
 
-(setq org-stuck-projects `(,my:org-projects-pattern ("DOING") nil ""))
+;;======================
+;; babel
+;;======================
 
-(setq org-agenda-custom-commands
-           `(("W" "Weekly Review"
-              ((agenda "" ((org-agenda-span 7)))
-               (tags "CATEGORY=\"TASKS\"|CATEGORY=\"PROJECTS\"/DONE")
-               (tags-todo "CATEGORY=\"INBOX\"")
-               (stuck "")
-               (todo "DOING")
-               (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
-               (tags-todo "CATEGORY=\"SOMEDAY\"")
-               (todo "WAITING")))
-             ("E" "Export TODOS"
-              ((tags-todo "CATEGORY=\"TASKS\""))
-              nil
-              ("/tmp/org-exported/todos.org"))
-             ("g" . "GTD contexts")
-             ("gw" "Work" tags-todo "@work")
-             ("gh" "Home" tags-todo "@home")
-             ("gp" "Pc" tags-todo "@pc")
-             ("gi" "Internet" tags-todo "@internet")
-             ("ge" "Errands" tags-todo "@errands")
-             ("gf" "Freetime" tags-todo "@freetime")))
+(use-package ob
+  :hook
+  (org-babel-after-execute 'org-display-inline-images 'append)
+  :init
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-export-use-babel nil)
+
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((dot . t)
+     (shell . t)
+     (python . t)
+     ;; (ipython . t) this breaks everything if jupyter is not installed
+     (lisp . t)
+     (clojure . t)
+     (gnuplot . t)
+     (R . t)
+     (plantuml . t)
+     (lua . t))))
+
+(use-package org-tree-slide
+  :ensure t
+  :bind
+  (:map org-tree-slide-mode-map
+        ("<right>" . org-tree-slide-move-next-tree)
+        ("<left>" . org-tree-slide-move-previous-tree)))
+
+(use-package ox-gfm
+  :ensure t)
+
+(use-package toc-org
+  :ensure t
+  :hook
+  (org-mode . toc-org-enable))
 
 ;; FIXME: workaround
 ;; https://github.com/syl20bnr/spacemacs/issues/11798

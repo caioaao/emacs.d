@@ -87,6 +87,10 @@
   :ensure t
   :commands company-lsp)
 
+(use-package org
+  :init
+  (add-to-list 'org-src-lang-modes '("edn" . "clojure")))
+
 ;; (defun cljcfg:cider-launch-external-repl ()
 ;;   "Launch a REPL in a separate terminal."
 ;;   (interactive)

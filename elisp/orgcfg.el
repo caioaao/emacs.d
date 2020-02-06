@@ -39,6 +39,7 @@
   (:map global-map
         ("C-c l" . org-store-link)
         ("C-M-r" . org-capture))
+
   :init
   (setq org-log-done t)
   (setq org-return-follows-link t)
@@ -47,16 +48,36 @@
   (setq org-refile-targets '((gtd-main-p :maxlevel . 3)
                              (gtd-someday-p :level . 1)
                              (gtd-tickler-p :maxlevel . 2)))
-  (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline gtd-inbox-p "Tasks")
-                               "* TODO %i%?\n  %U\n"
-                               :prepend t :empty-lines 1)
-                              ("T" "Tickler" entry
-                               (file+headline gtd-tickler-p "Tickler")
-                               "* %i%? \n %U")))
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-export-use-babel nil)
+
+  :hook
+  (org-babel-after-execute . org-redisplay-inline-images)
 
   :config
-  (plist-put org-format-latex-options :scale 1.5))
+  (plist-put org-format-latex-options :scale 1.5)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((dot . t)
+     (shell . t)
+     (python . t)
+     ;; (ipython . t) this breaks everything if jupyter is not installed
+     (lisp . t)
+     (clojure . t)
+     (gnuplot . t)
+     (R . t)
+     (plantuml . t)
+     (lua . t))))
+
+(use-package org-capture
+  :init
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                 (file+headline gtd-inbox-p "Tasks")
+                                 "* TODO %i%?\n  %U\n"
+                                 :prepend t :empty-lines 1)
+                                ("T" "Tickler" entry
+                                 (file+headline gtd-tickler-p "Tickler")
+                                 "* %i%? \n %U"))))
 
 (use-package org-agenda
   :bind
@@ -104,31 +125,6 @@
       (make-directory my-org-files-dir t))
     (load-org-agenda-files-recursively my-org-files-dir))
   (load-my-agenda-files))
-
-;;======================
-;; babel
-;;======================
-
-(use-package ob
-  :hook
-  (org-babel-after-execute 'org-display-inline-images 'append)
-  :init
-  (setq org-confirm-babel-evaluate nil)
-  (setq org-export-use-babel nil)
-
-  :config
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((dot . t)
-     (shell . t)
-     (python . t)
-     ;; (ipython . t) this breaks everything if jupyter is not installed
-     (lisp . t)
-     (clojure . t)
-     (gnuplot . t)
-     (R . t)
-     (plantuml . t)
-     (lua . t))))
 
 (use-package org-tree-slide
   :ensure t

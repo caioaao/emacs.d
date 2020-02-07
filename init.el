@@ -96,6 +96,7 @@
 (require 'lispcfg)
 (require 'javacfg)
 (require 'gocfg)
+(require 'sqlcfg)
 
 
 ;; ledger-mode (accounting)

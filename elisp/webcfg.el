@@ -46,5 +46,19 @@
   :ensure t
   :mode ("\\.http\\'" . restclient-mode))
 
+(use-package diminish :ensure t)
+
+(use-package flow-minor-mode
+  :ensure t
+  :config
+  (diminish 'flow-minor-mode)
+
+  :hook
+  (web-mode .
+            (lambda ()
+              (if (or (equal web-mode-content-type "javascript")
+                      (equal web-mode-content-type "jsx"))
+                  (flow-minor-enable-automatically)))))
+
 (provide 'webcfg)
 ;;; webcfg.el ends here

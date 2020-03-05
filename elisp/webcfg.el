@@ -58,7 +58,29 @@
             (lambda ()
               (if (or (equal web-mode-content-type "javascript")
                       (equal web-mode-content-type "jsx"))
-                  (flow-minor-enable-automatically)))))
+                  (flow-minor-enable-automatically))))
+  (js-jsx-mode . flow-minor-enable-automatically))
+
+(use-package company-flow :ensure t)
+
+(use-package company
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-flow))
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (setq js-indent-level 2))
+
+(use-package flycheck-flow :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :config
+  (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
+  (flycheck-add-mode 'javascript-eslint 'flow-minor-mode)
+  (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
 
 (provide 'webcfg)
 ;;; webcfg.el ends here

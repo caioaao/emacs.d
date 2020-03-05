@@ -200,5 +200,10 @@ point reaches the beginning or end of the buffer, stop there."
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

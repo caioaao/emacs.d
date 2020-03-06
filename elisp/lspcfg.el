@@ -1,6 +1,6 @@
-;;; pycfg.el --- Python configs                      -*- lexical-binding: t; -*-
+;;; lspcfg.el --- LSP mode config                    -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015
+;; Copyright (C) 2020
 
 ;; Author:  Caio Oliveira
 ;; Keywords:
@@ -16,7 +16,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -24,20 +24,15 @@
 
 ;;; Code:
 
-;; Shared packages config (probably shared with other languages
-(use-package company :ensure t)
-
-(use-package company-jedi
+(use-package lsp-mode
   :ensure t
-  :config
-  (add-to-list 'company-backends 'company-jedi))
+  :init
+  (setq lsp-enable-xref t)
+  (setq lsp-enable-indentation nil))
 
-(use-package flycheck :ensure t)
-
-(use-package python-mode
+(use-package company-lsp
   :ensure t
-  :hook
-  (python-mode . (lambda () (set-fill-column 79))))
+  :config (push 'company-lsp company-backends))
 
-(provide 'pycfg)
-;;; pycfg.el ends here
+(provide 'lspcfg)
+;;; lspcfg.el ends here

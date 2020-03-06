@@ -14,7 +14,8 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")))
+        ("melpa-milkbox" . "http://melpa.milkbox.net/packages/")
+        ("melpa" . "http://melpa.org/packages/")))
 
 ;; Init packages before
 (setq package-enable-at-startup nil)
@@ -80,6 +81,7 @@
   ("\\.md\\'" . markdown-mode))
 
 (require 'gpgcfg)
+(require 'lspcfg)
 (require 'guicfg)
 (require 'orgcfg)
 (require 'texcfg)

@@ -47,7 +47,6 @@
   (dired-mode . (lambda () (ggtags-mode 1)))
   (c-mode . (lambda () (ggtags-mode 1)))
   (c++-mode . (lambda () (ggtags-mode 1)))
-  (java-mode . (lambda () (ggtags-mode 1)))
   :bind
   (:map ggtags-mode-map
         ("C-c g s" . ggtags-find-other-symbol)

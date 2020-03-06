@@ -33,16 +33,13 @@
   :hook
   (java-mode . gradle-mode))
 
-(use-package eclim
-  :ensure t
-  :hook
-  (java-mode . eclim-mode)
-  :config
-  (setq eclim-eclipse-dirs '("/opt/eclipse")))
+(use-package lsp-mode :ensure t)
 
-(use-package eclimd
-  :config
-  (setq eclimd-executable "~/.eclipse/org.eclipse.platform_4.14.0_1473617060_linux_gtk_x86_64/eclimd"))
+(use-package lsp-java
+  :ensure t
+  :after lsp
+  :hook
+  (java-mode . lsp))
 
 (provide 'javacfg)
 ;;; javacfg.el ends here

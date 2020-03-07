@@ -28,7 +28,8 @@
   :ensure t
   :init
   (setq lsp-enable-xref t)
-  (setq lsp-enable-indentation nil))
+  (setq lsp-enable-indentation nil)
+  (setq lsp-enable-completion-at-point nil))
 
 (use-package company-lsp
   :ensure t

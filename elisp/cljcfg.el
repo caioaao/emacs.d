@@ -34,16 +34,29 @@
 
 (use-package ob-clojure)
 
+(use-package lsp-mode
+  :ensure t
+  :hook
+  (clojure-mode . lsp)
+  (clojurec-mode . lsp)
+  (clojurescript-mode . lsp)
+  :config
+  (require 'lsp-clojure)
+  (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure"))
+  (add-to-list 'lsp-language-id-configuration '(clojurec-mode . "clojure"))
+  (add-to-list 'lsp-language-id-configuration '(clojurescript-mode . "clojurescript")))
+
 (use-package cider
   :ensure t
+  :after (lsp)
   :hook
   (cider-repl-mode . paredit-mode)
   (clojure-mode . cider-mode)
-  :bind (
-         :map cider-repl-mode-map
-         ("C-c C-l" . cider-repl-clear-buffer)
-         :map cider-mode-map
-         ("C-c C-o" . nil))
+  :bind
+  (:map cider-repl-mode-map
+   ("C-c C-l" . cider-repl-clear-buffer)
+   :map cider-mode-map
+   ("C-c C-o" . nil))
   :config
   (add-to-list 'cider-test-defining-forms "defflow")
   (setq org-babel-clojure-backend 'cider)
@@ -66,22 +79,6 @@
   (diminish 'clj-refactor-mode))
 
 (use-package clojure-snippets :ensure t)
-
-(use-package lsp-mode
-  :ensure t
-  :hook
-  (clojure-mode . lsp)
-  (clojurec-mode . lsp)
-  (clojurescript-mode . lsp)
-  (cider-connected . (lambda ()
-                       (setq lsp-enable-completion-at-point nil)))
-  (cider-disconnected . (lambda ()
-                          (setq lsp-enable-completion-at-point t)))
-  :config
-  (require 'lsp-clojure)
-  (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure"))
-  (add-to-list 'lsp-language-id-configuration '(clojurec-mode . "clojure"))
-  (add-to-list 'lsp-language-id-configuration '(clojurescript-mode . "clojurescript")))
 
 (use-package org
   :init

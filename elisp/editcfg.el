@@ -178,6 +178,8 @@ point reaches the beginning or end of the buffer, stop there."
     (helm-projectile-on)
     (setq projectile-completion-system 'helm)))
 
+(use-package helm-ag :ensure t)
+
 (use-package flymake :ensure t)
 (use-package flycheck
   :ensure t

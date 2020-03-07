@@ -37,15 +37,6 @@
 (use-package cider
   :ensure t
   :hook
-  (cider-connected . (lambda ()
-                       (bind-keys :map cider-mode-map
-                                  ("M-." . cider-find-var)
-                                  ("M-," . cider-pop-back))
-                       ))
-  (cider-disconnected . (lambda ()
-                          (bind-keys :map cider-mode-map
-                                     ("M-." . nil)
-                                     ("M-," . nil))))
   (cider-repl-mode . paredit-mode)
   (clojure-mode . cider-mode)
   :bind (
@@ -56,9 +47,14 @@
   :config
   (add-to-list 'cider-test-defining-forms "defflow")
   (setq org-babel-clojure-backend 'cider)
+  (defun my:jump-to-definition ()
+    (interactive)
+    (if (cider-connected-p)
+        (call-interactively #'cider-find-var)
+      (call-interactively #'xref-find-definitions)))
   (bind-keys :map cider-mode-map
-             ("M-." . nil)
-             ("M-," . nil)))
+             ("M-." . my:jump-to-definition)
+             ("M-," . xref-pop-marker-stack)))
 
 (use-package clj-refactor
   :ensure t

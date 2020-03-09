@@ -100,6 +100,9 @@
 (require 'gocfg)
 (require 'sqlcfg)
 
+(use-package protobuf-mode
+  :ensure t
+  :mode ("\\.proto$" . protobuf-mode))
 
 ;; ledger-mode (accounting)
 (use-package ledger-mode

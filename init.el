@@ -104,6 +104,8 @@
   :ensure t
   :mode ("\\.proto$" . protobuf-mode))
 
+(use-package terraform-mode :ensure t)
+
 ;; ledger-mode (accounting)
 (use-package ledger-mode
   :ensure t
@@ -129,6 +131,8 @@
 (use-package ob-plantuml
   :config
   (setq org-plantuml-jar-path "~/utils/jars/plantuml.jar"))
+
+(use-package yaml-mode :ensure t)
 
 ;; set scratch mode to clojure
 (setq initial-major-mode 'clojure-mode)

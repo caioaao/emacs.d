@@ -49,7 +49,8 @@
   :ensure t
   :config
   (setq exec-path-from-shell-check-startup-files nil)
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-envs '("LANG" "LC_ALL")))
 
 (provide 'prelude)
 ;;; prelude.el ends here

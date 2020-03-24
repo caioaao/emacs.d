@@ -65,9 +65,17 @@
     (if (cider-connected-p)
         (call-interactively #'cider-find-var)
       (call-interactively #'xref-find-definitions)))
+
+  (defun my:cider:unalias (&optional arg)
+    (interactive "P")
+    (let* ((sexp-bounds (cider-last-sexp 'bounds))
+           (form (format "(ns-unalias *ns* '%s)" (apply #'buffer-substring-no-properties sexp-bounds))))
+    (cider-interactive-eval form nil sexp-bounds (cider--nrepl-pr-request-map))))
+
   (bind-keys :map cider-mode-map
              ("M-." . my:jump-to-definition)
-             ("M-," . xref-pop-marker-stack)))
+             ("M-," . xref-pop-marker-stack)
+             ("C-c C-r u" . my:cider:unalias)))
 
 (use-package clj-refactor
   :ensure t

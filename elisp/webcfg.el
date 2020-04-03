@@ -26,7 +26,7 @@
 
 (use-package web-mode
   :ensure t
-  :mode (("\\.js\\'" . web-mode)
+  :mode (("\\.jsx?\\'" . web-mode)
          ("\\.html?\\'" . web-mode))
   :hook
   (web-mode .
@@ -35,11 +35,10 @@
                   (web-mode-set-content-type "jsx")
                 (message "now set to: %s" web-mode-content-type))))
   :config
-  (progn
-    (setq web-mode-enable-auto-closing t)
-    (setq web-mode-enable-auto-pairing t)
-    (setq web-mode-code-indent-offset 2)
-    (setq web-mode-markup-indent-offset 2)))
+  (setq web-mode-enable-auto-closing t)
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2))
 
 
 (use-package restclient
@@ -48,20 +47,20 @@
 
 (use-package diminish :ensure t)
 
-(use-package flow-minor-mode
-  :ensure t
-  :config
-  (diminish 'flow-minor-mode)
+;; (use-package flow-minor-mode
+;;   :ensure t
+;;   :config
+;;   (diminish 'flow-minor-mode)
 
-  :hook
-  (web-mode .
-            (lambda ()
-              (if (or (equal web-mode-content-type "javascript")
-                      (equal web-mode-content-type "jsx"))
-                  (flow-minor-enable-automatically))))
-  (js-jsx-mode . flow-minor-enable-automatically))
+;;   :hook
+;;   (web-mode .
+;;             (lambda ()
+;;               (if (or (equal web-mode-content-type "javascript")
+;;                       (equal web-mode-content-type "jsx"))
+;;                   (flow-minor-enable-automatically))))
+;;   (js-jsx-mode . flow-minor-enable-automatically))
 
-(use-package company-flow :ensure t)
+;; (use-package company-flow :ensure t)
 
 (use-package company
   :ensure t
@@ -73,14 +72,24 @@
   :config
   (setq js-indent-level 2))
 
-(use-package flycheck-flow :ensure t)
+;; (use-package flycheck-flow :ensure t)
 
-(use-package flycheck
+;; (use-package flycheck
+;;   :ensure t
+;;   :config
+;;   (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
+;;   (flycheck-add-mode 'javascript-eslint 'flow-minor-mode)
+;;   (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
+
+(use-package lsp-mode
   :ensure t
-  :config
-  (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
-  (flycheck-add-mode 'javascript-eslint 'flow-minor-mode)
-  (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
+  :defines (lsp-clients-flow-server lsp-clients-flow-server-args)
+  :hook
+  (web-mode . (lambda ()
+                (if (or (equal web-mode-content-type "javascript")
+                      (equal web-mode-content-type "jsx"))
+                    (lsp))))
+  (js-jsx-mode . lsp))
 
 (provide 'webcfg)
 ;;; webcfg.el ends here

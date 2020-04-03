@@ -27,17 +27,33 @@
 ;; Shared packages config (probably shared with other languages
 (use-package company :ensure t)
 
-(use-package company-jedi
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-jedi))
+;; (use-package company-jedi
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'company-backends 'company-jedi))
 
-(use-package flycheck :ensure t)
+;; (use-package flycheck :ensure t)
+
+(use-package lsp-mode :ensure t)
 
 (use-package python-mode
   :ensure t
+  :after (lsp)
   :hook
-  (python-mode . (lambda () (set-fill-column 79))))
+  (python-mode . lsp))
+
+(use-package toml-mode
+  :ensure t
+  :mode ("Pipfile" . toml-mode))
+
+(use-package pipenv
+  :ensure t
+  :defines pipenv-projectile-after-switch-function
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended))
 
 (provide 'pycfg)
 ;;; pycfg.el ends here

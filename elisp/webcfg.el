@@ -27,6 +27,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.jsx?\\'" . web-mode)
+         ("\\.tsx?\\'" . web-mode)
          ("\\.html?\\'" . web-mode))
   :hook
   (web-mode .
@@ -83,13 +84,17 @@
 
 (use-package lsp-mode
   :ensure t
-  :defines (lsp-clients-flow-server lsp-clients-flow-server-args)
   :hook
   (web-mode . (lambda ()
                 (if (or (equal web-mode-content-type "javascript")
                       (equal web-mode-content-type "jsx"))
                     (lsp))))
   (js-jsx-mode . lsp))
+
+(use-package lsp-clients
+  :after (lsp-mode)
+  :config
+  (add-to-list 'lsp-clients-typescript-server-args "--jsx"))
 
 (provide 'webcfg)
 ;;; webcfg.el ends here

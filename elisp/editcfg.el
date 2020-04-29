@@ -207,5 +207,7 @@ point reaches the beginning or end of the buffer, stop there."
   :config
   (which-key-mode))
 
+(use-package eldoc :ensure t)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

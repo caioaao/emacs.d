@@ -29,7 +29,8 @@
   :init
   (setq lsp-enable-xref t)
   (setq lsp-enable-indentation nil)
-  (setq lsp-enable-completion-at-point nil))
+  (setq lsp-enable-completion-at-point nil)
+  (setq lsp-prefer-flymake t))
 
 (use-package company-lsp
   :ensure t

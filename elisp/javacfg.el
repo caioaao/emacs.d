@@ -37,7 +37,7 @@
 
 (use-package lsp-java
   :ensure t
-  :after lsp
+  :after (lsp)
   :hook
   (java-mode . lsp))
 

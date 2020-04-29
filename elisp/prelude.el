@@ -52,5 +52,7 @@
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("LANG" "LC_ALL")))
 
+(setq gc-cons-threshold 100000000)
+
 (provide 'prelude)
 ;;; prelude.el ends here

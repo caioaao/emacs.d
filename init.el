@@ -99,6 +99,7 @@
 (require 'javacfg)
 (require 'gocfg)
 (require 'sqlcfg)
+(require 'dartcfg)
 
 (use-package protobuf-mode
   :ensure t

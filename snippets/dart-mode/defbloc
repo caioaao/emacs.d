@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Bloc boilerplate
+# key: defbloc
+# --
+import 'package:bloc/bloc.dart';
+
+class ${1:BaseName}Bloc extends Bloc<$1BlocEvent, $1BlocState> {
+  @override
+  $1BlocState get initialState => $1BlocIdle();
+
+  @override
+  Stream<$1BlocState> mapEventToState($1BlocEvent event) async* {}
+}
+
+abstract class $1BlocEvent {}
+
+abstract class $1BlocState {}
+
+class $1BlocIdle implements $1BlocState {}

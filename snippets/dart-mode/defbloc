@@ -3,6 +3,8 @@
 # key: defbloc
 # --
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 
 class ${1:BaseName}Bloc extends Bloc<$1BlocEvent, $1BlocState> {
   @override
@@ -12,8 +14,21 @@ class ${1:BaseName}Bloc extends Bloc<$1BlocEvent, $1BlocState> {
   Stream<$1BlocState> mapEventToState($1BlocEvent event) async* {}
 }
 
-abstract class $1BlocEvent {}
+@immutable
+abstract class $1BlocEvent with EquatableMixin {
+  @override
+  bool get stringify => true;
 
-abstract class $1BlocState {}
+  @override
+  List<Object> get props => [];
+}
 
-class $1BlocIdle implements $1BlocState {}
+abstract class $1BlocState with EquatableMixin {
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [];
+}
+
+class $1BlocIdle extends $1BlocState {}

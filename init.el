@@ -89,6 +89,7 @@
 (require 'cljcfg)
 (require 'cpcfg)
 (require 'clcfg)
+(require 'ocamlcfg)
 (require 'rustcfg)
 (require 'ispellcfg)
 (require 'utils)

@@ -31,6 +31,9 @@
   :config (load-theme 'doom-nord t))
 
 ;; customizing UI
+(setq default-frame-alist '((undecorated . t)
+                            (drag-internal-border . 1)
+                            (internal-border-width . 5)))
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -39,6 +42,7 @@
 (setq-default inhibit-startup-screen t)
 (setq-default initial-scratch-message nil)
 (setq-default fill-column 80)
+(setq-default ns-auto-hide-menu-bar t)
 
 (define-globalized-minor-mode
   global-colnum-mode column-number-mode (lambda ()

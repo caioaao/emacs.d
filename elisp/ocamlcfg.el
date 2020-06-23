@@ -1,9 +1,9 @@
-;;; dartcfg.el ---                                   -*- lexical-binding: t; -*-
+;;; ocamlcfg.el ---                                  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  Caio Oliveira
+;; Copyright (C) 2020
 
-;; Author: Caio Oliveira
-;; Keywords:
+;; Author:  Caio
+;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,29 +20,20 @@
 
 ;;; Commentary:
 
-;;
+;; 
 
 ;;; Code:
 
-(use-package dart-mode :ensure t
-  :after (lsp)
-  :hook
-  (dart-mode . lsp)
-  :init
-  (add-hook 'before-save-hook 'lsp-format-buffer nil :LOCAL))
-
-(use-package flutter
-  :ensure t
-  :after dart-mode
-  :bind (:map dart-mode-map
-              ("C-M-x" . #'flutter-run-or-hot-reload)))
+(use-package tuareg :ensure t)
 
 (use-package lsp-mode
-  :ensure t
-  :defines lsp-dart-sdk-dir
-  :config
-  (require 'lsp-dart)
-  (setq lsp-dart-sdk-dir "/opt/flutter/bin/cache/dart-sdk/"))
+  :hook (tuareg-mode . lsp))
 
-(provide 'dartcfg)
-;;; dartcfg.el ends here
+(use-package dune :ensure t
+  :mode ("dune-project\\'" . dune-mode))
+
+(use-package paredit
+  :hook (dune-mode . paredit-mode))
+
+(provide 'ocamlcfg)
+;;; ocamlcfg.el ends here

@@ -24,7 +24,6 @@
 
 ;;; Code:
 
-
 ;; theme
 (use-package doom-themes
   :ensure t

@@ -190,10 +190,7 @@ point reaches the beginning or end of the buffer, stop there."
 (setq auto-insert-query nil)
 
 ;; deleting trailing whitespaces
-(add-hook 'before-save-hook
-          (lambda ()
-            (set (make-local-variable 'delete-trailing-lines) nil)
-            (delete-trailing-whitespace)))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; reenabling useful functions
 (put 'downcase-region 'disabled nil)

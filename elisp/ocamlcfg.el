@@ -3,7 +3,7 @@
 ;; Copyright (C) 2020
 
 ;; Author:  Caio
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,20 +20,21 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
 (use-package tuareg :ensure t)
-
-(use-package lsp-mode
-  :hook (tuareg-mode . lsp))
 
 (use-package dune :ensure t
   :mode ("dune-project\\'" . dune-mode))
 
 (use-package paredit
   :hook (dune-mode . paredit-mode))
+
+(defun my:ocaml-exec-competitive ()
+  (interactive)
+  (compile "ocamlopt nums.cmxa str.cmxa -pp camlp4o -unsafe -o sol.exe-ocaml in.txt | tee out.txt"))
 
 (provide 'ocamlcfg)
 ;;; ocamlcfg.el ends here

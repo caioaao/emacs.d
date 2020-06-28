@@ -30,7 +30,13 @@
   (setq lsp-enable-xref t)
   (setq lsp-enable-indentation nil)
   (setq lsp-enable-completion-at-point nil)
-  (setq lsp-prefer-flymake t))
+  (setq lsp-prefer-flymake t)
+  :hook
+  (hack-local-variables
+   . (lambda ()
+       (when (derived-mode-p
+              'tuareg-mode)
+         (lsp)))))
 
 (use-package company-lsp
   :ensure t

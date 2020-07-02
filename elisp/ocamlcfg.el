@@ -32,9 +32,18 @@
 (use-package paredit
   :hook (dune-mode . paredit-mode))
 
+(use-package lsp-mode
+  :config
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "reason-language-server")
+                    :major-modes '(reason-mode)
+                    :notification-handlers (ht ("client/registerCapability" 'ignore))
+                    :priority 1
+                    :server-id 'reason-ls)))
+
 (defun my:ocaml-exec-competitive ()
   (interactive)
-  (compile "ocamlopt nums.cmxa str.cmxa -pp camlp4o -unsafe -o sol.exe-ocaml in.txt | tee out.txt"))
+  (compile "ocamlfind ocamlopt nums.cmxa str.cmxa -pp camlp4o -unsafe sol.ml -o sol.exe-ocaml && ./sol.exe-ocaml < in.txt | tee out.txt"))
 
 (provide 'ocamlcfg)
 ;;; ocamlcfg.el ends here

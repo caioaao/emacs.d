@@ -28,5 +28,8 @@
   :ensure t
   :mode ("\\.gv\\'" . graphviz-dot-mode))
 
+(use-package org-src
+  :config (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot)))
+
 (provide 'dotcfg)
 ;;; dotcfg.el ends here

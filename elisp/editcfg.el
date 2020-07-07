@@ -206,5 +206,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package eldoc :ensure t)
 
+(use-package rainbow-mode :ensure t)
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

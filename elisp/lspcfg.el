@@ -35,7 +35,8 @@
   (hack-local-variables
    . (lambda ()
        (when (derived-mode-p
-              'tuareg-mode)
+              'tuareg-mode
+              'reason-mode)
          (lsp)))))
 
 (use-package company-lsp

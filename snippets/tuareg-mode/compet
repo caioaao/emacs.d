@@ -15,7 +15,9 @@ let sf = Scanf.scanf
 let ssf = Scanf.sscanf
 
 let read_int () = sf "%d " (fun x -> x)
+let read_int64 () = sf "%ld " (fun x -> x)
 let read_float () = sf "%f " (fun x -> x)
+let read_list read n = for i = 1 to n do read () done
 let read_array read n = A.init n (fun _ -> read ())
 let err s = raise (Failure s)
 

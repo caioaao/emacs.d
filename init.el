@@ -50,6 +50,7 @@
 ;; Adding package paths
 (add-to-list 'load-path elisp-folder)
 (add-to-list 'load-path local-elisp-folder)
+(add-to-list 'load-path (concat elisp-folder "/vendor"))
 (dolist (filepath (directory-files (expand-file-name "~/.emacs.d/vendor")
                                    t "^[a-zA-Z0-9]" nil))
         (add-to-list 'load-path filepath))

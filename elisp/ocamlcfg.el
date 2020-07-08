@@ -29,6 +29,8 @@
 (use-package dune :ensure t
   :mode ("dune-project\\'" . dune-mode))
 
+(use-package utop :ensure t)
+
 (use-package paredit
   :hook (dune-mode . paredit-mode))
 

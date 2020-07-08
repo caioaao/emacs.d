@@ -75,6 +75,7 @@
 
 (add-hook 'prog-mode-hook (lambda () (show-paren-mode 1)))
 (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+(set-face-attribute 'show-paren-mismatch nil :weight 'extra-bold)
 
 ;; fic-mode
 (use-package fic-mode

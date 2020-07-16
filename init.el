@@ -102,6 +102,7 @@
 (require 'gocfg)
 (require 'sqlcfg)
 (require 'dartcfg)
+(require 'dotcfg)
 
 (use-package protobuf-mode
   :ensure t

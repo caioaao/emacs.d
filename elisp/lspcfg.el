@@ -43,5 +43,11 @@
   :ensure t
   :config (push 'company-lsp company-backends))
 
+(use-package lsp-ui
+  :ensure t
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-sideline-enable nil))
+
 (provide 'lspcfg)
 ;;; lspcfg.el ends here

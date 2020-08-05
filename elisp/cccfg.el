@@ -25,61 +25,63 @@
 ;;; Code:
 
 ;; cc-mode
-(use-package cc-mode
-  :ensure t
+(use-package cc-mode :ensure t
   :hook
   (c-c++-mode . (lambda () (setq require-final-newline t)))
   :init
   (setq c-default-style "linux"
         c-basic-offset 4))
 
-(use-package flycheck
-  :ensure t
-  :hook
-  (c++-mode . (lambda () (setq flycheck-gcc-language-standard "c++11"))))
-;; auto complete
-;; (require 'auto-complete-clang)
+(use-package lsp-mode
+  :hook (c-c++-mode . lsp))
 
-;; ggtags
-(use-package ggtags
-  :ensure t
-  :hook
-  (dired-mode . (lambda () (ggtags-mode 1)))
-  (c-mode . (lambda () (ggtags-mode 1)))
-  (c++-mode . (lambda () (ggtags-mode 1)))
-  :bind
-  (:map ggtags-mode-map
-        ("C-c g s" . ggtags-find-other-symbol)
-        ("C-c g h" . ggtags-view-tag-history)
-        ("C-c g r" . ggtags-find-reference)
-        ("C-c g f" . ggtags-find-file)
-        ("C-c g c" . ggtags-create-tags)
-        ("C-c g u" . ggtags-update-tags)
-        ("M-," . pop-tag-mark))
-  :init
-  (setq ggtags-oversize-limit (* 1 1024 1024)))
+;; (use-package flycheck
+;;   :ensure t
+;;   :hook
+;;   (c++-mode . (lambda () (setq flycheck-gcc-language-standard "c++11"))))
+;; ;; auto complete
+;; ;; (require 'auto-complete-clang)
 
-(use-package semantic
-  :ensure t
-  :init
-  (setq semantic-c-obey-conditional-section-parsing-flag nil)
-  :config
-  (global-semanticdb-minor-mode 1)
-  (global-semantic-idle-scheduler-mode 1)
-  (global-semantic-stickyfunc-mode 1)
-  (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'c++-mode))
+;; ;; ggtags
+;; (use-package ggtags
+;;   :ensure t
+;;   :hook
+;;   (dired-mode . (lambda () (ggtags-mode 1)))
+;;   (c-mode . (lambda () (ggtags-mode 1)))
+;;   (c++-mode . (lambda () (ggtags-mode 1)))
+;;   :bind
+;;   (:map ggtags-mode-map
+;;         ("C-c g s" . ggtags-find-other-symbol)
+;;         ("C-c g h" . ggtags-view-tag-history)
+;;         ("C-c g r" . ggtags-find-reference)
+;;         ("C-c g f" . ggtags-find-file)
+;;         ("C-c g c" . ggtags-create-tags)
+;;         ("C-c g u" . ggtags-update-tags)
+;;         ("M-," . pop-tag-mark))
+;;   :init
+;;   (setq ggtags-oversize-limit (* 1 1024 1024)))
 
-(use-package cedet
-  :ensure t)
+;; (use-package semantic
+;;   :ensure t
+;;   :init
+;;   (setq semantic-c-obey-conditional-section-parsing-flag nil)
+;;   :config
+;;   (global-semanticdb-minor-mode 1)
+;;   (global-semantic-idle-scheduler-mode 1)
+;;   (global-semantic-stickyfunc-mode 1)
+;;   (semanticdb-enable-gnu-global-databases 'c-mode)
+;;   (semanticdb-enable-gnu-global-databases 'c++-mode))
 
-(defun cccfg:cedet-hook ()
-  (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
-  (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))
+;; (use-package cedet
+;;   :ensure t)
 
-(add-hook 'c-mode-common-hook 'cccfg:cedet-hook)
-(add-hook 'c-mode-hook 'cccfg:cedet-hook)
-(add-hook 'c++-mode-hook 'cccfg:cedet-hook)
+;; (defun cccfg:cedet-hook ()
+;;   (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
+;;   (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))
+
+;; (add-hook 'c-mode-common-hook 'cccfg:cedet-hook)
+;; (add-hook 'c-mode-hook 'cccfg:cedet-hook)
+;; (add-hook 'c++-mode-hook 'cccfg:cedet-hook)
 
 ;; (use-package ansi-color :ensure t)
 ;; (defun colorize-compilation-buffer ()

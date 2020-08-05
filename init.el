@@ -102,6 +102,8 @@
 (require 'gocfg)
 (require 'sqlcfg)
 (require 'dartcfg)
+(require 'inocfg)
+(require 'cmakecfg)
 
 (use-package protobuf-mode
   :ensure t

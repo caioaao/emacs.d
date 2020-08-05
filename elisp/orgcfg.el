@@ -49,7 +49,8 @@
                              (gtd-someday-p :level . 1)
                              (gtd-tickler-p :maxlevel . 2)))
   (setq org-confirm-babel-evaluate nil)
-  (setq org-export-use-babel nil)
+  (setq org-src-preserve-indentation nil
+        org-edit-src-content-indentation 0)
 
   :hook
   (org-babel-after-execute . org-redisplay-inline-images)

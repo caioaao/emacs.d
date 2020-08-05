@@ -24,36 +24,29 @@
 
 ;;; Code:
 
-;; Shared packages config (probably shared with other languages
 (use-package company :ensure t)
 
-;; (use-package company-jedi
-;;   :ensure t
-;;   :config
-;;   (add-to-list 'company-backends 'company-jedi))
+(use-package lsp-mode :ensure t
+  :defines lsp-clients-python-library-directories
+  :config
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection
+                                     (lambda () '("pipenv" "run" "pyls")))
+                    :major-modes '(python-mode cython-mode)
+                    :priority -2
+                    :server-id 'pipenv-pyls
+                    :library-folders-fn (lambda (_workspace) lsp-clients-python-library-directories))))
 
-;; (use-package flycheck :ensure t)
-
-(use-package lsp-mode :ensure t)
-
-(use-package python-mode
-  :ensure t
+(use-package python-mode :ensure t
   :after (lsp)
   :hook
   (python-mode . lsp))
 
-(use-package toml-mode
-  :ensure t
+(use-package toml-mode :ensure t
   :mode ("Pipfile" . toml-mode))
 
-(use-package pipenv
-  :ensure t
-  :defines pipenv-projectile-after-switch-function
-  :hook (python-mode . pipenv-mode)
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-extended))
+(use-package pipenv :ensure t
+  :hook (python-mode . pipenv-mode))
 
 (provide 'pycfg)
 ;;; pycfg.el ends here

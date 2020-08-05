@@ -104,6 +104,7 @@
 (require 'dartcfg)
 (require 'inocfg)
 (require 'cmakecfg)
+(require 'dotcfg)
 
 (use-package protobuf-mode
   :ensure t

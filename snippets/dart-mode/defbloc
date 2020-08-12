@@ -15,20 +15,12 @@ class ${1:BaseName}Bloc extends Bloc<$1BlocEvent, $1BlocState> {
 }
 
 @immutable
-abstract class $1BlocEvent with EquatableMixin {
-  @override
-  bool get stringify => true;
+abstract class $1BlocEvent extends Equatable {}
 
-  @override
-  List<Object> get props => [];
-}
+@immutable
+abstract class $1BlocState extends Equatable {}
 
-abstract class $1BlocState with EquatableMixin {
-  @override
-  bool get stringify => true;
-
+class $1BlocIdle extends $1BlocState {
   @override
   List<Object> get props => [];
 }
-
-class $1BlocIdle extends $1BlocState {}

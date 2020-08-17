@@ -208,5 +208,9 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package rainbow-mode :ensure t)
 
+(use-package dired
+  :config
+  (setq dired-listing-switches "-alh"))
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

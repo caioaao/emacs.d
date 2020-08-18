@@ -92,9 +92,10 @@
   (js-jsx-mode . lsp))
 
 (use-package lsp-clients
-  :after (lsp-mode)
+  :after (lsp)
+  :defines lsp-clients-typescript-javascript-server-args
   :config
-  (add-to-list 'lsp-clients-typescript-server-args "--jsx"))
+  (add-to-list 'lsp-clients-typescript-javascript-server-args "--jsx"))
 
 (use-package ts-comint
   :ensure t

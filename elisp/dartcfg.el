@@ -38,10 +38,12 @@
               ("C-M-x" . #'flutter-run-or-hot-reload)))
 
 (use-package lsp-mode
-  :ensure t
+  :ensure t)
+
+(use-package lsp-dart
+  :after (lsp)
   :defines lsp-dart-sdk-dir
   :config
-  (require 'lsp-dart)
   (setq lsp-dart-sdk-dir "/opt/flutter/bin/cache/dart-sdk/"))
 
 (provide 'dartcfg)

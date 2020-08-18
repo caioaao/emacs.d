@@ -29,8 +29,7 @@
   :init
   (setq lsp-enable-xref t)
   (setq lsp-enable-indentation nil)
-  (setq lsp-enable-completion-at-point nil)
-  (setq lsp-prefer-flymake t)
+  (setq lsp-completion-enable nil)
   :hook
   (hack-local-variables
    . (lambda ()

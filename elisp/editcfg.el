@@ -204,7 +204,9 @@ point reaches the beginning or end of the buffer, stop there."
   :config
   (which-key-mode))
 
-(use-package eldoc :ensure t)
+(use-package eldoc :ensure t
+  :config
+  (global-eldoc-mode 1))
 
 (use-package rainbow-mode :ensure t)
 

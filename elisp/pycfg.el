@@ -48,5 +48,7 @@
 (use-package pipenv :ensure t
   :hook (python-mode . pipenv-mode))
 
+(use-package jupyter :ensure t)
+
 (provide 'pycfg)
 ;;; pycfg.el ends here

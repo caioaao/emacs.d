@@ -24,16 +24,12 @@
 
 ;;; Code:
 
-(use-package diminish
-  :ensure t)
-
 (use-package sql-indent
   :ensure t
   :pin gnu
   :hook
   (sql-mode . sqlind-minor-mode)
-  :config
-  (diminish 'sqlind-minor-mode))
+  :diminish sqlind-minor-mode)
 
 
 

@@ -79,11 +79,11 @@
 (use-package clj-refactor
   :ensure t
   :hook (clojure-mode . clj-refactor-mode)
+  :diminish clj-refactor-mode
   :config
   (cljr-add-keybindings-with-prefix "C-c C-o")
   (setq cljr-favor-prefix-notation nil)
-  (setq cljr-auto-clean-ns t)
-  (diminish 'clj-refactor-mode))
+  (setq cljr-auto-clean-ns t))
 
 (use-package clojure-snippets :ensure t)
 

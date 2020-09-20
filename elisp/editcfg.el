@@ -24,7 +24,9 @@
 
 ;;; Code:
 
-(use-package diminish :ensure t)
+(use-package diminish :ensure t
+  :config
+  (diminish 'auto-revert-mode))
 
 ;; Indent using spaces only
 (setq-default indent-tabs-mode nil)
@@ -32,7 +34,6 @@
 (setq-default c-basic-offset 4)
 
 (global-auto-revert-mode 1)
-(diminish 'auto-revert-mode)
 
 ;; better scrolling
 (setq scroll-step 1)
@@ -42,22 +43,21 @@
 ; together)
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
-  (progn
-    (yas-global-mode 1)
-    ;; Fix yasnippet 0.8/ac bug
-    (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
-    (defalias 'yas/table-hash 'yas--table-hash)
-    (setq yas-snippet-dirs (append yas-snippet-dirs
-                                   '("~/.emacs.d/snippets")))
-    (diminish 'yas-minor-mode)))
+  (yas-global-mode 1)
+  ;; Fix yasnippet 0.8/ac bug
+  (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
+  (defalias 'yas/table-hash 'yas--table-hash)
+  (setq yas-snippet-dirs (append yas-snippet-dirs
+                                 '("~/.emacs.d/snippets"))))
 
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :config
-  (progn (global-undo-tree-mode 1)
-         (diminish 'undo-tree-mode)))
+  (global-undo-tree-mode 1))
 
 ;; from Emacs Prelude (https://github.com/bbatsov/prelude)
 ;; Unfortunatelly, Prelude core library is not available as package :(
@@ -107,9 +107,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package anzu
   :ensure t
-  :config (progn
-            (global-anzu-mode 1)
-            (diminish 'anzu-mode)))
+  :diminish anzu-mode
+  :config (global-anzu-mode 1))
 
 (use-package avy
   :ensure t
@@ -123,15 +122,13 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package flycheck
   :ensure t
-  :config (diminish 'flycheck-mode))
+  :diminish flycheck-mode)
 
 (use-package flyspell
   :ensure t
   :hook ((prog-mode . flyspell-prog-mode)
          (text-mode . flyspell-mode))
-  :config (progn
-            (diminish 'flyspell-mode)
-            (diminish 'flyspell-prog-mode)))
+  :diminish flyspell-mode flyspell-prog-mode)
 
 ;; better *help* buffer
 (use-package helpful
@@ -147,12 +144,11 @@ point reaches the beginning or end of the buffer, stop there."
   :bind ("C-<tab>" . company-complete)
   :config
   (global-company-mode 1)
-  (diminish 'company-mode))
+  :diminish company-mode)
 
 (use-package paredit
   :ensure t
-  :config
-  (diminish 'paredit-mode))
+  :diminish paredit-mode)
 
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 (global-set-key (kbd "M-x") nil)
@@ -164,19 +160,17 @@ point reaches the beginning or end of the buffer, stop there."
   :ensure t
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
+  :diminish projectile-mode
   :config
-  (progn
-    (projectile-mode 1)
-    (diminish 'projectile-mode)
-    (setq projectile-enable-caching t)
-    (setq projectile-git-submodule-command "")))
+  (projectile-mode 1)
+  (setq projectile-enable-caching t)
+  (setq projectile-git-submodule-command ""))
 
 (use-package helm-projectile
   :ensure t
   :config
-  (progn
-    (helm-projectile-on)
-    (setq projectile-completion-system 'helm)))
+  (helm-projectile-on)
+  (setq projectile-completion-system 'helm))
 
 (use-package helm-ag :ensure t)
 
@@ -205,6 +199,7 @@ point reaches the beginning or end of the buffer, stop there."
   (which-key-mode))
 
 (use-package eldoc :ensure t
+  :diminish eldoc-mode
   :config
   (global-eldoc-mode 1))
 

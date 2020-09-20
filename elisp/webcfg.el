@@ -46,8 +46,6 @@
   :ensure t
   :mode ("\\.http\\'" . restclient-mode))
 
-(use-package diminish :ensure t)
-
 ;; (use-package flow-minor-mode
 ;;   :ensure t
 ;;   :config

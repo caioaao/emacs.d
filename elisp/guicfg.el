@@ -42,6 +42,7 @@
 (setq-default initial-scratch-message nil)
 (setq-default fill-column 80)
 (setq-default ns-auto-hide-menu-bar t)
+(setq max-mini-window-height 0.1)
 
 (define-globalized-minor-mode
   global-colnum-mode column-number-mode (lambda ()
@@ -94,8 +95,9 @@
             (spaceline-emacs-theme)
             (spaceline-helm-mode)))
 
-(add-hook 'eldoc-mode-hook (lambda () (diminish 'eldoc-mode)))
-(add-hook 'auto-revert-mode-hook (lambda () (diminish 'auto-revert-mode)))
+(use-package diminish :ensure t
+  :hook
+  (auto-revert-mode . (lambda () (diminish 'auto-revert-mode))))
 
 (provide 'guicfg)
 ;;; guicfg.el ends here

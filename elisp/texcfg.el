@@ -27,9 +27,8 @@
 (use-package tex-mode
   :ensure t
   :config
-  (progn
-    (setq latex-run-command "pdflatex")
-    (setq tex-dvi-view-command "evince")))
+  (setq latex-run-command "pdflatex")
+  (setq tex-dvi-view-command "evince"))
 
 (provide 'texcfg)
 ;;; texcfg.el ends here

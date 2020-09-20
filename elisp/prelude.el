@@ -43,6 +43,8 @@
 ;; yes or no becomes y or n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(use-package eglot :ensure t)
+
 (use-package diminish :ensure t)
 
 (use-package exec-path-from-shell
@@ -51,6 +53,10 @@
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("LANG" "LC_ALL")))
+
+(use-package major-mode-hydra :ensure t
+  :demand t
+  :bind ("M-SPC" . major-mode-hydra))
 
 (setq gc-cons-threshold 100000000)
 

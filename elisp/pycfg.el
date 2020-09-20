@@ -26,27 +26,48 @@
 
 (use-package company :ensure t)
 
-(use-package lsp-mode :ensure t
-  :defines lsp-clients-python-library-directories
-  :config
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection
-                                     (lambda () '("pipenv" "run" "pyls")))
-                    :major-modes '(python-mode cython-mode)
-                    :priority -2
-                    :server-id 'pipenv-pyls
-                    :library-folders-fn (lambda (_workspace) lsp-clients-python-library-directories))))
+(use-package py-isort :ensure t
+  :commands (py-isort-buffer py-isort-region))
+
+(use-package blacken :ensure t)
+
+(use-package python-pytest :ensure t
+  :bind (("C-c C-x t" . python-pytest-dispatch)))
 
 (use-package python-mode :ensure t
-  :after (lsp)
-  :hook
-  (python-mode . lsp))
+  :after (eglot)
+  :hook (python-mode . eglot-ensure)
+  :mode-hydra
+  ("Nav"
+   (("n" python-nav-forward-defun "next-defun" :exit nil)
+    ("p" python-nav-backward-defun "prev-defun" :exit nil))
+   "Errors"
+   (("<" flycheck-previous-error "prev" :exit nil)
+    (">" flycheck-next-error "next" :exit nil)
+    ("l" flycheck-list-errors "list"))
+   "Env"
+   (("a" pipenv-activate "pipenv-activate" :exit nil)
+    ("d" pipenv-deactivate "pipenv-deactivate" :exit nil)
+    ("w" pyvenv-workon "workon...")
+    ("s" run-python "pyshell"))
+   "Tools"
+   (("f" blacken-buffer "reformat")
+    ("i" py-isort-buffer "sort imports"))
+   "Test"
+   (("t" python-pytest-popup "pytest..."))))
 
 (use-package toml-mode :ensure t
   :mode ("Pipfile" . toml-mode))
 
 (use-package pipenv :ensure t
-  :hook (python-mode . pipenv-mode))
+  :defer t
+  :hook (python-mode . pipenv-mode)
+  :diminish pipenv-mode
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-default)
+  (setq pipenv-keymap-prefix (kbd "C-c C-o")))
 
 (use-package jupyter :ensure t)
 

@@ -37,6 +37,8 @@
 (use-package python-mode :ensure t
   :after (eglot)
   :hook (python-mode . eglot-ensure)
+  :config
+  (setq eldoc-message-function 'eldoc-minibuffer-message)
   :mode-hydra
   ("Nav"
    (("n" python-nav-forward-defun "next-defun" :exit nil)

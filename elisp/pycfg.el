@@ -34,9 +34,8 @@
 (use-package python-pytest :ensure t
   :bind (("C-c C-x t" . python-pytest-dispatch)))
 
-(use-package python-mode :ensure t
+(use-package python
   :after (eglot)
-  :hook (python-mode . eglot-ensure)
   :config
   (setq eldoc-message-function 'eldoc-minibuffer-message)
   :mode-hydra
@@ -63,7 +62,10 @@
 
 (use-package pipenv :ensure t
   :defer t
-  :hook (python-mode . pipenv-mode)
+  :after (eglot)
+  :hook
+  (python-mode . pipenv-mode)
+  (pipenv-mode . eglot-ensure)
   :diminish pipenv-mode
   :init
   (setq

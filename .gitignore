@@ -47,3 +47,6 @@ bookmarks
 anaconda-mode/
 games/
 xkcd/
+.cache/
+.lsp-session*
+transient/

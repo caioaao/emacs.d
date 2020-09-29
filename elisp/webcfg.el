@@ -24,7 +24,12 @@
 
 ;;; Code:
 
+(use-package eglot :ensure t
+  :config
+  (add-to-list 'eglot-server-programs '(web-mode "javascript-typescript-stdio")))
+
 (use-package web-mode
+  :after (eglot)
   :ensure t
   :mode (("\\.jsx?\\'" . web-mode)
          ("\\.tsx?\\'" . web-mode)
@@ -35,6 +40,7 @@
               (if (equal web-mode-content-type "javascript")
                   (web-mode-set-content-type "jsx")
                 (message "now set to: %s" web-mode-content-type))))
+  (web-mode . eglot-ensure)
   :config
   (setq web-mode-enable-auto-closing t)
   (setq web-mode-enable-auto-pairing t)
@@ -79,15 +85,6 @@
 ;;   (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
 ;;   (flycheck-add-mode 'javascript-eslint 'flow-minor-mode)
 ;;   (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
-
-(use-package lsp-mode
-  :ensure t
-  :hook
-  (web-mode . (lambda ()
-                (if (or (equal web-mode-content-type "javascript")
-                      (equal web-mode-content-type "jsx"))
-                    (lsp))))
-  (js-jsx-mode . lsp))
 
 (use-package lsp-clients
   :after (lsp)

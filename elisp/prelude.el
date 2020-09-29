@@ -60,5 +60,8 @@
 
 (setq gc-cons-threshold 100000000)
 
+;; Some other modes
+(use-package dockerfile-mode :ensure t)
+
 (provide 'prelude)
 ;;; prelude.el ends here

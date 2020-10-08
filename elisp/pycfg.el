@@ -37,25 +37,30 @@
 (use-package python
   :after (eglot)
   :config
-  (setq eldoc-message-function 'eldoc-minibuffer-message)
-  :mode-hydra
-  ("Nav"
-   (("n" python-nav-forward-defun "next-defun" :exit nil)
-    ("p" python-nav-backward-defun "prev-defun" :exit nil))
-   "Errors"
-   (("<" flycheck-previous-error "prev" :exit nil)
-    (">" flycheck-next-error "next" :exit nil)
-    ("l" flycheck-list-errors "list"))
-   "Env"
-   (("a" pipenv-activate "pipenv-activate" :exit nil)
-    ("d" pipenv-deactivate "pipenv-deactivate" :exit nil)
-    ("w" pyvenv-workon "workon...")
-    ("s" run-python "pyshell"))
-   "Tools"
-   (("f" blacken-buffer "reformat")
-    ("i" py-isort-buffer "sort imports"))
-   "Test"
-   (("t" python-pytest-popup "pytest..."))))
+  (setq eldoc-message-function 'eldoc-minibuffer-message))
+
+(use-package major-mode-hydra
+  :ensure t
+  :config
+  (major-mode-hydra-define python-mode nil
+    ("Nav"
+     (("n" python-nav-forward-defun "next-defun" :exit nil)
+      ("p" python-nav-backward-defun "prev-defun" :exit nil))
+     "Errors"
+     (("<" flycheck-previous-error "prev" :exit nil)
+      (">" flycheck-next-error "next" :exit nil)
+      ("l" flycheck-list-errors "list"))
+     "Env"
+     (("a" pipenv-activate "pipenv-activate" :exit nil)
+      ("d" pipenv-deactivate "pipenv-deactivate" :exit nil)
+      ("w" pyvenv-workon "workon...")
+      ("s" run-python "pyshell"))
+     "Tools"
+     (("f" blacken-buffer "reformat")
+      ("i" py-isort-buffer "sort imports"))
+     "Test"
+     (("t" python-pytest-popup "pytest...")))))
+
 
 (use-package toml-mode :ensure t
   :mode ("Pipfile" . toml-mode))

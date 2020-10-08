@@ -60,6 +60,11 @@
 
 (setq gc-cons-threshold 100000000)
 
+;; direnv setup
+(use-package direnv :ensure t
+  :config
+  (direnv-mode))
+
 ;; Some other modes
 (use-package dockerfile-mode :ensure t)
 

@@ -22,6 +22,10 @@
 
 ;;; Code:
 
+(use-package quelpa :ensure t)
+(use-package quelpa-use-package :ensure t)
+
+
 (defun sorted (xs compare)
   "Non destructive sort.  Return XS sorted by comparing elements with COMPARE."
   (sort (copy-sequence xs) compare))

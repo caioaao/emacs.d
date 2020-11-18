@@ -26,7 +26,7 @@
 
 (use-package eglot :ensure t
   :config
-  (add-to-list 'eglot-server-programs '(web-mode "javascript-typescript-stdio")))
+  (add-to-list 'eglot-server-programs '(web-mode . "javascript-typescript-stdio")))
 
 (use-package web-mode
   :after (eglot)

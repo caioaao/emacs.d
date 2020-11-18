@@ -36,6 +36,8 @@
 
 (use-package python
   :after (eglot)
+  :hook
+  (python-mode . eglot-ensure)
   :config
   (setq eldoc-message-function 'eldoc-minibuffer-message))
 
@@ -64,19 +66,6 @@
 
 (use-package toml-mode :ensure t
   :mode ("Pipfile" . toml-mode))
-
-(use-package pipenv :ensure t
-  :defer t
-  :after (eglot)
-  :hook
-  (python-mode . pipenv-mode)
-  (pipenv-mode . eglot-ensure)
-  :diminish pipenv-mode
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-default)
-  (setq pipenv-keymap-prefix (kbd "C-c C-o")))
 
 (use-package jupyter :ensure t)
 

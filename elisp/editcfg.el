@@ -175,9 +175,6 @@ point reaches the beginning or end of the buffer, stop there."
 (use-package helm-ag :ensure t)
 
 (use-package flymake :ensure t)
-(use-package flycheck
-  :ensure t
-  :hook (after-init . global-flycheck-mode))
 
 (auto-insert-mode)
 (setq auto-insert-directory "~/.emacs.d/templates/")

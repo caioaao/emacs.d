@@ -206,5 +206,10 @@ point reaches the beginning or end of the buffer, stop there."
   :config
   (setq dired-listing-switches "-alh"))
 
+(use-package helm-xref :ensure t
+  :config
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs-27)
+  (setq xref-show-definitions-function 'helm-xref-show-defs-27))
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

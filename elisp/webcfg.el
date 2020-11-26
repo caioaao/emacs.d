@@ -26,7 +26,7 @@
 
 (use-package eglot :ensure t
   :config
-  (add-to-list 'eglot-server-programs '(web-mode . "javascript-typescript-stdio")))
+  (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
 
 (use-package web-mode
   :after (eglot)
@@ -34,6 +34,8 @@
   :mode (("\\.jsx?\\'" . web-mode)
          ("\\.tsx?\\'" . web-mode)
          ("\\.html?\\'" . web-mode))
+  :bind (:map web-mode-map
+              ("C-c C-r" . eglot-code-actions))
   :hook
   (web-mode .
             (lambda ()

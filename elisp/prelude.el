@@ -47,7 +47,8 @@
 ;; yes or no becomes y or n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(use-package eglot :ensure t)
+(use-package eglot :ensure t
+  :bind ("C-c C-r" . eglot-code-actions))
 
 (use-package diminish :ensure t)
 
@@ -60,7 +61,12 @@
 
 (use-package major-mode-hydra :ensure t
   :demand t
-  :bind ("M-SPC" . major-mode-hydra))
+  :bind ("M-SPC" . major-mode-hydra)
+  :config
+  (major-mode-hydra-define prog-mode nil
+    ("Eglot"
+     (("f" eglot-format)
+      ("r" eglot-code-actions)))))
 
 (setq gc-cons-threshold 100000000)
 

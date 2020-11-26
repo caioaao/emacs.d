@@ -44,7 +44,7 @@
 (use-package major-mode-hydra
   :ensure t
   :config
-  (major-mode-hydra-define python-mode nil
+  (major-mode-hydra-define+ python-mode nil
     ("Nav"
      (("n" python-nav-forward-defun "next-defun" :exit nil)
       ("p" python-nav-backward-defun "prev-defun" :exit nil))
@@ -61,7 +61,10 @@
      (("f" blacken-buffer "reformat")
       ("i" py-isort-buffer "sort imports"))
      "Test"
-     (("t" python-pytest-popup "pytest...")))))
+     (("t" python-pytest-popup "pytest..."))
+     "Eglot"
+     (("f" eglot-format)
+      ("r" eglot-code-actions)))))
 
 
 (use-package toml-mode :ensure t

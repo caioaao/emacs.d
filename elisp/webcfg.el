@@ -36,6 +36,12 @@
          ("\\.html?\\'" . web-mode))
   :bind (:map web-mode-map
               ("C-c C-r" . eglot-code-actions))
+
+  :mode-hydra
+  ("Tools"
+   (("e" my:flycheck-hydra/body)
+    ("r" my:eglot-hydra/body)))
+
   :hook
   (web-mode .
             (lambda ()

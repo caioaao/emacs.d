@@ -122,7 +122,14 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package flycheck
   :ensure t
-  :diminish flycheck-mode)
+  :diminish flycheck-mode
+  :config
+  (setq my:flycheck-hydra/body
+        (pretty-hydra-define my:flycheck-hydra ()
+          ("Errors"
+           (("<" flycheck-previous-error "prev" :exit nil)
+            (">" flycheck-next-error "next" :exit nil)
+            ("l" flycheck-list-errors "list"))))))
 
 (use-package flyspell
   :ensure t

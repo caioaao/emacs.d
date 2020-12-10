@@ -48,10 +48,6 @@
     ("Nav"
      (("n" python-nav-forward-defun "next-defun" :exit nil)
       ("p" python-nav-backward-defun "prev-defun" :exit nil))
-     "Errors"
-     (("<" flycheck-previous-error "prev" :exit nil)
-      (">" flycheck-next-error "next" :exit nil)
-      ("l" flycheck-list-errors "list"))
      "Env"
      (("a" pipenv-activate "pipenv-activate" :exit nil)
       ("d" pipenv-deactivate "pipenv-deactivate" :exit nil)
@@ -59,12 +55,11 @@
       ("s" run-python "pyshell"))
      "Tools"
      (("f" blacken-buffer "reformat")
-      ("i" py-isort-buffer "sort imports"))
+      ("i" py-isort-buffer "sort imports")
+      ("r" my:eglot-hydra/body)
+      ("e" my:flycheck-hydra/body))
      "Test"
-     (("t" python-pytest-popup "pytest..."))
-     "Eglot"
-     (("f" eglot-format)
-      ("r" eglot-code-actions)))))
+     (("t" python-pytest-popup "pytest...")))))
 
 
 (use-package toml-mode :ensure t

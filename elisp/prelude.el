@@ -25,6 +25,7 @@
 (use-package quelpa :ensure t)
 (use-package quelpa-use-package :ensure t)
 
+(use-package pretty-hydra :ensure t :demand t)
 
 (defun sorted (xs compare)
   "Non destructive sort.  Return XS sorted by comparing elements with COMPARE."
@@ -48,7 +49,13 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package eglot :ensure t
-  :bind ("C-c C-r" . eglot-code-actions))
+  :bind ("C-c C-r" . eglot-code-actions)
+  :config
+  (setq my:eglot-hydra/body
+        (pretty-hydra-define my:eglot-hydra ()
+          ("Eglot"
+           (("f" eglot-format)
+            ("r" eglot-code-actions))))))
 
 (use-package diminish :ensure t)
 
@@ -61,12 +68,7 @@
 
 (use-package major-mode-hydra :ensure t
   :demand t
-  :bind ("M-SPC" . major-mode-hydra)
-  :config
-  (major-mode-hydra-define prog-mode nil
-    ("Eglot"
-     (("f" eglot-format)
-      ("r" eglot-code-actions)))))
+  :bind ("M-SPC" . major-mode-hydra))
 
 (setq gc-cons-threshold 100000000)
 

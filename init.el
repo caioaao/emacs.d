@@ -114,7 +114,7 @@
 ;; ledger-mode (accounting)
 (use-package ledger-mode
   :ensure t
-  :mode ("\\.ledger$" . ledger-mode))
+  :mode ("\\.\\(ledger\\|dat\\)$" . ledger-mode))
 
 (use-package ledger-helper)
 

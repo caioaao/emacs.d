@@ -36,7 +36,6 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(global-linum-mode 1)
 (global-hl-line-mode 1)
 (setq-default inhibit-startup-screen t)
 (setq-default initial-scratch-message nil)
@@ -91,13 +90,17 @@
 
 (use-package spaceline
   :ensure t
-  :config (progn
-            (spaceline-emacs-theme)
-            (spaceline-helm-mode)))
+  :config
+  (spaceline-emacs-theme)
+  (spaceline-helm-mode))
 
 (use-package diminish :ensure t
   :hook
   (auto-revert-mode . (lambda () (diminish 'auto-revert-mode))))
+
+(use-package nlinum :ensure t
+  :config
+  (global-nlinum-mode 1))
 
 (provide 'guicfg)
 ;;; guicfg.el ends here

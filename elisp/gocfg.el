@@ -34,9 +34,10 @@
 
 (use-package go-mode
   :ensure t
+  :after (eglot)
   :hook
-  (go-mode . (lambda () (local-set-key (kbd "M-.") 'godef-jump)))
-  (before-save . gofmt-before-save))
+  (before-save . gofmt-before-save)
+  (go-mode . eglot-ensure))
 
 (provide 'gocfg)
-;;; gocfj.el ends here
+;;; gocfg.el ends here

@@ -48,5 +48,10 @@
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-sideline-enable nil))
 
+(use-package eglot :ensure t)
+
+(use-package helm-eglot-code-actions
+  :after (eglot))
+
 (provide 'lspcfg)
 ;;; lspcfg.el ends here

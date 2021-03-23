@@ -29,13 +29,13 @@
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
 
 (use-package web-mode
-  :after (eglot)
+  :after (eglot helm-eglot-code-actions)
   :ensure t
   :mode (("\\.jsx?\\'" . web-mode)
-         ("\\.tsx?\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
          ("\\.html?\\'" . web-mode))
   :bind (:map web-mode-map
-              ("C-c C-r" . eglot-code-actions))
+              ("C-c C-r" . helm-eglot-code-actions))
 
   :mode-hydra
   ("Tools"
@@ -55,6 +55,23 @@
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-enable-literal-interpolation t))
+
+(use-package typescript-mode
+  :after (eglot helm-eglot-code-actions)
+  :ensure t
+  :mode (("\\.ts\\'" . typescript-mode))
+  :bind (:map typescript-mode-map
+              ("C-c C-r" . helm-eglot-code-actions))
+
+  :mode-hydra
+  ("Tools"
+   (("e" my:flycheck-hydra/body)
+    ("r" my:eglot-hydra/body)))
+
+  :hook
+  (typescript-mode . eglot-ensure)
+  :config
+  (setq typescript-indent-level 2))
 
 
 (use-package restclient

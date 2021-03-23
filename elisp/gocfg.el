@@ -23,21 +23,22 @@
 
 ;;; Code:
 
-(use-package exec-path-from-shell :ensure t
-  :after (eglot)
-  :hook (go-mode . eglot-ensure)
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "GOPATH")
-    (exec-path-from-shell-copy-env "GOROOT")))
-
 (use-package go-mode
   :ensure t
   :after (eglot)
   :hook
-  (before-save . gofmt-before-save)
   (go-mode . eglot-ensure))
+
+
+(defun my:project-find-go-module (dir)
+    (when-let ((root (locate-dominating-file dir "go.mod")))
+      (cons 'go-module root)))
+
+(use-package project
+  :config
+  (cl-defmethod project-root ((project (head go-module)))
+    (cdr project))
+ (add-hook 'project-find-functions #'my:project-find-go-module))
 
 (provide 'gocfg)
 ;;; gocfg.el ends here

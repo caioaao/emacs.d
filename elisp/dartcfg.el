@@ -25,9 +25,6 @@
 ;;; Code:
 
 (use-package dart-mode :ensure t
-  :after (lsp)
-  :hook
-  (dart-mode . lsp)
   :init
   (add-hook 'before-save-hook 'lsp-format-buffer nil :LOCAL))
 
@@ -37,11 +34,9 @@
   :bind (:map dart-mode-map
               ("C-M-x" . #'flutter-run-or-hot-reload)))
 
-(use-package lsp-mode
-  :ensure t)
-
+(use-package lsp-mode :ensure t)
 (use-package lsp-dart
-  :after (lsp)
+  :hook (dart-mode . lsp)
   :defines lsp-dart-sdk-dir
   :config
   (setq lsp-dart-sdk-dir "/opt/flutter/bin/cache/dart-sdk/"))

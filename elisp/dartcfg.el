@@ -25,21 +25,18 @@
 ;;; Code:
 
 (use-package dart-mode :ensure t
-  :init
-  (add-hook 'before-save-hook 'lsp-format-buffer nil :LOCAL))
+  :after (eglot)
+  :config
+  (add-to-list 'eglot-server-programs
+               '(dart-mode . ("dart" "/opt/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot" "--lsp")))
+  :hook
+  (dart-mode  . eglot-ensure))
 
 (use-package flutter
   :ensure t
   :after dart-mode
   :bind (:map dart-mode-map
               ("C-M-x" . #'flutter-run-or-hot-reload)))
-
-(use-package lsp-mode :ensure t)
-(use-package lsp-dart
-  :hook (dart-mode . lsp)
-  :defines lsp-dart-sdk-dir
-  :config
-  (setq lsp-dart-sdk-dir "/opt/flutter/bin/cache/dart-sdk/"))
 
 (provide 'dartcfg)
 ;;; dartcfg.el ends here

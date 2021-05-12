@@ -141,10 +141,10 @@
 (use-package yaml-mode :ensure t)
 
 ;; set scratch mode to clojure
-(setq initial-major-mode 'clojure-mode)
+(setq initial-major-mode 'markdown-mode)
 
 ;; set default browser
-(setq browse-url-browser-function 'browse-url-chromium)
+(setq browse-url-browser-function 'browse-url-default-browser)
 
 (provide 'init)
 (custom-set-variables

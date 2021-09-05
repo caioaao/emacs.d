@@ -218,5 +218,21 @@ point reaches the beginning or end of the buffer, stop there."
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs-27)
   (setq xref-show-definitions-function 'helm-xref-show-defs-27))
 
+(use-package evil :ensure t
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-tree)
+  (setq evil-want-fine-undo t)
+  :config
+  (evil-mode 1))
+
+
+(use-package evil-collection :ensure t
+  :after (evil)
+  :custom
+  (evil-collection-setup-minibuffer t)
+  :init
+  (evil-collection-init))
+
 (provide 'editcfg)
 ;;; editcfg.el ends here

@@ -46,8 +46,8 @@
   (web-mode .
             (lambda ()
               (if (equal web-mode-content-type "javascript")
-                  (web-mode-set-content-type "jsx")
-                (message "now set to: %s" web-mode-content-type))))
+                  (web-mode-set-content-type "jsx"))
+              (message "now set to: %s" web-mode-content-type)))
   (web-mode . eglot-ensure)
   :config
   (setq web-mode-enable-auto-closing t)

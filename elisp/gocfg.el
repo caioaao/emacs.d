@@ -27,18 +27,24 @@
   :ensure t
   :after (eglot)
   :hook
-  (go-mode . eglot-ensure))
+  (go-mode . eglot-ensure)
+  (before-save . gofmt-before-save)
+  :mode-hydra
+  ("Tools"
+   (("e" my:flycheck-hydra/body)
+    ("r" my:eglot-hydra/body))))
+
 
 
 (defun my:project-find-go-module (dir)
-    (when-let ((root (locate-dominating-file dir "go.mod")))
-      (cons 'go-module root)))
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
 
 (use-package project
   :config
   (cl-defmethod project-root ((project (head go-module)))
     (cdr project))
- (add-hook 'project-find-functions #'my:project-find-go-module))
+  (add-hook 'project-find-functions #'my:project-find-go-module))
 
 (provide 'gocfg)
 ;;; gocfg.el ends here

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Import a material-ui icon
+# key: impmati
+# --
+import ${1:iconName}Icon from "@material-ui/icons/$1";

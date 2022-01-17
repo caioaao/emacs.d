@@ -38,10 +38,6 @@
               'reason-mode)
          (lsp)))))
 
-(use-package company-lsp
-  :ensure t
-  :config (push 'company-lsp company-backends))
-
 (use-package lsp-ui
   :ensure t
   :config

@@ -90,6 +90,9 @@ point reaches the beginning or end of the buffer, stop there."
   :bind (("C-c i" . helm-imenu)
          ("M-y" . helm-show-kill-ring)))
 
+(use-package helm-mode
+  :after helm)
+
 (use-package json-mode
   :ensure t
   :config

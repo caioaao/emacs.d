@@ -33,13 +33,5 @@
   :hook
   (java-mode . gradle-mode))
 
-(use-package lsp-mode :ensure t)
-
-(use-package lsp-java
-  :ensure t
-  :after (lsp)
-  :hook
-  (java-mode . lsp))
-
 (provide 'javacfg)
 ;;; javacfg.el ends here

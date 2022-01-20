@@ -32,9 +32,6 @@
   (setq c-default-style "linux"
         c-basic-offset 4))
 
-(use-package lsp-mode
-  :hook (c-c++-mode . lsp))
-
 ;; (use-package flycheck
 ;;   :ensure t
 ;;   :hook

@@ -24,27 +24,11 @@
 
 ;;; Code:
 
-(use-package lsp-mode
-  :ensure t
-  :init
-  (setq lsp-enable-xref t)
-  (setq lsp-enable-indentation nil)
-  (setq lsp-completion-enable nil)
-  :hook
-  (hack-local-variables
-   . (lambda ()
-       (when (derived-mode-p
-              'tuareg-mode
-              'reason-mode)
-         (lsp)))))
-
-(use-package lsp-ui
-  :ensure t
+(use-package eglot :ensure t
   :config
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-sideline-enable nil))
+  (add-to-list 'eglot-stay-out-of "eldoc-documentation-function$")
+  (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy))
 
-(use-package eglot :ensure t)
 
 (use-package helm-eglot-code-actions
   :after (eglot))

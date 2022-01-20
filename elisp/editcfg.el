@@ -207,8 +207,11 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package eldoc :ensure t
   :diminish eldoc-mode
+  :custom
+  (eldoc-echo-area-prefer-doc-buffer t)
   :config
-  (global-eldoc-mode 1))
+  (global-eldoc-mode 1)
+  (setq eldoc-documentation-function #'eldoc-documentation-compose))
 
 (use-package rainbow-mode :ensure t)
 

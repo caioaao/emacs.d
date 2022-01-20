@@ -36,15 +36,6 @@
 
 (use-package reason-mode :ensure t)
 
-(use-package lsp-mode
-  :config
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "reason-language-server")
-                    :major-modes '(reason-mode)
-                    :notification-handlers (ht ("client/registerCapability" 'ignore))
-                    :priority 1
-                    :server-id 'reason-ls)))
-
 (defun my:ocaml-exec-competitive ()
   (interactive)
   (compile "ocamlfind ocamlopt nums.cmxa str.cmxa -pp camlp4o -unsafe sol.ml -o sol.exe-ocaml && ./sol.exe-ocaml < in.txt | tee out.txt"))

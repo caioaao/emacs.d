@@ -34,18 +34,6 @@
 
 (use-package ob-clojure)
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :hook
-;;   (clojure-mode . lsp)
-;;   (clojurec-mode . lsp)
-;;   (clojurescript-mode . lsp)
-;;   :config
-;;   (require 'lsp-clojure)
-;;   (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure"))
-;;   (add-to-list 'lsp-language-id-configuration '(clojurec-mode . "clojure"))
-;;   (add-to-list 'lsp-language-id-configuration '(clojurescript-mode . "clojurescript")))
-
 (use-package cider :ensure t
   :after (lsp)
   :hook

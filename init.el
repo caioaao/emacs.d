@@ -104,6 +104,7 @@
 (require 'cmakecfg)
 (require 'dotcfg)
 (require 'randomcfg)
+(require 'kmscfg)
 
 (use-package protobuf-mode
   :ensure t

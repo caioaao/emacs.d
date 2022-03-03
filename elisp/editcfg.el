@@ -183,6 +183,8 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package helm-ag :ensure t)
 
+(use-package helm-rg :ensure t)
+
 (use-package flymake :ensure t)
 
 (auto-insert-mode)

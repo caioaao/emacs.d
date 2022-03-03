@@ -117,7 +117,10 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package avy
   :ensure t
-  :bind (("M-g e" . avy-goto-word-0)))
+  :after (evil)
+  :bind (("M-g e" . avy-goto-word-0)
+         :map evil-normal-state-map
+         ("`" . avy-goto-word-0)))
 
 (use-package ido
   :ensure t

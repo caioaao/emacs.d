@@ -122,12 +122,6 @@ point reaches the beginning or end of the buffer, stop there."
          :map evil-normal-state-map
          ("`" . avy-goto-word-0)))
 
-(use-package ido
-  :ensure t
-  :config (progn
-            (setq ido-enable-flex-matching t)
-            (ido-mode 1)))
-
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode

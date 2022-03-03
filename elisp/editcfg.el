@@ -91,7 +91,9 @@ point reaches the beginning or end of the buffer, stop there."
          ("M-y" . helm-show-kill-ring)))
 
 (use-package helm-mode
-  :after helm)
+  :after helm
+  :config
+  (helm-mode))
 
 (use-package json-mode
   :ensure t

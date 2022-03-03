@@ -41,6 +41,9 @@
 (set-input-mode nil nil 1)
 (require 'iso-transl)
 
+;; minor-mode for window config history
+(winner-mode 1)
+
 ;; Set encoding
 (setenv "LC_CTYPE" "UTF-8")
 (prefer-coding-system 'utf-8-unix)

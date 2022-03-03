@@ -150,7 +150,7 @@ point reaches the beginning or end of the buffer, stop there."
 
 (use-package company
   :ensure t
-  :bind ("C-<tab>" . company-complete)
+  :bind ("M-g i" . company-complete)
   :config
   (global-company-mode 1)
   :diminish company-mode)

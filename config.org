@@ -384,7 +384,8 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (use-package consult :straight t
-     :bind (("C-x p s" . consult-ripgrep)))
+     :after (evil)
+     :bind (:map evil-normal-state-map ("<SPC> p s" . consult-ripgrep)))
   #+end_src
 
 * Programming

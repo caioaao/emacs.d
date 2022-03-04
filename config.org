@@ -1,24 +1,21 @@
 #+TITLE: Emacs config
 
-Before anything, copy all the contents in this directory to ~.emacs.d~.
+Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and it will bootstrap itself.
 
 * Bootstrapping literate config
 
   This will make sure that everytime we edit this file, ~init.el~ is tangled and its result compiled.
 
 #+begin_src emacs-lisp :tangle yes
-  (defvar user/init-org-file (concat user-emacs-directory "init.org"))
-  (defvar user/init-el-file  (concat user-emacs-directory "init.el"))
-
   (defun tangle-init ()
     "If the current buffer is 'init.org' the code-blocks are
   tangled, and the tangled file is compiled."
     (when (equal (buffer-file-name)
-                 (expand-file-name user/init-org-file ))
+                 (expand-file-name user/config-org-file ))
       ;; Avoid running hooks when tangling.
       (let ((prog-mode-hook nil))
         (org-babel-tangle)
-        (byte-compile-file user/init-el-file))))
+        (byte-compile-file user/config-el-file))))
 
   (add-hook 'after-save-hook 'tangle-init)
 #+end_src

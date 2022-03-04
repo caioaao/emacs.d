@@ -181,6 +181,8 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      :straight t
      :hook ((prog-mode . flyspell-prog-mode)
             (text-mode . flyspell-mode))
+     :bind (:map flyspell-mode-map
+                 ("C-;" . nil))
      :diminish flyspell-mode flyspell-prog-mode)
    #+end_src
 
@@ -255,6 +257,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (defalias 'yas/table-hash 'yas--table-hash)
      (setq yas-snippet-dirs (append yas-snippet-dirs
                                     '("~/.emacs.d/snippets"))))
+   #+end_src
+
+   Finally, for a better completion command:
+
+   #+begin_src emacs-lisp :tangle yes
+   (global-set-key (kbd "C-;") #'completion-at-point)
    #+end_src
 
 * Quality of Life

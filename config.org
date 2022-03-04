@@ -2,6 +2,65 @@
 
 Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and it will bootstrap itself.
 
+* Table Of Contents                                                :TOC:TOC2:
+- [[#bootstrap][Bootstrap]]
+- [[#text-editing][Text editing]]
+  - [[#evil-mode][Evil mode]]
+  - [[#indentation][Indentation]]
+  - [[#scrolling][Scrolling]]
+  - [[#crux---or-better-move-beginning-of-line][Crux - or better move-beginning-of-line]]
+  - [[#parenthesis][Parenthesis]]
+  - [[#show-line-numbers][Show line numbers]]
+  - [[#highlight-fixme-comments][Highlight "fixme" comments]]
+  - [[#show-hex-colors][Show hex colors]]
+  - [[#keymap-to-toggle-line-wrap][Keymap to toggle line wrap]]
+  - [[#keep-files-clear-of-trailing-whitespaces][Keep files clear of trailing whitespaces]]
+  - [[#updowncase-region-commands][Up/downcase region commands]]
+  - [[#better-undo][Better undo]]
+  - [[#spell-checking][Spell checking]]
+  - [[#completion][Completion]]
+- [[#quality-of-life][Quality of Life]]
+  - [[#set-default-browser][Set default browser]]
+  - [[#save-history][Save history]]
+  - [[#scratch-buffer-major-mode][scratch buffer major mode]]
+  - [[#change-confirmation-prompt-to-ask-just-for-y-or-n][Change confirmation prompt to ask just for "y" or "n"]]
+  - [[#disable-lockfiles][Disable lockfiles]]
+  - [[#fixing-autosavebackup-files][Fixing autosave/backup files]]
+  - [[#more-ergonomic-exec-command-bind][More ergonomic exec-command bind]]
+  - [[#which-key][which-key]]
+  - [[#improve-eldoc][Improve eldoc]]
+  - [[#better-help-buffers][better help buffers]]
+- [[#navigation][Navigation]]
+  - [[#window-config-history][Window config history]]
+  - [[#avy-goto-char][Avy (goto char)]]
+  - [[#consult][Consult]]
+- [[#programming][Programming]]
+  - [[#eglot][Eglot]]
+  - [[#flycheck][Flycheck]]
+  - [[#git][Git]]
+  - [[#structured-editing][Structured editing]]
+  - [[#plantuml][PlantUML]]
+  - [[#direnv][direnv]]
+  - [[#json][JSON]]
+  - [[#markdown][Markdown]]
+  - [[#yaml][yaml]]
+  - [[#protobuf][protobuf]]
+  - [[#terraform][Terraform]]
+  - [[#cc][C/C++]]
+  - [[#cmake][CMake]]
+  - [[#go][Go]]
+  - [[#web-mode][Web-mode]]
+  - [[#typescript][Typescript]]
+  - [[#dockerfiles][Dockerfiles]]
+- [[#writing][Writing]]
+  - [[#org-mode][Org-mode]]
+  - [[#org-roam][org-roam]]
+- [[#gui][GUI]]
+- [[#other][Other]]
+  - [[#copy-environment-variables][Copy environment variables]]
+  - [[#dired][Dired]]
+  - [[#gpg][GPG]]
+
 * Bootstrap
 
   First things first: in order to fetch anything, we'll need a package manager. Since I'm rewriting my config, why not try a different one? I'll use [[https://github.com/raxod502/straight.el][straight.el]]
@@ -754,7 +813,15 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
          (make-directory my-org-files-dir t))
        (load-org-agenda-files-recursively my-org-files-dir))
      (load-my-agenda-files))
+   #+end_src
 
+   One cool little tool is [[https://github.com/snosov1/toc-org][toc-org]]. It maintains an up to date TOC for us - very nice for seeing org files on Github.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package toc-org :straight t
+     :after (org)
+     :hook
+     (org-mode . toc-org-enable))
    #+end_src
 
 ** org-roam

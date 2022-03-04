@@ -53,7 +53,10 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (setq evil-undo-system 'undo-tree)
      (setq evil-want-fine-undo t)
      :config
-     (evil-mode 1))
+     (evil-mode 1)
+     :bind
+     (:map evil-normal-state-map
+           ("." . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)

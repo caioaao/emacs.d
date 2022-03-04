@@ -454,7 +454,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (setq org-plantuml-jar-path "~/utils/jars/plantuml.jar"))
    #+end_src
 
-** Daren
+** direnv
 
    #+begin_src emacs-lisp :tangle yes
    (use-package direnv :straight t
@@ -462,147 +462,164 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (direnv-mode))
    #+end_src
 
-** Programming Languages
+** JSON
 
-*** JSON
+   We'll install json and jsonnet modes:
 
-    We'll install json and jsonnet modes:
+   #+begin_src emacs-lisp :tangle yes
+   (use-package json-mode :straight t
+     :config
+     (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package json-mode :straight t
-      :config
-      (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
+   (use-package jsonnet-mode :straight t
+     :config
+     (add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode)))
+   #+end_src
 
-    (use-package jsonnet-mode :straight t
-      :config
-      (add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode)))
+** Markdown
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package markdown-mode :straight t
+     :mode
+     ("\\.markdown\\'" . markdown-mode)
+     ("\\.md\\'" . markdown-mode))
+   #+end_src
+
+** yaml
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package yaml-mode :straight t)
+   #+end_src
+
+** protobuf
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package protobuf-mode :straight t
+     :mode ("\\.proto$" . protobuf-mode))
+   #+end_src
+
+** Terraform
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package terraform-mode :straight t)
+   #+end_src
+
+** C/C++
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package cc-mode :straight t
+     :hook
+     (c-c++-mode . (lambda () (setq require-final-newline t)))
+     :init
+     (setq c-default-style "linux"
+           c-basic-offset 4))
+   #+end_src
+
+** CMake
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package cmake-mode :straight t)
+   #+end_src
+
+** Go
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package go-mode :straight t
+     :after (eglot)
+     :hook
+     (go-mode . eglot-ensure)
+     (before-save . gofmt-before-save))
+   #+end_src
+
+   We also need to fix the ~project-find~ function to look for go-mod files:
+
+   #+begin_src emacs-lisp :tangle yes
+   (defun my/project-find-go-module (dir)
+     (when-let ((root (locate-dominating-file dir "go.mod")))
+       (cons 'go-module root)))
+
+   (use-package project
+     :config
+     (cl-defmethod project-root ((project (head go-module)))
+       (cdr project))
+     (add-hook 'project-find-functions #'my/project-find-go-module))
+   #+end_src
+
+   [TODO: is this fix really necessary?]
+
+*** Snippets
+
+    #+begin_src fundamental :tangle snippets/go-mode/tabular-tests :mkdirp yes
+    # -*- mode: snippet -*-
+    # name: Tabular test boilerplate
+    # key: tc
+    # --
+    testCases := []struct {
+        name     string
+        $1
+    }{$2}
+
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            $3
+        })
+    }
     #+end_src
 
-*** Markdown
+** Web-mode
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package markdown-mode :straight t
-      :mode
-      ("\\.markdown\\'" . markdown-mode)
-      ("\\.md\\'" . markdown-mode))
-    #+end_src
+   #+begin_src emacs-lisp :tangle yes
+   (use-package web-mode
+     :after (eglot)
+     :straight t
+     :mode (("\\.jsx?\\'" . web-mode)
+            ("\\.tsx\\'" . web-mode)
+            ("\\.html?\\'" . web-mode))
+     :hook
+     (web-mode .
+               (lambda ()
+                 (if (equal web-mode-content-type "javascript")
+                     (web-mode-set-content-type "jsx"))
+                 (message "now set to: %s" web-mode-content-type)))
+     (web-mode . eglot-ensure)
+     :config
+     (setq web-mode-enable-auto-closing t)
+     (setq web-mode-enable-auto-pairing t)
+     (setq web-mode-code-indent-offset 2)
+     (setq web-mode-markup-indent-offset 2)
+     (setq web-mode-enable-literal-interpolation t))
+   #+end_src
 
-*** protobuf
+   We also need to add the LSP server for typescript to be used inside web-mode:
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package protobuf-mode :straight t
-      :mode ("\\.proto$" . protobuf-mode))
-    #+end_src
+   #+begin_src emacs-lisp :tangle yes
+   (use-package eglot :ensure t
+     :config
+     (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
+   #+end_src
 
-*** terraform
+** Typescript
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package terraform-mode :straight t)
-    #+end_src
+   Let's configure the TS mode first:
 
-*** yaml
+   #+begin_src emacs-lisp :tangle yes
+   (use-package typescript-mode :straight t
+     :after (eglot helm-eglot-code-actions)
+     :mode (("\\.ts\\'" . typescript-mode))
+     :bind (:map typescript-mode-map
+                 ("C-c C-r" . helm-eglot-code-actions))
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package yaml-mode :straight t)
-    #+end_src
+     :hook
+     (typescript-mode . eglot-ensure)
+     :config
+     (setq typescript-indent-level 2))
+   #+end_src
 
-*** C/C++
+** Dockerfiles
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package cc-mode :straight t
-      :hook
-      (c-c++-mode . (lambda () (setq require-final-newline t)))
-      :init
-      (setq c-default-style "linux"
-            c-basic-offset 4))
-    #+end_src
-
-*** CMake
-
-    #+begin_src emacs-lisp :tangle yes
-    (use-package cmake-mode :straight t)
-    #+end_src
-
-*** Go
-
-    #+begin_src emacs-lisp :tangle yes
-    (use-package go-mode :straight t
-      :after (eglot)
-      :hook
-      (go-mode . eglot-ensure)
-      (before-save . gofmt-before-save))
-    #+end_src
-
-    We also need to fix the ~project-find~ function to look for go-mod files:
-
-    #+begin_src emacs-lisp :tangle yes
-    (defun my/project-find-go-module (dir)
-      (when-let ((root (locate-dominating-file dir "go.mod")))
-        (cons 'go-module root)))
-
-    (use-package project
-      :config
-      (cl-defmethod project-root ((project (head go-module)))
-        (cdr project))
-      (add-hook 'project-find-functions #'my/project-find-go-module))
-    #+end_src
-
-    [TODO: is this fix really necessary?]
-
-*** Web-mode
-
-    #+begin_src emacs-lisp :tangle yes
-    (use-package web-mode
-      :after (eglot)
-      :straight t
-      :mode (("\\.jsx?\\'" . web-mode)
-             ("\\.tsx\\'" . web-mode)
-             ("\\.html?\\'" . web-mode))
-      :hook
-      (web-mode .
-                (lambda ()
-                  (if (equal web-mode-content-type "javascript")
-                      (web-mode-set-content-type "jsx"))
-                  (message "now set to: %s" web-mode-content-type)))
-      (web-mode . eglot-ensure)
-      :config
-      (setq web-mode-enable-auto-closing t)
-      (setq web-mode-enable-auto-pairing t)
-      (setq web-mode-code-indent-offset 2)
-      (setq web-mode-markup-indent-offset 2)
-      (setq web-mode-enable-literal-interpolation t))
-    #+end_src
-
-    We also need to add the LSP server for typescript to be used inside web-mode:
-
-    #+begin_src emacs-lisp :tangle yes
-    (use-package eglot :ensure t
-      :config
-      (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
-    #+end_src
-
-*** Typescript
-
-    Let's configure the TS mode first:
-
-    #+begin_src emacs-lisp :tangle yes
-    (use-package typescript-mode :straight t
-      :after (eglot helm-eglot-code-actions)
-      :mode (("\\.ts\\'" . typescript-mode))
-      :bind (:map typescript-mode-map
-                  ("C-c C-r" . helm-eglot-code-actions))
-
-      :hook
-      (typescript-mode . eglot-ensure)
-      :config
-      (setq typescript-indent-level 2))
-    #+end_src
-
-*** Dockerfiles
-
-    #+begin_src emacs-lisp :tangle yes
-    (use-package dockerfile-mode :straight t)
-    #+end_src
+   #+begin_src emacs-lisp :tangle yes
+   (use-package dockerfile-mode :straight t)
+   #+end_src
 * Writing
 
 ** Org-mode

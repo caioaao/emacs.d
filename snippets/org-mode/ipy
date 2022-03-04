@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: ipython block
-# key: ipy
-# --
-#+BEGIN_SRC ipython :session ${1: }${2::file ${3:$$(file-relative-name (let ((temporary-file-directory "./img")) (make-temp-file "py" nil ".png")))} }:exports ${4:both}
-$0
-#+END_SRC
-
-

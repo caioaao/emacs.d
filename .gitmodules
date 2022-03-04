@@ -1,6 +1,0 @@
-[submodule "vendor/flatbuffers-mode"]
-	path = vendor/flatbuffers-mode
-	url = git@github.com:caioaao/flatbuffers-mode.git
-[submodule "vendor/ebnf-mode"]
-	path = vendor/ebnf-mode
-	url = git@github.com:jeramey/ebnf-mode.git

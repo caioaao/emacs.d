@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: unalias
-# key: unl
-# --
-(ns-unalias *ns* '$0)

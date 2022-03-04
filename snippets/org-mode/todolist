@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: todo list
-# key: todolist
-# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
-# --
-#+TODO: TODO DOING | DONE CANCELED
-
-* TODO $1

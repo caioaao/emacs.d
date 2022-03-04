@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: codechef case io
-# key: cchef
-# --
-int t;
-cin >> t;
-for(int i = 1; i <= t; ++i) {
-    $0
-}

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Import a material-ui component
-# key: impmat
-# --
-import ${1:Component} from "@material-ui/${2:core}/$1";

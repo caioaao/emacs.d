@@ -2,25 +2,7 @@
 
 Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and it will bootstrap itself.
 
-* Bootstrapping literate config
-
-  This will make sure that everytime we edit this file, ~init.el~ is tangled and its result compiled.
-
-#+begin_src emacs-lisp :tangle yes
-  (defun tangle-init ()
-    "If the current buffer is 'init.org' the code-blocks are
-  tangled, and the tangled file is compiled."
-    (when (equal (buffer-file-name)
-                 (expand-file-name user/config-org-file ))
-      ;; Avoid running hooks when tangling.
-      (let ((prog-mode-hook nil))
-        (org-babel-tangle)
-        (byte-compile-file user/config-el-file))))
-
-  (add-hook 'after-save-hook 'tangle-init)
-#+end_src
-
-* Bootstrapping package manager
+* Bootstrap
 
   First things first: in order to fetch anything, we'll need a package manager. Since I'm rewriting my config, why not try a different one? I'll use [[https://github.com/raxod502/straight.el][straight.el]]
 
@@ -54,68 +36,26 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
     (use-package diminish :straight t)
   #+end_src
 
-* Copy environment variables
+* Text editing
 
-  Let's copy locale variables and the exec path.
+** Evil mode
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package exec-path-from-shell :straight t
-    :config
-    (setq exec-path-from-shell-check-startup-files nil)
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-envs '("LANG" "LC_ALL")))
-  #+end_src
+   #+begin_src emacs-lisp :tangle yes
+   (use-package evil :straight t
+     :init
+     (setq evil-want-keybinding nil)
+     (setq evil-undo-system 'undo-tree)
+     (setq evil-want-fine-undo t)
+     :config
+     (evil-mode 1))
 
-* Evil mode
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package evil :straight t
-    :init
-    (setq evil-want-keybinding nil)
-    (setq evil-undo-system 'undo-tree)
-    (setq evil-want-fine-undo t)
-    :config
-    (evil-mode 1))
-
-  (use-package evil-collection :straight t
-    :after (evil)
-    :custom
-    (evil-collection-setup-minibuffer t)
-    :init
-    (evil-collection-init))
-  #+end_src
-
-* Set default browser
-
-  Set browser function to find the default OS browser to open URLs.
-
-  #+begin_src emacs-lisp :tangle yes
-  (setq browse-url-browser-function 'browse-url-default-browser)
-  #+end_src
-
-* Save history
-
-  Well, emacs has a [[https://www.emacswiki.org/emacs/SaveHist][mode for saving history of stuff written in the minibuffer]]. Let's enable that
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package savehist
-    :init
-    (savehist-mode))
-  #+end_src
-
-* scratch buffer major mode
-
-  #+begin_src emacs-lisp :tangle yes
-  (setq initial-major-mode 'markdown-mode)
-  #+end_src
-
-* Change confirmation prompt to ask just for "y" or "n"
-
-  #+begin_src emacs-lisp :tangle yes
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  #+end_src
-
-* Text editing niceties
+   (use-package evil-collection :straight t
+     :after (evil)
+     :custom
+     (evil-collection-setup-minibuffer t)
+     :init
+     (evil-collection-init))
+   #+end_src
 
 ** Indentation
 
@@ -183,24 +123,6 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    (use-package rainbow-mode :straight t)
    #+end_src
 
-** Avy (goto char)
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package avy :straight t
-     :after (evil)
-     :bind (("M-g e" . avy-goto-word-0)
-            :map evil-normal-state-map
-            ("`" . avy-goto-word-0)))
-   #+end_src
-
-** More ergonomic exec-command bind
-
-   #+begin_src emacs-lisp :tangle yes
-   (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-   (global-set-key (kbd "M-x") nil)
-
-   #+end_src
-
 ** Keymap to toggle line wrap
 
    Useful when reading logs
@@ -217,11 +139,82 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    (add-hook 'before-save-hook 'delete-trailing-whitespace)
    #+end_src
 
-** Enable useful functions
+** Up/downcase region commands
 
    #+begin_src emacs-lisp :tangle yes
    (put 'downcase-region 'disabled nil)
    (put 'upcase-region 'disabled nil)
+   #+end_src
+
+** Better undo
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package undo-tree :straight t
+     :diminish undo-tree-mode
+     :config
+     (global-undo-tree-mode 1))
+   #+end_src
+
+** Spell checking
+
+   We'll use ispell.
+
+   #+begin_src emacs-lisp :tangle yes
+ (use-package ispell :straight t
+   :init
+   (setq ispell-dictionary "american"))
+   #+end_src
+
+   Associated with flyspell to highlight spelling errors.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package flyspell
+     :straight t
+     :hook ((prog-mode . flyspell-prog-mode)
+            (text-mode . flyspell-mode))
+     :diminish flyspell-mode flyspell-prog-mode)
+   #+end_src
+
+   [TODO: flyspell defines ~C-M i~ which clashes with autocompletions]
+
+* Quality of Life
+
+** Set default browser
+
+   Set browser function to find the default OS browser to open URLs.
+
+   #+begin_src emacs-lisp :tangle yes
+   (setq browse-url-browser-function 'browse-url-default-browser)
+   #+end_src
+
+** Save history
+
+   Well, emacs has a [[https://www.emacswiki.org/emacs/SaveHist][mode for saving history of stuff written in the minibuffer]]. Let's enable that
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package savehist
+     :init
+     (savehist-mode))
+   #+end_src
+
+** scratch buffer major mode
+
+   #+begin_src emacs-lisp :tangle yes
+   (setq initial-major-mode 'markdown-mode)
+   #+end_src
+
+** Change confirmation prompt to ask just for "y" or "n"
+
+   #+begin_src emacs-lisp :tangle yes
+   (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
+
+** Disable lockfiles
+
+   Never saw the need for that
+
+   #+begin_src emacs-lisp :tangle yes
+   (setq create-lockfiles nil)
    #+end_src
 
 ** Fixing autosave/backup files
@@ -235,13 +228,51 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
          `((".*" ,temporary-file-directory t)))
    #+end_src
 
-** Disable lockfiles
-
-   Never saw the need for that
+** More ergonomic exec-command bind
 
    #+begin_src emacs-lisp :tangle yes
-   (setq create-lockfiles nil)
+   (global-set-key (kbd "C-x C-m") 'execute-extended-command)
+   (global-set-key (kbd "M-x") nil)
+
    #+end_src
+
+** which-key
+
+   Great mode for completing the next keys you can enter after a prefix.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package which-key :straight t
+     :config
+     (which-key-mode))
+   #+end_src
+
+** Improve eldoc
+
+   Tells eldoc to show documentation from different sources concatenated.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package eldoc :straight t
+     :diminish eldoc-mode
+     :custom
+     (eldoc-echo-area-prefer-doc-buffer t)
+     :config
+     (global-eldoc-mode 1)
+     (setq eldoc-documentation-function #'eldoc-documentation-compose))
+   #+end_src
+
+** better help buffers
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package helpful
+     :straight t
+     :bind (("C-h f" . helpful-callable)
+            ("C-h v" . helpful-variable)
+            ("C-h k" . helpful-key)
+            ("C-h f" . helpful-function)
+            ("C-h c" . helpful-command)))
+   #+end_src
+
+* Navigation
 
 ** Window config history
 
@@ -251,80 +282,454 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    (winner-mode 1)
    #+end_src
 
-* Projectile
+** Avy (goto char)
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package projectile :straight t
-    :bind (:map projectile-mode-map
-                ("C-c p" . projectile-command-map))
-    :diminish projectile-mode
-    :config
-    (projectile-mode 1)
-    (setq projectile-enable-caching t)
-    (setq projectile-git-submodule-command ""))
-  #+end_src
+   #+begin_src emacs-lisp :tangle yes
+   (use-package avy :straight t
+     :after (evil)
+     :bind (("M-g e" . avy-goto-word-0)
+            :map evil-normal-state-map
+            ("`" . avy-goto-word-0)))
+   #+end_src
 
-* Better undo
+** Projectile
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package undo-tree :straight t
-    :diminish undo-tree-mode
-    :config
-    (global-undo-tree-mode 1))
-  #+end_src
+   #+begin_src emacs-lisp :tangle yes
+   (use-package projectile :straight t
+     :bind (:map projectile-mode-map
+                 ("C-c p" . projectile-command-map))
+     :diminish projectile-mode
+     :config
+     (projectile-mode 1)
+     (setq projectile-enable-caching t)
+     (setq projectile-git-submodule-command ""))
+   #+end_src
 
-* Completion
+* Programming
 
-  I've used helm for maybe 8 years now, so it's time to try something new, so let's try [[https://github.com/minad/vertico][vertico]]. Its main selling point for me is the simplicity and that it ties to the default completion framework built in to Emacs.
+** Code Completion
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package vertico :straight t
-    :init
-    (vertico-mode))
-  #+end_src
+   I've used helm for maybe 8 years now, so it's time to try something new, so let's try [[https://github.com/minad/vertico][vertico]]. Its main selling point for me is the simplicity and that it ties to the default completion framework built in to Emacs.
 
-  And let's use [[https://github.com/oantolin/orderless][orderless]] as the completion style (it's a fuzzy matching style of completing, instead of the default prefix match).
+   #+begin_src emacs-lisp :tangle yes
+   (use-package vertico :straight t
+     :init
+     (vertico-mode))
+   #+end_src
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package orderless :straight t
-    :init
-    (setq completion-styles '(orderless)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles partial-completion)))))
-  #+end_src
+   And let's use [[https://github.com/oantolin/orderless][orderless]] as the completion style (it's a fuzzy matching style of completing, instead of the default prefix match).
 
-  (TODO: test prescient.el instead of orderless)
+   #+begin_src emacs-lisp :tangle yes
+   (use-package orderless :straight t
+     :init
+     (setq completion-styles '(orderless)
+           completion-category-defaults nil
+           completion-category-overrides '((file (styles partial-completion)))))
+   #+end_src
 
-  And marginalia:
+   (TODO: test prescient.el instead of orderless)
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package marginalia :straight t
-    ;; Either bind `marginalia-cycle` globally or only in the minibuffer
-    :bind (("M-A" . marginalia-cycle)
-           :map minibuffer-local-map
-           ("M-A" . marginalia-cycle))
+   And marginalia:
 
-    ;; The :init configuration is always executed (Not lazy!)
-    :init
+   #+begin_src emacs-lisp :tangle yes
+   (use-package marginalia :straight t
+     ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+     :bind (("M-A" . marginalia-cycle)
+            :map minibuffer-local-map
+            ("M-A" . marginalia-cycle))
 
-    ;; Must be in the :init section of use-package such that the mode gets
-    ;; enabled right away. Note that this forces loading the package.
-    (marginalia-mode))
-  #+end_src
+     ;; The :init configuration is always executed (Not lazy!)
+     :init
 
-  Now let's install yasnippet.
+     ;; Must be in the :init section of use-package such that the mode gets
+     ;; enabled right away. Note that this forces loading the package.
+     (marginalia-mode))
+   #+end_src
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package yasnippet :straight t
-    :diminish yas-minor-mode
-    :config
-    (yas-global-mode 1)
-    ;; Fix yasnippet 0.8/ac bug
-    (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
-    (defalias 'yas/table-hash 'yas--table-hash)
-    (setq yas-snippet-dirs (append yas-snippet-dirs
-                                   '("~/.emacs.d/snippets"))))
-  #+end_src
+   Now let's install yasnippet.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package yasnippet :straight t
+     :diminish yas-minor-mode
+     :config
+     (yas-global-mode 1)
+     ;; Fix yasnippet 0.8/ac bug
+     (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
+     (defalias 'yas/table-hash 'yas--table-hash)
+     (setq yas-snippet-dirs (append yas-snippet-dirs
+                                    '("~/.emacs.d/snippets"))))
+   #+end_src
+
+** Eglot
+
+   I use Eglot for almost every language I program.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package eglot :straight t
+     :bind
+     ("C-c C-r" . helm-eglot-code-actions)
+     :config
+     (add-to-list 'eglot-stay-out-of "eldoc-documentation-function$")
+     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy))
+   #+end_src
+
+** Flycheck
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package flycheck
+     :straight t
+     :diminish flycheck-mode)
+   #+end_src
+
+** Git
+
+   Let's install magit first.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package magit
+     :straight t
+     :bind
+     (("C-c m s" . magit-status)
+      ("C-c m b" . magit-blame-addition))
+     :init
+     (setq magit-last-seen-setup-instructions "1.4.0")
+     (setq magit-git-executable "git")
+     ;; See https://github.com/magit/magit/issues/2541
+     (setq magit-display-buffer-function
+           (lambda (buffer)
+             (display-buffer
+              buffer (if (and (derived-mode-p 'magit-mode)
+                              (memq (with-current-buffer buffer major-mode)
+                                    '(magit-process-mode
+                                      magit-revision-mode
+                                      magit-diff-mode
+                                      magit-stash-mode
+                                      magit-status-mode)))
+                         nil
+                       '(display-buffer-same-window))))))
+   #+end_src
+
+   Now to configure the commit buffer with spellcheck and markdown:
+
+   #+begin_src emacs-lisp :tangle yes
+     (use-package flyspell :straight t
+       :after (magit)
+       :hook
+       (git-commit-mode . turn-on-flyspell))
+
+     (use-package markdown-mode :straight t
+       :after (magit)
+       :hook
+       (git-commit-mode . markdown-mode))
+   #+end_src
+
+** Structured editing
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package paredit
+      :straight t
+      :diminish paredit-mode)
+    #+end_src
+
+    [TODO: test [[https://github.com/AmaiKinono/puni][puni]] for structured editing]
+
+** PlantUML
+
+   Cool for making uml charts.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package plantuml-mode
+     :straight t
+     :mode ("\\.puml\\'" . plantuml-mode)
+     :config
+     (setq plantuml-jar-path "~/utils/jars/plantuml.jar")
+     (setq plantuml-default-exec-mode 'jar))
+   #+end_src
+
+   Very useful inside org-mode, so let's install the org babel extension:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package ob-plantuml
+     :config
+     (setq org-plantuml-jar-path "~/utils/jars/plantuml.jar"))
+   #+end_src
+
+** Daren
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package direnv :straight t
+     :config
+     (direnv-mode))
+   #+end_src
+
+** Programming Languages
+
+*** JSON
+
+    We'll install json and jsonnet modes:
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package json-mode :straight t
+      :config
+      (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
+
+    (use-package jsonnet-mode :straight t
+      :config
+      (add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode)))
+    #+end_src
+
+*** Markdown
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package markdown-mode :straight t
+      :mode
+      ("\\.markdown\\'" . markdown-mode)
+      ("\\.md\\'" . markdown-mode))
+    #+end_src
+
+*** protobuf
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package protobuf-mode :straight t
+      :mode ("\\.proto$" . protobuf-mode))
+    #+end_src
+
+*** terraform
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package terraform-mode :straight t)
+    #+end_src
+
+*** yaml
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package yaml-mode :straight t)
+    #+end_src
+
+*** C/C++
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package cc-mode :straight t
+      :hook
+      (c-c++-mode . (lambda () (setq require-final-newline t)))
+      :init
+      (setq c-default-style "linux"
+            c-basic-offset 4))
+    #+end_src
+
+*** CMake
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package cmake-mode :straight t)
+    #+end_src
+
+*** Go
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package go-mode :straight t
+      :after (eglot)
+      :hook
+      (go-mode . eglot-ensure)
+      (before-save . gofmt-before-save))
+    #+end_src
+
+    We also need to fix the ~project-find~ function to look for go-mod files:
+
+    #+begin_src emacs-lisp :tangle yes
+    (defun my/project-find-go-module (dir)
+      (when-let ((root (locate-dominating-file dir "go.mod")))
+        (cons 'go-module root)))
+
+    (use-package project
+      :config
+      (cl-defmethod project-root ((project (head go-module)))
+        (cdr project))
+      (add-hook 'project-find-functions #'my/project-find-go-module))
+    #+end_src
+
+    [TODO: is this fix really necessary?]
+
+*** Web-mode
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package web-mode
+      :after (eglot)
+      :straight t
+      :mode (("\\.jsx?\\'" . web-mode)
+             ("\\.tsx\\'" . web-mode)
+             ("\\.html?\\'" . web-mode))
+      :hook
+      (web-mode .
+                (lambda ()
+                  (if (equal web-mode-content-type "javascript")
+                      (web-mode-set-content-type "jsx"))
+                  (message "now set to: %s" web-mode-content-type)))
+      (web-mode . eglot-ensure)
+      :config
+      (setq web-mode-enable-auto-closing t)
+      (setq web-mode-enable-auto-pairing t)
+      (setq web-mode-code-indent-offset 2)
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-enable-literal-interpolation t))
+    #+end_src
+
+    We also need to add the LSP server for typescript to be used inside web-mode:
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package eglot :ensure t
+      :config
+      (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
+    #+end_src
+
+*** Typescript
+
+    Let's configure the TS mode first:
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package typescript-mode :straight t
+      :after (eglot helm-eglot-code-actions)
+      :mode (("\\.ts\\'" . typescript-mode))
+      :bind (:map typescript-mode-map
+                  ("C-c C-r" . helm-eglot-code-actions))
+
+      :hook
+      (typescript-mode . eglot-ensure)
+      :config
+      (setq typescript-indent-level 2))
+    #+end_src
+
+*** Dockerfiles
+
+    #+begin_src emacs-lisp :tangle yes
+    (use-package dockerfile-mode :straight t)
+    #+end_src
+* Writing
+
+** Org-mode
+
+   A lot of very old config that I keep here. I don't even know if I still use everything, but I keep here because I don't want to break my workflow :shrug:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package org
+     :bind
+     (:map global-map
+           ("C-c l" . org-store-link)
+           ("C-M-r" . org-capture))
+
+     :init
+     (setq org-log-done t)
+     (setq org-return-follows-link t)
+     (setq org-src-fontify-natively t)
+     (setq org-log-into-drawer t)
+     (setq org-refile-targets '((gtd-main-p :maxlevel . 3)
+                                (gtd-someday-p :level . 1)
+                                (gtd-tickler-p :maxlevel . 2)))
+     (setq org-confirm-babel-evaluate nil)
+     (setq org-src-preserve-indentation nil
+           org-edit-src-content-indentation 0)
+
+     :hook
+     (org-babel-after-execute . org-redisplay-inline-images)
+
+     :config
+     (plist-put org-format-latex-options :scale 1.5)
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((dot . t)
+        (shell . t)
+        (python . t)
+        ;; (ipython . t) this breaks everything if jupyter is not installed
+        (lisp . t)
+        (clojure . t)
+        (gnuplot . t)
+        (R . t)
+        (plantuml . t)
+        (lua . t))))
+
+   #+end_src
+
+   I'm not really using org-capture now, so I'll not tangle it. Here it is just as a documentation:
+
+   #+begin_src emacs-lisp
+   (use-package org-capture
+     :init
+     (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                    (file+headline gtd-inbox-p "Tasks")
+                                    "* TODO %i%?\n  %U\n"
+                                    :prepend t :empty-lines 1)
+                                   ("T" "Tickler" entry
+                                    (file+headline gtd-tickler-p "Tickler")
+                                    "* %i%? \n %U"))))
+
+   (use-package org-agenda
+     :bind
+     (:map global-map
+           ("C-c a" . org-agenda))
+     :init
+     (setq org-agenda-start-on-weekday nil)
+     (setq org-agenda-skip-scheduled-if-done t)
+     (setq org-stuck-projects `(,my/org-projects-pattern ("DOING") nil ""))
+     (setq org-agenda-custom-commands
+           `(("W" "Weekly Review"
+              ((agenda "" ((org-agenda-span 7)))
+               (tags "CATEGORY=\"TASKS\"|CATEGORY=\"PROJECTS\"/DONE")
+               (tags-todo "CATEGORY=\"INBOX\"")
+               (stuck "")
+               (todo "DOING")
+               (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
+               (tags-todo "CATEGORY=\"SOMEDAY\"")
+               (todo "WAITING")))
+             ("E" "Export TODOS"
+              ((tags-todo "CATEGORY=\"TASKS\""))
+              nil
+              ("/tmp/org-exported/todos.org"))
+             ("g" . "GTD contexts")
+             ("gw" "Work" tags-todo "@work")
+             ("gh" "Home" tags-todo "@home")
+             ("gp" "Pc" tags-todo "@pc")
+             ("gi" "Internet" tags-todo "@internet")
+             ("ge" "Errands" tags-todo "@errands")
+             ("gf" "Freetime" tags-todo "@freetime")))
+     :config
+     (defun load-org-agenda-files-recursively (dir)
+       "Collect all org agenda files in DIR."
+       (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
+       (add-to-list 'org-agenda-files dir)
+       (dolist (file-name (directory-files dir nil nil t))
+         (unless (member file-name '("." ".."))
+           (let ((file-path (expand-file-name file-name dir)))
+             (when (file-directory-p file-path)
+               (load-org-agenda-files-recursively file-path))))))
+     (defun load-my-agenda-files ()
+       "Load all agenda files recursively."
+       (interactive)
+       (unless (file-exists-p my-org-files-dir)
+         (make-directory my-org-files-dir t))
+       (load-org-agenda-files-recursively my-org-files-dir))
+     (load-my-agenda-files))
+
+   #+end_src
+
+** org-roam
+
+   I plan on using org-roam to start taking better notes.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package org-roam :straight t
+     :after (org)
+     :init
+     (setq org-roam-directory "~/reps/slipbox")
+     :config
+     (org-roam-db-autosync-mode)
+     :bind
+     (("C-c n f" . org-roam-node-find)
+      :map org-mode-map
+           ("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n i" . org-roam-node-insert))
+     :catch (lambda (keyword error)
+              (message (error-message-string err))))
+
+   #+end_src
 
 * GUI
 
@@ -368,452 +773,36 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (spaceline-emacs-theme))
    #+end_src
 
-* Dired
+* Other
 
-  Lest add more switches to dired:
+** Copy environment variables
 
-  #+begin_src emacs-lisp :tangle yes
-  (use-package dired
-    :config
-    (setq dired-listing-switches "-alh"))
-  #+end_src
-
-* Help
-
-** which-key
-
-   Great mode for completing the next keys you can enter after a prefix.
+   Let's copy locale variables and the exec path.
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package which-key :straight t
+   (use-package exec-path-from-shell :straight t
      :config
-     (which-key-mode))
+     (setq exec-path-from-shell-check-startup-files nil)
+     (exec-path-from-shell-initialize)
+     (exec-path-from-shell-copy-envs '("LANG" "LC_ALL")))
    #+end_src
 
-** Improve eldoc
+** Dired
 
-   Tells eldoc to show documentation from different sources concatenated.
+   Lest add more switches to dired:
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package eldoc :straight t
-     :diminish eldoc-mode
-     :custom
-     (eldoc-echo-area-prefer-doc-buffer t)
+   (use-package dired
      :config
-     (global-eldoc-mode 1)
-     (setq eldoc-documentation-function #'eldoc-documentation-compose))
+     (setq dired-listing-switches "-alh"))
    #+end_src
 
-** better help buffers
+** GPG
+
+   In Ubuntu we need to copy ~SSH_AUTH_SOCK~ variable for some reason, so let's use ~exec-path-from-shell~
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package helpful
-     :straight t
-     :bind (("C-h f" . helpful-callable)
-            ("C-h v" . helpful-variable)
-            ("C-h k" . helpful-key)
-            ("C-h f" . helpful-function)
-            ("C-h c" . helpful-command)))
-   #+end_src
-
-* GPG
-
-  In Ubuntu we need to copy ~SSH_AUTH_SOCK~ variable for some reason, so let's use ~exec-path-from-shell~
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package exec-path-from-shell :straight t
-    :config
-    (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
-  #+end_src
-
-* LSP config - Eglot
-
-  I use Eglot for almost every language I program.
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package eglot :straight t
-    :bind
-    ("C-c C-r" . helm-eglot-code-actions)
-    :config
-    (add-to-list 'eglot-stay-out-of "eldoc-documentation-function$")
-    (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy))
-  #+end_src
-
-* Org-mode
-
-  A lot of very old config that I keep here. I don't even know if I still use everything, but I keep here because I don't want to break my workflow :shrug:
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package org
-    :bind
-    (:map global-map
-          ("C-c l" . org-store-link)
-          ("C-M-r" . org-capture))
-
-    :init
-    (setq org-log-done t)
-    (setq org-return-follows-link t)
-    (setq org-src-fontify-natively t)
-    (setq org-log-into-drawer t)
-    (setq org-refile-targets '((gtd-main-p :maxlevel . 3)
-                               (gtd-someday-p :level . 1)
-                               (gtd-tickler-p :maxlevel . 2)))
-    (setq org-confirm-babel-evaluate nil)
-    (setq org-src-preserve-indentation nil
-          org-edit-src-content-indentation 0)
-
-    :hook
-    (org-babel-after-execute . org-redisplay-inline-images)
-
-    :config
-    (plist-put org-format-latex-options :scale 1.5)
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((dot . t)
-       (shell . t)
-       (python . t)
-       ;; (ipython . t) this breaks everything if jupyter is not installed
-       (lisp . t)
-       (clojure . t)
-       (gnuplot . t)
-       (R . t)
-       (plantuml . t)
-       (lua . t))))
-
-  #+end_src
-
-  I'm not really using org-capture now, so I'll not tangle it. Here it is just as a documentation:
-
-  #+begin_src emacs-lisp
-  (use-package org-capture
-    :init
-    (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                   (file+headline gtd-inbox-p "Tasks")
-                                   "* TODO %i%?\n  %U\n"
-                                   :prepend t :empty-lines 1)
-                                  ("T" "Tickler" entry
-                                   (file+headline gtd-tickler-p "Tickler")
-                                   "* %i%? \n %U"))))
-
-  (use-package org-agenda
-    :bind
-    (:map global-map
-          ("C-c a" . org-agenda))
-    :init
-    (setq org-agenda-start-on-weekday nil)
-    (setq org-agenda-skip-scheduled-if-done t)
-    (setq org-stuck-projects `(,my:org-projects-pattern ("DOING") nil ""))
-    (setq org-agenda-custom-commands
-          `(("W" "Weekly Review"
-             ((agenda "" ((org-agenda-span 7)))
-              (tags "CATEGORY=\"TASKS\"|CATEGORY=\"PROJECTS\"/DONE")
-              (tags-todo "CATEGORY=\"INBOX\"")
-              (stuck "")
-              (todo "DOING")
-              (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
-              (tags-todo "CATEGORY=\"SOMEDAY\"")
-              (todo "WAITING")))
-            ("E" "Export TODOS"
-             ((tags-todo "CATEGORY=\"TASKS\""))
-             nil
-             ("/tmp/org-exported/todos.org"))
-            ("g" . "GTD contexts")
-            ("gw" "Work" tags-todo "@work")
-            ("gh" "Home" tags-todo "@home")
-            ("gp" "Pc" tags-todo "@pc")
-            ("gi" "Internet" tags-todo "@internet")
-            ("ge" "Errands" tags-todo "@errands")
-            ("gf" "Freetime" tags-todo "@freetime")))
-    :config
-    (defun load-org-agenda-files-recursively (dir)
-      "Collect all org agenda files in DIR."
-      (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
-      (add-to-list 'org-agenda-files dir)
-      (dolist (file-name (directory-files dir nil nil t))
-        (unless (member file-name '("." ".."))
-          (let ((file-path (expand-file-name file-name dir)))
-            (when (file-directory-p file-path)
-              (load-org-agenda-files-recursively file-path))))))
-    (defun load-my-agenda-files ()
-      "Load all agenda files recursively."
-      (interactive)
-      (unless (file-exists-p my-org-files-dir)
-        (make-directory my-org-files-dir t))
-      (load-org-agenda-files-recursively my-org-files-dir))
-    (load-my-agenda-files))
-
-  #+end_src
-
-* Flycheck
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package flycheck
-    :straight t
-    :diminish flycheck-mode)
-  #+end_src
-
-* Spell checking
-
-  We'll use ispell.
-
-  #+begin_src emacs-lisp :tangle yes
-(use-package ispell :straight t
-  :init
-  (setq ispell-dictionary "american"))
-  #+end_src
-
-  Associated with flyspell to highlight spelling errors.
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package flyspell
-    :straight t
-    :hook ((prog-mode . flyspell-prog-mode)
-           (text-mode . flyspell-mode))
-    :diminish flyspell-mode flyspell-prog-mode)
-  #+end_src
-
-  [TODO: flyspell defines ~C-M i~ which clashes with autocompletions]
-
-* Git
-
-  Let's install magit first.
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package magit
-    :straight t
-    :bind
-    (("C-c m s" . magit-status)
-     ("C-c m b" . magit-blame-addition))
-    :init
-    (setq magit-last-seen-setup-instructions "1.4.0")
-    (setq magit-git-executable "git")
-    ;; See https://github.com/magit/magit/issues/2541
-    (setq magit-display-buffer-function
-          (lambda (buffer)
-            (display-buffer
-             buffer (if (and (derived-mode-p 'magit-mode)
-                             (memq (with-current-buffer buffer major-mode)
-                                   '(magit-process-mode
-                                     magit-revision-mode
-                                     magit-diff-mode
-                                     magit-stash-mode
-                                     magit-status-mode)))
-                        nil
-                      '(display-buffer-same-window))))))
-  #+end_src
-
-  Now to configure the commit buffer with spellcheck and markdown:
-
-  #+begin_src emacs-lisp :tangle yes
-    (use-package flyspell :straight t
-      :after (magit)
-      :hook
-      (git-commit-mode . turn-on-flyspell))
-
-    (use-package markdown-mode :straight t
-      :after (magit)
-      :hook
-      (git-commit-mode . markdown-mode))
-  #+end_src
-
-* org-roam
-
-  I plan on using org-roam to start taking better notes.
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package org-roam :straight t
-    :after (org)
-    :init
-    (setq org-roam-directory "~/reps/slipbox")
-    :config
-    (org-roam-db-autosync-mode)
-    :bind
-    (("C-c n f" . org-roam-node-find)
-     :map org-mode-map
-          ("C-c n l" . org-roam-buffer-toggle)
-          ("C-c n i" . org-roam-node-insert))
-    :catch (lambda (keyword error)
-             (message (error-message-string err))))
-
-  #+end_src
-
-* Structured editing
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package paredit
-     :straight t
-     :diminish paredit-mode)
-   #+end_src
-
-   [TODO: test [[https://github.com/AmaiKinono/puni][puni]] for structured editing]
-
-* PlantUML
-
-  Cool for making uml charts.
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package plantuml-mode
-    :straight t
-    :mode ("\\.puml\\'" . plantuml-mode)
-    :config
-    (setq plantuml-jar-path "~/utils/jars/plantuml.jar")
-    (setq plantuml-default-exec-mode 'jar))
-  #+end_src
-
-  Very useful inside org-mode, so let's install the org babel extension:
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package ob-plantuml
-    :config
-    (setq org-plantuml-jar-path "~/utils/jars/plantuml.jar"))
-  #+end_src
-
-* Direnv
-
-  #+begin_src emacs-lisp :tangle yes
-  (use-package direnv :straight t
-    :config
-    (direnv-mode))
-  #+end_src
-
-* Programming Languages
-
-** JSON
-
-   We'll install json and jsonnet modes:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package json-mode :straight t
+   (use-package exec-path-from-shell :straight t
      :config
-     (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
-
-   (use-package jsonnet-mode :straight t
-     :config
-     (add-to-list 'auto-mode-alist '("\\.libjsonnet\\'" . jsonnet-mode)))
-   #+end_src
-
-** Markdown
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package markdown-mode :straight t
-     :mode
-     ("\\.markdown\\'" . markdown-mode)
-     ("\\.md\\'" . markdown-mode))
-   #+end_src
-
-** protobuf
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package protobuf-mode :straight t
-     :mode ("\\.proto$" . protobuf-mode))
-   #+end_src
-
-** terraform
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package terraform-mode :straight t)
-   #+end_src
-
-** yaml
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package yaml-mode :straight t)
-   #+end_src
-
-** C/C++
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package cc-mode :straight t
-     :hook
-     (c-c++-mode . (lambda () (setq require-final-newline t)))
-     :init
-     (setq c-default-style "linux"
-           c-basic-offset 4))
-   #+end_src
-
-** CMake
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package cmake-mode :straight t)
-   #+end_src
-
-** Go
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package go-mode :straight t
-     :after (eglot)
-     :hook
-     (go-mode . eglot-ensure)
-     (before-save . gofmt-before-save))
-   #+end_src
-
-   We also need to fix the ~project-find~ function to look for go-mod files:
-
-   #+begin_src emacs-lisp :tangle yes
-   (defun my:project-find-go-module (dir)
-     (when-let ((root (locate-dominating-file dir "go.mod")))
-       (cons 'go-module root)))
-
-   (use-package project
-     :config
-     (cl-defmethod project-root ((project (head go-module)))
-       (cdr project))
-     (add-hook 'project-find-functions #'my:project-find-go-module))
-   #+end_src
-
-   [TODO: is this fix really necessary?]
-
-** Web-mode
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package web-mode
-     :after (eglot)
-     :straight t
-     :mode (("\\.jsx?\\'" . web-mode)
-            ("\\.tsx\\'" . web-mode)
-            ("\\.html?\\'" . web-mode))
-     :hook
-     (web-mode .
-               (lambda ()
-                 (if (equal web-mode-content-type "javascript")
-                     (web-mode-set-content-type "jsx"))
-                 (message "now set to: %s" web-mode-content-type)))
-     (web-mode . eglot-ensure)
-     :config
-     (setq web-mode-enable-auto-closing t)
-     (setq web-mode-enable-auto-pairing t)
-     (setq web-mode-code-indent-offset 2)
-     (setq web-mode-markup-indent-offset 2)
-     (setq web-mode-enable-literal-interpolation t))
-   #+end_src
-
-   We also need to add the LSP server for typescript to be used inside web-mode:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package eglot :ensure t
-     :config
-     (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
-   #+end_src
-
-** Typescript
-
-   Let's configure the TS mode first:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package typescript-mode :straight t
-     :after (eglot helm-eglot-code-actions)
-     :mode (("\\.ts\\'" . typescript-mode))
-     :bind (:map typescript-mode-map
-                 ("C-c C-r" . helm-eglot-code-actions))
-
-     :hook
-     (typescript-mode . eglot-ensure)
-     :config
-     (setq typescript-indent-level 2))
-   #+end_src
-
-** Dockerfiles
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package dockerfile-mode :straight t)
+     (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
    #+end_src

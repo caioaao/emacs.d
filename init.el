@@ -5,6 +5,8 @@
 
 (when (file-newer-than-file-p user/config-org-file user/config-el-file)
   (org-babel-tangle-file user/config-org-file)
-  (byte-compile-file user/config-el-file))
+  ;; TODO byte-compile is broken right now
+  ;; (byte-compile-file user/config-el-file)
+  )
 
 (load-file user/config-el-file)

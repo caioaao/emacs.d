@@ -4,6 +4,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
 * Table Of Contents                                                :TOC:TOC2:
 - [[#bootstrap][Bootstrap]]
+  - [[#fix-org-load-path][Fix org load path]]
 - [[#text-editing][Text editing]]
   - [[#evil-mode][Evil mode]]
   - [[#indentation][Indentation]]
@@ -91,7 +92,6 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   We'll also install [[https://github.com/emacsmirror/diminish][diminish.el]] to use with ~use-package~.
 
   #+begin_src emacs-lisp :tangle yes
-    (require 'use-package)
     (use-package diminish :straight t)
   #+end_src
 
@@ -101,6 +101,13 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   (setq gc-cons-threshold 100000000)
   #+end_src
 
+** Fix org load path
+
+   See https://www.reddit.com/r/emacs/comments/qcj33a/problem_and_workaround_with_orgmode_function/
+
+   #+begin_src emacs-lisp :tangle yes
+   (straight-use-package 'org)
+   #+end_src
 * Text editing
 
 ** Evil mode
@@ -556,7 +563,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    We'll install json and jsonnet modes:
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package json-mode :straight t
+   (use-package json
      :config
      (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
 
@@ -716,7 +723,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    A lot of very old config that I keep here. I don't even know if I still use everything, but I keep here because I don't want to break my workflow :shrug:
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package org
+   (use-package org :straight t
      :bind
      (:map global-map
            ("C-c l" . org-store-link)

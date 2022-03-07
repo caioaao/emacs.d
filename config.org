@@ -114,6 +114,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
 ** Evil mode
 
+   First, let's define a key to be the leader. There's a [[https://github.com/cofi/evil-leader][package]] for that but I'm not sure if I need it yet.
+
+   #+begin_src emacs-lisp :tangle yes
+   (defcustom my/evil-leader-key "'" "Key to be used as prefix for a number of commands")
+   #+end_src
+
    #+begin_src emacs-lisp :tangle yes
    (use-package evil :straight t
      :init
@@ -122,6 +128,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (setq evil-want-fine-undo t)
      :config
      (evil-mode 1)
+     (evil-define-key* '(normal motion) 'global (kbd my/evil-leader-key) nil)
      :bind
      (:map evil-normal-state-map
            ("." . nil)

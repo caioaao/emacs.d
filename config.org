@@ -118,6 +118,9 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (defcustom my/evil-leader-key "'" "Key to be used as prefix for a number of commands")
+
+   (defvar my/evil-leader-key-map
+     (make-sparse-keymap))
    #+end_src
 
    #+begin_src emacs-lisp :tangle yes
@@ -128,7 +131,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (setq evil-want-fine-undo t)
      :config
      (evil-mode 1)
-     (evil-define-key* '(normal motion) 'global (kbd my/evil-leader-key) nil)
+     (evil-define-key* '(normal motion) 'global (kbd my/evil-leader-key) my/evil-leader-key-map)
      :bind
      (:map evil-normal-state-map
            ("." . nil)
@@ -449,9 +452,9 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (use-package project
-     :after (evil)
      :config
-     (define-key evil-normal-state-map (kbd "<SPC> p") project-prefix-map))
+     ;; We need to use `define-key` instead of the `:bind` option here because use-package can't bind non-function values
+     (define-key my/evil-leader-key-map "p" project-prefix-map))
    #+end_src
 
 ** Window config history

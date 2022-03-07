@@ -6,7 +6,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 - [[#bootstrap][Bootstrap]]
   - [[#fix-org-load-path][Fix org load path]]
 - [[#text-editing][Text editing]]
-  - [[#evil-mode][Evil mode]]
+  - [[#modal-editing][Modal editing]]
   - [[#indentation][Indentation]]
   - [[#scrolling][Scrolling]]
   - [[#crux---or-better-move-beginning-of-line][Crux - or better move-beginning-of-line]]
@@ -112,7 +112,11 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+end_src
 * Text editing
 
-** Evil mode
+** Modal editing
+
+   [TODO test [[https://github.com/meow-edit/meow][meow]] instead]
+
+   We'll use [[https://github.com/emacs-evil/evil][evil]] for modal editing.
 
    First, let's define a key to be the leader. There's a [[https://github.com/cofi/evil-leader][package]] for that but I'm not sure if I need it yet.
 

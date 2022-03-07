@@ -503,7 +503,8 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (("C-c m s" . magit-status)
       ("C-c m b" . magit-blame-addition)
       :map magit-mode-map
-      ("<SPC>" . nil))
+      ("<SPC>" . nil)
+      :map project-prefix-map ("g" . magit-status))
      :init
      (setq magit-last-seen-setup-instructions "1.4.0")
      (setq magit-git-executable "git")
@@ -519,7 +520,8 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
                                       magit-stash-mode
                                       magit-status-mode)))
                          nil
-                       '(display-buffer-same-window))))))
+                       '(display-buffer-same-window)))))
+     (add-to-list 'project-switch-commands '(magit-status "Magit Status")))
    #+end_src
 
    Now to configure the commit buffer with spellcheck and markdown:

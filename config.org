@@ -120,8 +120,15 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    (defcustom my/evil-leader-key "'" "Key to be used as prefix for a number of commands")
 
    (defvar my/evil-leader-key-map
-     (make-sparse-keymap))
+     (let ((m (make-sparse-keymap)))
+       (define-key m "f" 'find-file)
+       (define-key m "b" 'switch-to-buffer)
+       (define-key m "x" 'execute-extended-command)
+       (define-key m "k" 'kill-buffer)
+       m))
    #+end_src
+
+   Now the actual package:
 
    #+begin_src emacs-lisp :tangle yes
    (use-package evil :straight t

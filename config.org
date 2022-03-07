@@ -32,6 +32,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#improve-eldoc][Improve eldoc]]
   - [[#better-help-buffers][better help buffers]]
 - [[#navigation][Navigation]]
+  - [[#projectel][Project.el]]
   - [[#window-config-history][Window config history]]
   - [[#avy-goto-char][Avy (goto char)]]
   - [[#consult][Consult]]
@@ -122,7 +123,8 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (evil-mode 1)
      :bind
      (:map evil-normal-state-map
-           ("." . nil)))
+           ("." . nil)
+           ("C-." . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)
@@ -248,7 +250,8 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      :hook ((prog-mode . flyspell-prog-mode)
             (text-mode . flyspell-mode))
      :bind (:map flyspell-mode-map
-                 ("C-;" . nil))
+                 ("C-;" . nil)
+                 ("C-." . nil))
      :diminish flyspell-mode flyspell-prog-mode)
    #+end_src
 
@@ -495,9 +498,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (use-package magit
      :straight t
+     :after (project)
      :bind
      (("C-c m s" . magit-status)
-      ("C-c m b" . magit-blame-addition))
+      ("C-c m b" . magit-blame-addition)
+      :map magit-mode-map
+      ("<SPC>" . nil))
      :init
      (setq magit-last-seen-setup-instructions "1.4.0")
      (setq magit-git-executable "git")
@@ -727,6 +733,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (use-package dockerfile-mode :straight t)
    #+end_src
+
 * Writing
 
 ** Org-mode

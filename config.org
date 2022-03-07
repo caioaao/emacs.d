@@ -459,8 +459,10 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (use-package consult :straight t
-     :after (evil)
-     :bind (:map evil-normal-state-map ("<SPC> p s" . consult-ripgrep)))
+     :after (evil project)
+     :bind (:map project-prefix-map ("s" . consult-ripgrep))
+     :config
+     (setq completion-in-region-function #'consult-completion-in-region))
   #+end_src
 
 * Programming

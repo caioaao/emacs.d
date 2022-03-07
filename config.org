@@ -487,7 +487,13 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (use-package consult :straight t
      :after (evil project)
-     :bind (:map project-prefix-map ("s" . consult-ripgrep))
+     :bind
+     (:map project-prefix-map
+      ("s" . consult-ripgrep)
+      :map evil-normal-state-map
+      ("Q" . consult-goto-line)
+      :map my/evil-leader-key-map
+      ("/" . consult-ripgrep))
      :config
      (setq completion-in-region-function #'consult-completion-in-region))
   #+end_src
@@ -565,12 +571,15 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 ** Structured editing
 
     #+begin_src emacs-lisp :tangle yes
-    (use-package paredit
-      :straight t
-      :diminish paredit-mode)
+    (use-package puni :straight t :diminish puni-mode
+      :init (puni-global-mode)
+      :bind (:map my/evil-leader-key-map
+                  ("h" . puni-beginning-of-sexp)
+                  ("l" . puni-end-of-sexp)
+                  :map evil-normal-state-map
+                  ("H" . puni-backward-sexp)
+                  ("L" . puni-forward-sexp)))
     #+end_src
-
-    [TODO: test [[https://github.com/AmaiKinono/puni][puni]] for structured editing]
 
 ** PlantUML
 

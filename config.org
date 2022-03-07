@@ -20,6 +20,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#better-undo][Better undo]]
   - [[#spell-checking][Spell checking]]
   - [[#completion][Completion]]
+  - [[#automatically-reload-change-files][Automatically reload change files]]
 - [[#quality-of-life][Quality of Life]]
   - [[#set-default-browser][Set default browser]]
   - [[#save-history][Save history]]
@@ -332,6 +333,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (global-set-key (kbd "C-;") #'completion-at-point)
+   #+end_src
+
+** Automatically reload change files
+
+   #+begin_src emacs-lisp :tangle yes
+   (auto-revert-mode +1)
    #+end_src
 
 * Quality of Life

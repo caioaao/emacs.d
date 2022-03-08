@@ -146,7 +146,10 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      :bind
      (:map evil-normal-state-map
            ("." . nil)
-           ("C-." . nil)))
+           ("C-." . nil)
+           :map evil-motion-state-map
+           ("H" . nil)
+           ("L" . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)
@@ -575,14 +578,22 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 ** Structured editing
 
     #+begin_src emacs-lisp :tangle yes
-    (use-package puni :straight t :diminish puni-mode
+    (use-package puni :straight t
+      :diminish puni-mode
+      :after (evil)
       :init (puni-global-mode)
       :bind (:map my/evil-leader-key-map
                   ("h" . puni-beginning-of-sexp)
                   ("l" . puni-end-of-sexp)
                   :map evil-normal-state-map
                   ("H" . puni-backward-sexp)
-                  ("L" . puni-forward-sexp)))
+                  ("L" . puni-forward-sexp))
+      :init
+      (mapc (lambda (cmd) (add-to-list 'evil-motions cmd))
+            '(puni-beginning-of-sexp
+              puni-end-of-sexp
+              puni-backward-sexp
+              puni-forward-sexp)))
     #+end_src
 
 ** PlantUML

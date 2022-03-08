@@ -147,9 +147,11 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (:map evil-normal-state-map
            ("." . nil)
            ("C-." . nil)
+           ("<SPC>" . nil)
            :map evil-motion-state-map
            ("H" . nil)
-           ("L" . nil)))
+           ("L" . nil)
+           ("<SPC>" . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)
@@ -466,9 +468,10 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (use-package project
+     :after (evil)
      :config
      ;; We need to use `define-key` instead of the `:bind` option here because use-package can't bind non-function values
-     (define-key my/evil-leader-key-map "p" project-prefix-map))
+     (evil-define-key* '(normal motion) 'global (kbd "<SPC>") project-prefix-map))
    #+end_src
 
 ** Window config history
@@ -496,7 +499,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      :after (evil project)
      :bind
      (:map project-prefix-map
-      ("s" . consult-ripgrep)
+      ("/" . consult-ripgrep)
       :map evil-normal-state-map
       ("Q" . consult-goto-line)
       :map my/evil-leader-key-map

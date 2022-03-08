@@ -39,7 +39,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#consult][Consult]]
 - [[#programming][Programming]]
   - [[#eglot][Eglot]]
-  - [[#flycheck][Flycheck]]
+  - [[#syntax-checking][Syntax checking]]
   - [[#git][Git]]
   - [[#structured-editing][Structured editing]]
   - [[#plantuml][PlantUML]]
@@ -517,12 +517,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
      (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy))
    #+end_src
 
-** Flycheck
+** Syntax checking
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package flycheck
-     :straight t
-     :diminish flycheck-mode)
+   (use-package flymake
+     :diminish flymake-mode
+     :hook (prog-mode . flymake-mode))
    #+end_src
 
 ** Git

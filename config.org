@@ -129,6 +129,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
        (define-key m "b" 'switch-to-buffer)
        (define-key m "x" 'execute-extended-command)
        (define-key m "k" 'kill-buffer)
+       (define-key m "o" 'other-window)
        m))
    #+end_src
 

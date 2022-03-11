@@ -523,8 +523,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
    #+begin_src emacs-lisp :tangle yes
    (use-package eglot :straight t
+     :after (project)
      :bind
-     ("C-c C-r" . helm-eglot-code-actions)
+     (:map my/evil-leader-key-map
+      ("r" . eglot-code-actions)
+      :map project-prefix-map
+      ("e" . eglot-reconnect))
      :config
      (add-to-list 'eglot-stay-out-of "eldoc-documentation-function$")
      (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy))

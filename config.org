@@ -484,7 +484,22 @@ This gives us commands to increment/decrement numbers at point.
      :after (evil)
      :config
      ;; We need to use `define-key` instead of the `:bind` option here because use-package can't bind non-function values
-     (evil-define-key* '(normal motion) 'global (kbd "<SPC>") project-prefix-map))
+     (evil-define-key* '(normal motion) 'global (kbd "<SPC>") project-prefix-map)
+
+     ;; copied predicate from project.el
+     (defun my/project-buffer-p (project buf)
+       (let ((root (expand-file-name (file-name-as-directory (project-root project)))))
+         (string-prefix-p root (expand-file-name
+                                (buffer-local-value 'default-directory buf)))))
+
+     ;; let's define a function to save all buffers from a project
+     (defun my/project-save-buffers ()
+       "Save buffers for a given project"
+       (interactive)
+       (let ((pr (project-current)))
+         (save-some-buffers nil (lambda () (my/project-buffer-p pr (current-buffer))))))
+
+     (define-key project-prefix-map "s" #'my/project-save-buffers))
    #+end_src
 
 ** Window config history

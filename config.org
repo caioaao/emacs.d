@@ -21,6 +21,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#spell-checking][Spell checking]]
   - [[#completion][Completion]]
   - [[#automatically-reload-change-files][Automatically reload change files]]
+  - [[#increment-number-package][Increment number package]]
 - [[#quality-of-life][Quality of Life]]
   - [[#set-default-browser][Set default browser]]
   - [[#save-history][Save history]]
@@ -367,6 +368,17 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (auto-revert-mode +1)
    #+end_src
+
+** Increment number package
+
+This gives us commands to increment/decrement numbers at point.
+
+#+begin_src emacs-lisp :tangle yes
+(use-package shift-number :straight t
+  :bind (:map my/evil-leader-key-map
+              ("+" . shift-number-up)
+              ("-" . shift-number-down)))
+#+end_src
 
 * Quality of Life
 

@@ -993,13 +993,19 @@ This gives us commands to increment/decrement numbers at point.
    (global-hl-line-mode +1)
    #+end_src
 
-   And the powerline now
+   And the mode-line now. I really like what [[https://github.com/manateelazycat/awesome-tray][awesome-tray]]'s author had to say about the mode-line:
+
+   #+begin_quote
+   I don't like mode-line, it's too high, affect me to read the code. With Emacs, we only need to focus on very little information, such as time, current mode, git branch. Excessive information can seriously interfere with our attention.
+   #+end_quote
+
+   Because of that, I decided to tray the more minimalistic 'awesome-tray'.
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package spaceline
-     :straight t
+   (use-package awesome-tray
+     :straight (:type git :host github :repo "manateelazycat/awesome-tray")
      :config
-     (spaceline-emacs-theme))
+     (awesome-tray-mode 1))
    #+end_src
 
 * Other

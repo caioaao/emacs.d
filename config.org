@@ -479,27 +479,65 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Project.el
 
+   Let's start by defining a variable that will store all file names that can be used to find a project root dir.
+
    #+begin_src emacs-lisp :tangle yes
+   (defcustom my/project-root-files '() "Presence of one of this files defines a project root dir")
+
+   ;; quick helper to list all parent directories
+   (defun my/--dir-parents (dir)
+     (let ((next-dir (file-name-directory (directory-file-name (expand-file-name dir)))))
+       (cons dir (if (equal next-dir dir) nil (my/--dir-parents next-dir)))))
+   #+end_src
+
+   #+begin_src emacs-lisp :tangle yes :noweb yes
    (use-package project
      :after (evil)
      :config
      ;; We need to use `define-key` instead of the `:bind` option here because use-package can't bind non-function values
      (evil-define-key* '(normal motion) 'global (kbd "<SPC>") project-prefix-map)
 
-     ;; copied predicate from project.el
-     (defun my/project-buffer-p (project buf)
-       (let ((root (expand-file-name (file-name-as-directory (project-root project)))))
-         (string-prefix-p root (expand-file-name
-                                (buffer-local-value 'default-directory buf)))))
+     <<project-el-kill-buffers>>
+     <<project-el-find-project-function>>)
+   #+end_src
 
-     ;; let's define a function to save all buffers from a project
-     (defun my/project-save-buffers ()
-       "Save buffers for a given project"
-       (interactive)
-       (let ((pr (project-current)))
-         (save-some-buffers nil (lambda () (my/project-buffer-p pr (current-buffer))))))
+   We are making use of a custom command to save all buffers from the project:
 
-     (define-key project-prefix-map "s" #'my/project-save-buffers))
+   #+name: project-el-kill-buffers
+   #+begin_src emacs-lisp
+   ;; copied predicate from project.el
+   (defun my/project-buffer-p (project buf)
+     (let ((root (expand-file-name (file-name-as-directory (project-root project)))))
+       (string-prefix-p root (expand-file-name
+                              (buffer-local-value 'default-directory buf)))))
+
+   ;; let's define a function to save all buffers from a project
+   (defun my/project-save-buffers ()
+     "Save buffers for a given project"
+     (interactive)
+     (let ((pr (project-current)))
+       (save-some-buffers nil (lambda () (my/project-buffer-p pr (current-buffer))))))
+
+   (define-key project-prefix-map "s" #'my/project-save-buffers)
+   #+end_src
+
+   And another function to find more project roots (currently project.el is [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Projects.html][limited to VC and EDE-type projects]]). We just iterate on the parent directories until we find one that has a file contained in the ~my/project-root-files~ variable.
+
+   #+name: project-el-find-project-function
+   #+begin_src emacs-lisp
+   (defun my/--try-find-project-root (dir)
+     (cl-find-if (lambda (curr-dir)
+                   (cl-find-if (lambda (candidate-file)  (file-exists-p (expand-file-name candidate-file curr-dir)))
+                               my/project-root-files))
+                (my/--dir-parents dir)))
+
+   (defun my/try-find-project (dir)
+     (when-let ((proj-root (my/--try-find-project-root dir)))
+       (cons 'my/project proj-root)))
+
+   (cl-defmethod project-root ((project (head my/project)))
+     (cdr project))
+   (add-hook 'project-find-functions #'my/try-find-project)
    #+end_src
 
 ** Window config history
@@ -734,21 +772,11 @@ This gives us commands to increment/decrement numbers at point.
      (before-save . gofmt-before-save))
    #+end_src
 
-   We also need to fix the ~project-find~ function to look for go-mod files:
+   We also need to add ~go.mod~ to the project root files list so it's used for finding the project root dir.
 
    #+begin_src emacs-lisp :tangle yes
-   (defun my/project-find-go-module (dir)
-     (when-let ((root (locate-dominating-file dir "go.mod")))
-       (cons 'go-module root)))
-
-   (use-package project
-     :config
-     (cl-defmethod project-root ((project (head go-module)))
-       (cdr project))
-     (add-hook 'project-find-functions #'my/project-find-go-module))
+   (add-to-list 'my/project-root-files "go.mod")
    #+end_src
-
-   [TODO: is this fix really necessary?]
 
 *** Snippets
 
@@ -799,6 +827,12 @@ This gives us commands to increment/decrement numbers at point.
    (use-package eglot :ensure t
      :config
      (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
+   #+end_src
+
+   And finally add the ~package.json~ file to be used for finding node project roots:
+
+   #+begin_src emacs-lisp :tangle yes
+   (add-to-list 'my/project-root-files "package.json")
    #+end_src
 
 ** Typescript

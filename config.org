@@ -487,7 +487,7 @@ This gives us commands to increment/decrement numbers at point.
    ;; quick helper to list all parent directories
    (defun my/--dir-parents (dir)
      (let ((next-dir (file-name-directory (directory-file-name (expand-file-name dir)))))
-       (cons dir (if (equal next-dir dir) nil (my/--dir-parents next-dir)))))
+       (cons (abbreviate-file-name dir) (if (equal next-dir dir) nil (my/--dir-parents next-dir)))))
    #+end_src
 
    #+begin_src emacs-lisp :tangle yes :noweb yes

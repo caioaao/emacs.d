@@ -1038,8 +1038,11 @@ This gives us commands to increment/decrement numbers at point.
    #+begin_src emacs-lisp :tangle yes
    (use-package awesome-tray
      :straight (:type git :host github :repo "manateelazycat/awesome-tray")
+     :after (doom-themes)
      :init
      (setq awesome-tray-active-modules '("location" "evil" "buffer-name" "git" "mode-name"))
+     (setq awesome-tray-mode-line-inactive-color (doom-lighten (doom-color 'bg) 0.2))
+     (setq awesome-tray-mode-line-active-color (doom-lighten (doom-color 'bg) 0.5))
      :config
      (awesome-tray-mode 1))
    #+end_src

@@ -5,6 +5,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 * Table Of Contents                                                :TOC:TOC2:
 - [[#bootstrap][Bootstrap]]
   - [[#fix-org-load-path][Fix org load path]]
+  - [[#utils][Utils]]
 - [[#text-editing][Text editing]]
   - [[#modal-editing][Modal editing]]
   - [[#indentation][Indentation]]
@@ -111,6 +112,25 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (straight-use-package 'org)
    #+end_src
+
+** Utils
+
+Let's define some utils to write our config. First, a function to get the cache root dir and another to get and create subdirs inside the cache dir.
+
+#+begin_src emacs-lisp :tangle yes
+(defun my/cache-dir ()
+  (let ((d (file-name-as-directory (or (getenv "XDG_CACHE_HOME") (concat (file-name-as-directory (getenv "HOME")) ".cache/emacs.d")))))
+    (when (not (file-directory-p d))
+      (mkdir d))
+    d))
+
+(defun my/app-cache-dir (app-name)
+  (let ((d (file-name-as-directory (concat (my/cache-dir) app-name))))
+    (when (not (file-directory-p d))
+      (mkdir d))
+      d))
+#+end_src
+
 * Text editing
 
 ** Modal editing
@@ -257,6 +277,9 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (use-package undo-tree :straight t
      :diminish undo-tree-mode
+     :init
+     (setq undo-tree-auto-save-history t)
+     (setq undo-tree-history-directory-alist (list (cons ".*" (my/app-cache-dir "undo-tree"))))
      :config
      (global-undo-tree-mode 1))
    #+end_src
@@ -1063,12 +1086,16 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Dired
 
-   Lest add more switches to dired:
+   Lest add more switches to dired, and also remove the bindings that clash with my own/evil's
 
    #+begin_src emacs-lisp :tangle yes
    (use-package dired
+     :after (evil evil-collection)
+     :bind (:map dired-mode-map
+                 ("<SPC>" . nil))
      :config
-     (setq dired-listing-switches "-alh"))
+     (setq dired-listing-switches "-alh")
+     :hook (evil-collection-setup . (lambda (&rest args) (evil-define-key 'normal 'dired-mode-map "<SPC>" nil))))
    #+end_src
 
 ** GPG

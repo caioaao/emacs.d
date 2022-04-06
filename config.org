@@ -154,6 +154,21 @@ Let's define some utils to write our config. First, a function to get the cache 
        m))
    #+end_src
 
+   We'll need to initialize general.el so we can have a leader key taking precedence over evil-collection stuff:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package general :straight t
+     :init
+     (setq general-override-states '(insert
+                                     emacs
+                                     hybrid
+                                     normal
+                                     visual
+                                     motion
+                                     operator
+                                     replace)))
+   #+end_src
+
    Now the actual package:
 
    #+begin_src emacs-lisp :tangle yes
@@ -164,16 +179,17 @@ Let's define some utils to write our config. First, a function to get the cache 
      (setq evil-want-fine-undo t)
      :config
      (evil-mode 1)
-     (evil-define-key* '(normal motion) 'global (kbd my/evil-leader-key) my/evil-leader-key-map)
+     (general-define-key
+      :states '(normal visual motion)
+      :keymaps 'override
+      my/evil-leader-key my/evil-leader-key-map)
      :bind
      (:map evil-normal-state-map
            ("." . nil)
            ("C-." . nil)
-           ("<SPC>" . nil)
            :map evil-motion-state-map
            ("H" . nil)
-           ("L" . nil)
-           ("<SPC>" . nil)))
+           ("L" . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)
@@ -514,14 +530,12 @@ This gives us commands to increment/decrement numbers at point.
    #+end_src
 
    #+begin_src emacs-lisp :tangle yes :noweb yes
-   (use-package project
-     :after (evil)
-     :config
-     ;; We need to use `define-key` instead of the `:bind` option here because use-package can't bind non-function values
-     (evil-define-key* '(normal motion) 'global (kbd "<SPC>") project-prefix-map)
-
-     <<project-el-kill-buffers>>
-     <<project-el-find-project-function>>)
+      (use-package project
+        :after (evil general)
+        :config
+        <<project-el-kill-buffers>>
+        <<project-el-find-project-function>>
+        <<project-el-override-leader-key>>)
    #+end_src
 
    We are making use of a custom command to save all buffers from the project:
@@ -561,6 +575,16 @@ This gives us commands to increment/decrement numbers at point.
    (cl-defmethod project-root ((project (head my/project)))
      (cdr project))
    (add-hook 'project-find-functions #'my/try-find-project)
+   #+end_src
+
+   And finally let's define a prefix for the project key map:
+
+   #+name: project-el-override-leader-key
+   #+begin_src emacs-lisp
+   (general-define-key
+    :states '(normal visual motion)
+    :keymaps 'override
+    "SPC" project-prefix-map)
    #+end_src
 
 ** Window config history

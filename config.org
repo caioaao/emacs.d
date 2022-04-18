@@ -890,11 +890,9 @@ This gives us commands to increment/decrement numbers at point.
    (use-package typescript-mode :straight t
      :after (eglot)
      :mode (("\\.ts\\'" . typescript-mode))
-     :bind (:map typescript-mode-map
-                 ("C-c C-r" . helm-eglot-code-actions))
-
      :hook
      (typescript-mode . eglot-ensure)
+     (typescript-mode . (lambda () (setq-local tab-width 2)))
      :config
      (setq typescript-indent-level 2))
    #+end_src

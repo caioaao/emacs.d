@@ -642,7 +642,9 @@ This gives us commands to increment/decrement numbers at point.
       ("e" . eglot-reconnect))
      :config
      (add-to-list 'eglot-stay-out-of "eldoc-documentation-function$")
-     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy))
+     (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
+     :hook
+     (before-save . (lambda () (when (eglot-managed-p) (with-demoted-errors "Error when eglot-format-buffer: %s" (eglot-format-buffer))))))
    #+end_src
 
 ** Syntax checking
@@ -850,22 +852,20 @@ This gives us commands to increment/decrement numbers at point.
    (use-package web-mode
      :after (eglot)
      :straight t
-     :mode (("\\.jsx?\\'" . web-mode)
-            ("\\.tsx\\'" . web-mode)
-            ("\\.html?\\'" . web-mode))
-     :hook
-     (web-mode .
-               (lambda ()
-                 (if (equal web-mode-content-type "javascript")
-                     (web-mode-set-content-type "jsx"))
-                 (message "now set to: %s" web-mode-content-type)))
-     (web-mode . eglot-ensure)
+     :mode (("\\.html?\\'" . web-mode))
+
      :config
      (setq web-mode-enable-auto-closing t)
      (setq web-mode-enable-auto-pairing t)
      (setq web-mode-code-indent-offset 2)
      (setq web-mode-markup-indent-offset 2)
-     (setq web-mode-enable-literal-interpolation t))
+     (setq web-mode-enable-literal-interpolation t)
+
+     (define-derived-mode my/tsx-jsx-web-mode web-mode "tsx/jsx"
+       "Major mode derived from web-mode to handle jsx and tsx files.")
+     (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-web-mode))
+     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . my/tsx-jsx-web-mode))
+     (add-hook 'my/tsx-jsx-web-mode-hook #'eglot-ensure))
    #+end_src
 
    We also need to add the LSP server for typescript to be used inside web-mode:
@@ -888,7 +888,7 @@ This gives us commands to increment/decrement numbers at point.
 
    #+begin_src emacs-lisp :tangle yes
    (use-package typescript-mode :straight t
-     :after (eglot helm-eglot-code-actions)
+     :after (eglot)
      :mode (("\\.ts\\'" . typescript-mode))
      :bind (:map typescript-mode-map
                  ("C-c C-r" . helm-eglot-code-actions))

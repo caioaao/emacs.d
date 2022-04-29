@@ -849,7 +849,7 @@ This gives us commands to increment/decrement numbers at point.
 ** Web-mode
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package web-mode
+   (use-package web-mode :demand t
      :after (eglot)
      :straight t
      :mode (("\\.html?\\'" . web-mode))
@@ -861,6 +861,7 @@ This gives us commands to increment/decrement numbers at point.
      (setq web-mode-markup-indent-offset 2)
      (setq web-mode-enable-literal-interpolation t)
 
+     (defvar my/tsx-jsx-web-mode-map (make-sparse-keymap))
      (define-derived-mode my/tsx-jsx-web-mode web-mode "tsx/jsx"
        "Major mode derived from web-mode to handle jsx and tsx files.")
      (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-web-mode))

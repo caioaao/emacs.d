@@ -389,7 +389,7 @@ Let's define some utils to write our config. First, a function to get the cache 
    (use-package yasnippet :straight t
      :diminish yas-minor-mode
      :bind (:map my/evil-leader-key-map
-                 ("y" . yas-expand))
+                 ("y" . yas-insert-snippet))
      :config
      (yas-global-mode 1)
      ;; Fix yasnippet 0.8/ac bug
@@ -889,6 +889,25 @@ This gives us commands to increment/decrement numbers at point.
    #+begin_src emacs-lisp :tangle yes
    (add-to-list 'my/project-root-files "package.json")
    #+end_src
+
+
+*** Snippets
+
+    #+begin_src fundamental :tangle snippets/web-mode/functional-component-ts :mkdirp yes
+    # -*- mode: snippet -*-
+    # name: Functional component using typescript
+    # key: fct
+    # --
+    import * as React from "react"
+
+    export interface ${1:component}Props {}
+
+    const $1: React.FC<$1Props> = (props) => {
+         $2
+    }
+
+    export default $1;
+    #+end_src
 
 ** Typescript
 

@@ -151,6 +151,7 @@ Let's define some utils to write our config. First, a function to get the cache 
        (define-key m "x" 'execute-extended-command)
        (define-key m "k" 'kill-buffer)
        (define-key m "o" 'other-window)
+       (define-key m "?" 'xref-find-references)
        m))
    #+end_src
 
@@ -387,6 +388,8 @@ Let's define some utils to write our config. First, a function to get the cache 
    #+begin_src emacs-lisp :tangle yes
    (use-package yasnippet :straight t
      :diminish yas-minor-mode
+     :bind (:map my/evil-leader-key-map
+                 ("y" . yas-expand))
      :config
      (yas-global-mode 1)
      ;; Fix yasnippet 0.8/ac bug
@@ -637,9 +640,10 @@ This gives us commands to increment/decrement numbers at point.
      :after (project)
      :bind
      (:map my/evil-leader-key-map
-      ("r" . eglot-code-actions)
-      :map project-prefix-map
-      ("e" . eglot-reconnect))
+      ("e r" . eglot-code-actions)
+      ("e e" . eglot-reconnect)
+      ("e m" . eglot-rename)
+      ("e I" . eglot-organize-imports))
      :config
      (add-to-list 'eglot-stay-out-of "eldoc-documentation-function$")
      (add-to-list 'eglot-stay-out-of 'eldoc-documentation-strategy)
@@ -652,6 +656,9 @@ This gives us commands to increment/decrement numbers at point.
    #+begin_src emacs-lisp :tangle yes
    (use-package flymake
      :diminish flymake-mode
+     :bind (:map my/evil-leader-key-map
+                 (">" . flymake-goto-next-error)
+                 ("<" . flymake-goto-prev-error))
      :hook (prog-mode . flymake-mode))
    #+end_src
 

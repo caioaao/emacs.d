@@ -391,12 +391,7 @@ Let's define some utils to write our config. First, a function to get the cache 
      :bind (:map my/evil-leader-key-map
                  ("y" . yas-insert-snippet))
      :config
-     (yas-global-mode 1)
-     ;; Fix yasnippet 0.8/ac bug
-     (defalias 'yas/get-snippet-tables 'yas--get-snippet-tables)
-     (defalias 'yas/table-hash 'yas--table-hash)
-     (setq yas-snippet-dirs (append yas-snippet-dirs
-                                    '("~/.emacs.d/snippets"))))
+     (yas-global-mode 1))
    #+end_src
 
    Finally, for a better completion command:
@@ -893,9 +888,9 @@ This gives us commands to increment/decrement numbers at point.
 
 *** Snippets
 
-    #+begin_src fundamental :tangle snippets/web-mode/functional-component-ts :mkdirp yes
+    #+begin_src fundamental :tangle snippets/web-mode/react-fc-ts :mkdirp yes
     # -*- mode: snippet -*-
-    # name: Functional component using typescript
+    # name: react-fc-ts
     # key: fct
     # --
     import * as React from "react"

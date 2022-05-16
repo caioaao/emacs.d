@@ -575,6 +575,8 @@ This gives us commands to increment/decrement numbers at point.
    (add-hook 'project-find-functions #'my/try-find-project)
    #+end_src
 
+   **PS: The default implementation of ~find-files~ is using ~find-program~ and it uses the variable ~grep-find-ignored-files~, so whenever we need to ignore other files we just add it there (~VC~ type projects use the VC to define which to ignore, so it's a bit easier).**
+
    And finally let's define a prefix for the project key map:
 
    #+name: project-el-override-leader-key
@@ -885,6 +887,13 @@ This gives us commands to increment/decrement numbers at point.
    (add-to-list 'my/project-root-files "package.json")
    #+end_src
 
+   We also need to tell the ~find-program~ to ignore node_modules, so we'll add it there too:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package grep :demand t
+     :config
+     (add-to-list 'grep-find-ignored-files "node_modules"))
+   #+end_src
 
 *** Snippets
 

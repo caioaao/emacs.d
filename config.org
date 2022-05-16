@@ -913,6 +913,24 @@ This gives us commands to increment/decrement numbers at point.
     export default $1;
     #+end_src
 
+    #+begin_src fundamental :tangle snippets/web-mode/react-story-ts :mkdirp yes
+    # -*- mode: snippet -*-
+    # name: react-storybook-ts
+    # key: tstory
+    # --
+    import React from 'react';
+
+    import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+    import ${1:MyComponent}, { $1Props } from '.';
+
+    export default {
+        component: $1,
+    } as ComponentMeta<typeof $1>;
+
+    export const Basic: ComponentStory<typeof $1> = () => (<$1 />);
+    #+end_src
+
 ** Typescript
 
    Let's configure the TS mode first:

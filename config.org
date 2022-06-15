@@ -200,6 +200,14 @@ Let's define some utils to write our config. First, a function to get the cache 
      (evil-collection-init))
    #+end_src
 
+   We'll also add [[https://github.com/bling/evil-visualstar][evil-visualstar]] so we can search text that is selected using visual mode:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package evil-visualstar :straight t
+     :config
+     (global-evil-visualstar-mode +1))
+   #+end_src
+
 ** Indentation
 
    Let's start by setting indent to spaces by default.

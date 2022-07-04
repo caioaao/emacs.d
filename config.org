@@ -718,22 +718,9 @@ This gives us commands to increment/decrement numbers at point.
 ** Structured editing
 
     #+begin_src emacs-lisp :tangle yes
-    (use-package puni :straight t
-      :diminish puni-mode
-      :after (evil)
-      :init (puni-global-mode)
-      :bind (:map my/evil-leader-key-map
-                  ("h" . puni-beginning-of-sexp)
-                  ("l" . puni-end-of-sexp)
-                  :map evil-normal-state-map
-                  ("H" . puni-backward-sexp)
-                  ("L" . puni-forward-sexp))
-      :init
-      (mapc (lambda (cmd) (add-to-list 'evil-motions cmd))
-            '(puni-beginning-of-sexp
-              puni-end-of-sexp
-              puni-backward-sexp
-              puni-forward-sexp)))
+    (use-package evil-cleverparens :straight t)
+    (use-package evil-surround :straight t
+      :config (global-evil-surround-mode 1))
     #+end_src
 
 ** PlantUML
@@ -969,10 +956,16 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Clojure
 
+Let's add clojure-mode and cider:
+
 #+begin_src emacs-lisp :tangle yes
 (use-package clojure-mode :straight t
-  :after (eglot)
-  :hook (clojure-mode . eglot-ensure))
+  :after (eglot evil-cleverparens)
+  :hook
+  (clojure-mode . eglot-ensure)
+  (clojure-mode . evil-cleverparens-mode))
+
+(use-package cider :straight t)
 #+end_src
 
 We also need to add ~deps.edn~ as a file that specifies the root dir of a project:

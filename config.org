@@ -57,6 +57,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#web-mode][Web-mode]]
   - [[#typescript][Typescript]]
   - [[#dockerfiles][Dockerfiles]]
+  - [[#clojure][Clojure]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -839,6 +840,12 @@ This gives us commands to increment/decrement numbers at point.
    (add-to-list 'my/project-root-files "go.mod")
    #+end_src
 
+   Let's also add a helper package to run go tests:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package gotest :straight t)
+   #+end_src
+
 *** Snippets
 
     #+begin_src fundamental :tangle snippets/go-mode/tabular-tests :mkdirp yes
@@ -959,6 +966,20 @@ This gives us commands to increment/decrement numbers at point.
    #+begin_src emacs-lisp :tangle yes
    (use-package dockerfile-mode :straight t)
    #+end_src
+
+** Clojure
+
+#+begin_src emacs-lisp :tangle yes
+(use-package clojure-mode :straight t
+  :after (eglot)
+  :hook (clojure-mode . eglot-ensure))
+#+end_src
+
+We also need to add ~deps.edn~ as a file that specifies the root dir of a project:
+
+#+begin_src emacs-lisp :tangle yes
+(add-to-list 'my/project-root-files "deps.edn")
+#+end_src
 
 * Writing
 

@@ -852,6 +852,16 @@ This gives us commands to increment/decrement numbers at point.
     }
     #+end_src
 
+    #+begin_src fundamental :tangle snippets/go-mode/error-wrapper :mkdirp yes
+    # -*- mode: snippet -*-
+    # name: Error wrapper func
+    # key: wrapErr
+    # --
+    wrapErr := func(err error) error {
+        return fmt.Errorf("$1: %w", err)
+    }
+    #+end_src
+
 ** Web-mode
 
    #+begin_src emacs-lisp :tangle yes

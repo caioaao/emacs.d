@@ -58,6 +58,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#typescript][Typescript]]
   - [[#dockerfiles][Dockerfiles]]
   - [[#clojure][Clojure]]
+  - [[#ocaml][OCaml]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -982,6 +983,14 @@ We also need to add ~deps.edn~ as a file that specifies the root dir of a projec
 
 #+begin_src emacs-lisp :tangle yes
 (add-to-list 'my/project-root-files "deps.edn")
+#+end_src
+
+** OCaml
+
+#+begin_src emacs-lisp :tangle yes
+(use-package tuareg :straight t
+  :after (eglot)
+  :hook (tuareg-mode . eglot-ensure))
 #+end_src
 
 * Writing

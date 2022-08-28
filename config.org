@@ -59,6 +59,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#dockerfiles][Dockerfiles]]
   - [[#clojure][Clojure]]
   - [[#ocaml][OCaml]]
+  - [[#scala][Scala]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -997,6 +998,20 @@ And let project.el know that if a dir has a ~dune-project~ file, it is a project
 
 #+begin_src emacs-lisp :tangle yes
 (add-to-list 'my/project-root-files "dune-project")
+#+end_src
+
+** Scala
+
+#+begin_src emacs-lisp :tangle yes
+(use-package scala-mode :straight t
+  :after (eglot)
+  :hook (scala-mode . eglot-ensure))
+#+end_src
+
+And, as per usual, let's add a file that can be used to detect when we're inside a scala project:
+
+#+begin_src emacs-lisp :tangle yes
+(add-to-list 'my/project-root-files "build.sbt")
 #+end_src
 
 * Writing

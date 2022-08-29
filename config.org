@@ -539,12 +539,13 @@ This gives us commands to increment/decrement numbers at point.
    #+end_src
 
    #+begin_src emacs-lisp :tangle yes :noweb yes
-      (use-package project
-        :after (evil general)
-        :config
-        <<project-el-kill-buffers>>
-        <<project-el-find-project-function>>
-        <<project-el-override-leader-key>>)
+   (use-package project
+     :after (evil general)
+     :config
+     <<project-el-kill-buffers>>
+     <<project-el-find-project-function>>
+     <<project-el-override-leader-key>>
+     <<project-el-add-makefile-root-file>>)
    #+end_src
 
    We are making use of a custom command to save all buffers from the project:
@@ -596,6 +597,13 @@ This gives us commands to increment/decrement numbers at point.
     :states '(normal visual motion)
     :keymaps 'override
     "SPC" project-prefix-map)
+   #+end_src
+
+   We can also add one new file for finding a project dir:
+
+   #+name: project-el-add-makefile-root-file
+   #+begin_src emacs-lisp
+   (add-to-list 'my/project-root-files "Makefile")
    #+end_src
 
 ** Window config history

@@ -1005,7 +1005,10 @@ And let project.el know that if a dir has a ~dune-project~ file, it is a project
 #+begin_src emacs-lisp :tangle yes
 (use-package scala-mode :straight t
   :after (eglot)
-  :hook (scala-mode . eglot-ensure))
+  :hook (scala-mode . eglot-ensure)
+  :config
+  (add-to-list 'eglot-server-programs `(scala-mode . ("metals"))))
+
 #+end_src
 
 And, as per usual, let's add a file that can be used to detect when we're inside a scala project:

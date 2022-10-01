@@ -875,33 +875,65 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Web-mode
 
-   #+begin_src emacs-lisp :tangle yes
+    This is the final configuration:
+
+   #+begin_src emacs-lisp :tangle yes :noweb yes
    (use-package web-mode :demand t
      :after (eglot)
      :straight t
      :mode (("\\.html?\\'" . web-mode))
 
      :config
-     (setq web-mode-enable-auto-closing t)
-     (setq web-mode-enable-auto-pairing t)
-     (setq web-mode-code-indent-offset 2)
-     (setq web-mode-markup-indent-offset 2)
-     (setq web-mode-enable-literal-interpolation t)
+     <<web-mode-edit-config>>
 
-     (defvar my/tsx-jsx-web-mode-map (make-sparse-keymap))
-     (define-derived-mode my/tsx-jsx-web-mode web-mode "tsx/jsx"
-       "Major mode derived from web-mode to handle jsx and tsx files.")
-     (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-web-mode))
-     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . my/tsx-jsx-web-mode))
-     (add-hook 'my/tsx-jsx-web-mode-hook #'eglot-ensure))
+     <<web-mode-tsx-jsx-derived-mode>>
+     <<web-mode-vuejs-derived-mode>>
+     )
    #+end_src
 
-   We also need to add the LSP server for typescript to be used inside web-mode:
+
+   Inside the config block, let's begin by defining some defaults for editing:
+
+   #+name: web-mode-edit-config
+   #+begin_src emacs-lisp
+   (setq web-mode-enable-auto-closing t)
+   (setq web-mode-enable-auto-pairing t)
+   (setq web-mode-code-indent-offset 2)
+   (setq web-mode-markup-indent-offset 2)
+   (setq web-mode-enable-literal-interpolation t)
+   #+end_src
+
+   Now we'll configure web-mode for TSX/JSX. For that, we first define a mode derived from web-mode - this will allow us to automatically hook specific LSP servers to it.
+
+   #+name: web-mode-tsx-jsx-derived-mode
+   #+begin_src emacs-lisp
+   (define-derived-mode my/tsx-jsx-web-mode web-mode "tsx/jsx"
+     "Major mode derived from web-mode to handle jsx and tsx files.")
+
+   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-web-mode))
+   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . my/tsx-jsx-web-mode))
+
+   (add-hook 'my/tsx-jsx-web-mode-hook #'eglot-ensure)
+   #+end_src
+
+   We'll do the same for [[https://vuejs.org/][VueJS]]:
+
+   #+name: web-mode-vuejs-derived-mode
+   #+begin_src emacs-lisp
+   (define-derived-mode my/vuejs-web-mode web-mode "vuejs"
+     "Major mode derived from web-mode to handle Vue files.")
+   (add-to-list 'auto-mode-alist '("\\.vue\\'" . my/vuejs-web-mode))
+
+   (add-hook 'my/vuejs-web-mode-hook #'eglot-ensure)
+   #+end_src
+
+   Now let's define the language servers we'll use in these derived modes:
 
    #+begin_src emacs-lisp :tangle yes
    (use-package eglot :ensure t
      :config
-     (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
+     (add-to-list 'eglot-server-programs '(my/tsx-jsx-web-mode . ("typescript-language-server" "--stdio")))
+     (add-to-list 'eglot-server-programs '(my/vuejs-web-mode . ("vls"))))
    #+end_src
 
    And finally add the ~package.json~ file to be used for finding node project roots:

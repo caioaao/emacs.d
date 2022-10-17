@@ -61,6 +61,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#ocaml][OCaml]]
   - [[#scala][Scala]]
   - [[#nix][Nix]]
+  - [[#bazel][Bazel]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -1064,6 +1065,12 @@ And, as per usual, let's add a file that can be used to detect when we're inside
   :mode "\\.nix\\'"
   :after (eglot)
   :hook (nix-mode . eglot-ensure))
+#+end_src
+
+** Bazel
+
+#+begin_src emacs-lisp :tangle yes
+(use-package bazel :straight t)
 #+end_src
 
 * Writing

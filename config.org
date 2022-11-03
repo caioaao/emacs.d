@@ -1125,7 +1125,8 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
         (gnuplot . t)
         (R . t)
         (plantuml . t)
-        (lua . t))))
+        (lua . t)))
+     (add-to-list 'org-export-backends 'md))
 
    #+end_src
 

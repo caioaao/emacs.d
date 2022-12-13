@@ -608,6 +608,8 @@ This gives us commands to increment/decrement numbers at point.
    #+begin_src emacs-lisp
    (add-to-list 'my/project-root-files "Makefile")
    (add-to-list 'my/project-root-files "dbt_project.yml")
+   (add-to-list 'my/project-root-files "project.json")
+   (add-to-list 'my/project-root-files "nx.json")
    #+end_src
 
 ** Window config history
@@ -1091,6 +1093,11 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
    A lot of very old config that I keep here. I don't even know if I still use everything, but I keep here because I don't want to break my workflow :shrug:
 
    #+begin_src emacs-lisp :tangle yes
+   (use-package ox-gfm :straight t
+     :after (org)
+     :config
+     (require 'ox-gfm))
+
    (use-package org :straight t
      :bind
      (:map global-map

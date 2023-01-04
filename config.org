@@ -663,7 +663,6 @@ This gives us commands to increment/decrement numbers at point.
       :map my/evil-leader-key-map
       ("/" . consult-ripgrep))
      :init
-     (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
      (setq completion-in-region-function (lambda (&rest args)
                                            (apply (if vertico-mode
                                                       #'consult-completion-in-region

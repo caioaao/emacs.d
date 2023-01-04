@@ -113,7 +113,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
 ** Fix org load path
 
-   See https://www.reddit.com/r/emacs/comments/qcj33a/problem_and_workaround_with_orgmode_function/
+   Now we need to fix org load path (see https://www.reddit.com/r/emacs/comments/qcj33a/problem_and_workaround_with_orgmode_function/ for more info). We do this by loading org very early.
 
    #+begin_src emacs-lisp :tangle yes
    (straight-use-package 'org)

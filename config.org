@@ -44,6 +44,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#syntax-checking][Syntax checking]]
   - [[#git][Git]]
   - [[#structured-editing][Structured editing]]
+  - [[#syntax-highlighting][Syntax highlighting]]
   - [[#plantuml][PlantUML]]
   - [[#direnv][direnv]]
   - [[#json][JSON]]
@@ -758,6 +759,22 @@ This gives us commands to increment/decrement numbers at point.
     (use-package evil-surround :straight t
       :config (global-evil-surround-mode 1))
     #+end_src
+
+
+** Syntax highlighting
+
+Apparently tree-sitter is a better way of doing syntax highlighting. Instead of using a bunch of regexes, it uses the AST. It's supposed to be both faster and more precise.
+
+#+begin_src emacs-lisp :tangle yes
+(use-package tree-sitter :straight t
+  :config
+  ;; activate tree-sitter on any buffer containing code for which it has a parser available
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs :straight t
+  :after tree-sitter)
+#+end_src
 
 ** PlantUML
 

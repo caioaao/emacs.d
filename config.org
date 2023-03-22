@@ -71,6 +71,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#copy-environment-variables][Copy environment variables]]
   - [[#dired][Dired]]
   - [[#gpg][GPG]]
+  - [[#presentation-mode][Presentation mode]]
 
 * Bootstrap
 
@@ -1337,3 +1338,22 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
      :config
      (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
    #+end_src
+
+** Presentation mode
+
+When I'm pairing remotely I need to set the font face bigger, so let's add a keybind for that.
+
+#+begin_src emacs-lisp :tangle yes
+(define-minor-mode my/presentation-toggle-mode
+  "Controls a toggle for 'presentation' mode.")
+
+
+(defvar my/presentation-on? nil)
+
+(defun my/presentation-toggle () (interactive)
+       (if my/presentation-on?
+           (progn (set-face-attribute 'default nil :height 100)
+       (setq my/presentation-on? nil))
+         (set-face-attribute 'default nil :height 200)
+       (setq my/presentation-on? t)))
+#+end_src

@@ -763,7 +763,7 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Syntax highlighting
 
-Apparently tree-sitter is a better way of doing syntax highlighting. Instead of using a bunch of regexes, it uses the AST. It's supposed to be both faster and more precise.
+Apparently [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]] is a better way of doing syntax highlighting. Instead of using a bunch of regexes, it uses the AST. It's supposed to be both faster and more precise.
 
 #+begin_src emacs-lisp :tangle yes
 (use-package tree-sitter :straight t
@@ -919,54 +919,59 @@ Apparently tree-sitter is a better way of doing syntax highlighting. Instead of 
 
     This is the final configuration:
 
-   #+begin_src emacs-lisp :tangle yes :noweb yes
+   #+begin_src emacs-lisp :tangle yes
    (use-package web-mode :demand t
      :after (eglot)
      :straight t
      :mode (("\\.html?\\'" . web-mode))
 
      :config
-     <<web-mode-edit-config>>
-
-     <<web-mode-tsx-jsx-derived-mode>>
-     <<web-mode-vuejs-derived-mode>>
-     )
+     (setq web-mode-enable-auto-closing t)
+     (setq web-mode-enable-auto-pairing t)
+     (setq web-mode-code-indent-offset 2)
+     (setq web-mode-markup-indent-offset 2)
+     (setq web-mode-enable-literal-interpolation t))
    #+end_src
 
+** Typescript
 
-   Inside the config block, let's begin by defining some defaults for editing:
+   Here's the final config:
 
-   #+name: web-mode-edit-config
-   #+begin_src emacs-lisp
-   (setq web-mode-enable-auto-closing t)
-   (setq web-mode-enable-auto-pairing t)
-   (setq web-mode-code-indent-offset 2)
-   (setq web-mode-markup-indent-offset 2)
-   (setq web-mode-enable-literal-interpolation t)
+   #+begin_src emacs-lisp :tangle yes :noweb yes
+      (use-package typescript-mode :straight t :demand t
+        :after (eglot)
+        :mode (("\\.ts\\'" . typescript-mode))
+        :hook
+        (typescript-mode . eglot-ensure)
+        (typescript-mode . (lambda () (setq-local tab-width 2)))
+        :config
+        (setq typescript-indent-level 2)
+        <<typescript-mode-tsx-jsx-derived-mode>>
+        <<typescript-mode-vuejs-derived-mode>>)
    #+end_src
 
-   Now we'll configure web-mode for TSX/JSX. For that, we first define a mode derived from web-mode - this will allow us to automatically hook specific LSP servers to it.
+   Let's define a derived mode for react files to force eglot and tree-sitter to understand them as different from typescript.
 
-   #+name: web-mode-tsx-jsx-derived-mode
+   #+name: typescript-mode-tsx-jsx-derived-mode
    #+begin_src emacs-lisp
-   (define-derived-mode my/tsx-jsx-web-mode web-mode "tsx/jsx"
+   (define-derived-mode my/tsx-jsx-typescript-mode typescript-mode "tsx/jsx"
      "Major mode derived from web-mode to handle jsx and tsx files.")
 
-   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-web-mode))
-   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . my/tsx-jsx-web-mode))
+   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-typescript-mode))
+   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . my/tsx-jsx-typescript-mode))
 
-   (add-hook 'my/tsx-jsx-web-mode-hook #'eglot-ensure)
+   (add-hook 'my/tsx-jsx-typescript-mode-hook #'eglot-ensure)
    #+end_src
 
    We'll do the same for [[https://vuejs.org/][VueJS]]:
 
-   #+name: web-mode-vuejs-derived-mode
+   #+name: typescript-mode-vuejs-derived-mode
    #+begin_src emacs-lisp
-   (define-derived-mode my/vuejs-web-mode web-mode "vuejs"
-     "Major mode derived from web-mode to handle Vue files.")
-   (add-to-list 'auto-mode-alist '("\\.vue\\'" . my/vuejs-web-mode))
+   (define-derived-mode my/vuejs-typescript-mode typescript-mode "vuejs"
+     "Major mode derived from typescript-mode to handle Vue files.")
+   (add-to-list 'auto-mode-alist '("\\.vue\\'" . my/vuejs-typescript-mode))
 
-   (add-hook 'my/vuejs-web-mode-hook #'eglot-ensure)
+   (add-hook 'my/vuejs-typescript-mode-hook #'eglot-ensure)
    #+end_src
 
    Now let's define the language servers we'll use in these derived modes:
@@ -974,11 +979,11 @@ Apparently tree-sitter is a better way of doing syntax highlighting. Instead of 
    #+begin_src emacs-lisp :tangle yes
    (use-package eglot :ensure t
      :config
-     (add-to-list 'eglot-server-programs '(my/tsx-jsx-web-mode . ("typescript-language-server" "--stdio")))
-     (add-to-list 'eglot-server-programs '(my/vuejs-web-mode . ("vls"))))
+     (add-to-list 'eglot-server-programs '(my/tsx-jsx-typescript-mode . ("typescript-language-server" "--stdio")))
+     (add-to-list 'eglot-server-programs '(my/vuejs-typescript-mode . ("vls"))))
    #+end_src
 
-   And finally add the ~package.json~ file to be used for finding node project roots:
+   Now add the ~package.json~ file to be used for finding node project roots:
 
    #+begin_src emacs-lisp :tangle yes
    (add-to-list 'my/project-root-files "package.json")
@@ -992,9 +997,34 @@ Apparently tree-sitter is a better way of doing syntax highlighting. Instead of 
      (add-to-list 'grep-find-ignored-files "node_modules"))
    #+end_src
 
+   Finally let's add our new modes to tree-sitter:
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package tree-sitter
+     :after (tree-sitter-langs)
+     :config
+      (tree-sitter-require 'tsx)
+      (add-to-list 'tree-sitter-major-mode-language-alist '(my/tsx-jsx-typescript-mode . tsx)))
+   #+end_src
+
+   The final step is to make indentation better. We'll use [[https://github.com/orzechowskid/tsi.el][TSI]] which will use the AST from tree-sitter to calculate indentations.
+
+   #+begin_src emacs-lisp :tangle yes
+   (use-package tsi
+     :straight (tsi :type git :host github :repo "orzechowskid/tsi.el")
+     :after tree-sitter
+     ;; define autoload definitions which when actually invoked will cause package to be loaded
+     :commands (tsi-typescript-mode tsi-json-mode tsi-css-mode)
+     :init
+     (add-hook 'my/tsx-jsx-typescript-mode-hook (lambda () (tsi-typescript-mode 1)))
+     (add-hook 'json-mode-hook (lambda () (tsi-json-mode 1)))
+     (add-hook 'css-mode-hook (lambda () (tsi-css-mode 1)))
+     (add-hook 'scss-mode-hook (lambda () (tsi-scss-mode 1))))
+   #+end_src
+
 *** Snippets
 
-    #+begin_src fundamental :tangle snippets/web-mode/react-fc-ts :mkdirp yes
+    #+begin_src fundamental :tangle snippets/typescript-mode/react-fc-ts :mkdirp yes
     # -*- mode: snippet -*-
     # name: react-fc-ts
     # key: fct
@@ -1010,7 +1040,7 @@ Apparently tree-sitter is a better way of doing syntax highlighting. Instead of 
     export default $1;
     #+end_src
 
-    #+begin_src fundamental :tangle snippets/web-mode/react-story-ts :mkdirp yes
+    #+begin_src fundamental :tangle snippets/typescript-mode/react-story-ts :mkdirp yes
     # -*- mode: snippet -*-
     # name: react-storybook-ts
     # key: tstory
@@ -1027,21 +1057,6 @@ Apparently tree-sitter is a better way of doing syntax highlighting. Instead of 
 
     export const Basic: ComponentStory<typeof $1> = () => (<$1 />);
     #+end_src
-
-** Typescript
-
-   Let's configure the TS mode first:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package typescript-mode :straight t
-     :after (eglot)
-     :mode (("\\.ts\\'" . typescript-mode))
-     :hook
-     (typescript-mode . eglot-ensure)
-     (typescript-mode . (lambda () (setq-local tab-width 2)))
-     :config
-     (setq typescript-indent-level 2))
-   #+end_src
 
 ** Dockerfiles
 

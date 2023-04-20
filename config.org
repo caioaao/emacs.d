@@ -64,6 +64,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#nix][Nix]]
   - [[#bazel][Bazel]]
   - [[#wkt][WKT]]
+  - [[#lua][Lua]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -1136,6 +1137,12 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
 (use-package wkt-mode
   :straight (:type git
              :repo "https://github.com/orontee/wkt-mode"))
+#+end_src
+
+** Lua
+
+#+begin_src emacs-lisp :tangle yes
+(use-package lua-mode :straight t)
 #+end_src
 
 * Writing

@@ -13,7 +13,6 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#crux---or-better-move-beginning-of-line][Crux - or better move-beginning-of-line]]
   - [[#parenthesis][Parenthesis]]
   - [[#show-line-numbers][Show line numbers]]
-  - [[#highlight-fixme-comments][Highlight "fixme" comments]]
   - [[#show-hex-colors][Show hex colors]]
   - [[#keymap-to-toggle-line-wrap][Keymap to toggle line wrap]]
   - [[#keep-files-clear-of-trailing-whitespaces][Keep files clear of trailing whitespaces]]
@@ -267,14 +266,6 @@ Let's define some utils to write our config. First, a function to get the cache 
    (use-package nlinum :straight t
      :config
      (global-nlinum-mode 1))
-   #+end_src
-
-** Highlight "fixme" comments
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package fic-mode
-     :straight t
-     :hook (prog-mode . fic-mode))
    #+end_src
 
 ** Show hex colors
@@ -673,6 +664,13 @@ This gives us commands to increment/decrement numbers at point.
                                                   args))))
   #+end_src
 
+  And since we're using embark, let's also install ~embark-consult~:
+
+  #+begin_src emacs-lisp :tangle yes
+  (use-package embark-consult :straight t)
+  #+end_src
+
+
 * Programming
 
 ** Eglot
@@ -924,7 +922,8 @@ Apparently [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]] is a bett
    (use-package web-mode :demand t
      :after (eglot)
      :straight t
-     :mode (("\\.html?\\'" . web-mode))
+     :mode (("\\.html?\\'" . web-mode)
+            ("\\.svelte\\'" . web-mode))
 
      :config
      (setq web-mode-enable-auto-closing t)

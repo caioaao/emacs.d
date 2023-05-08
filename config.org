@@ -622,7 +622,6 @@ This gives us commands to increment/decrement numbers at point.
    #+begin_src emacs-lisp
    (add-to-list 'my/project-root-files "Makefile")
    (add-to-list 'my/project-root-files "dbt_project.yml")
-   (add-to-list 'my/project-root-files "project.json")
    (add-to-list 'my/project-root-files "nx.json")
    #+end_src
 

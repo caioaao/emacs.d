@@ -784,7 +784,7 @@ Apparently [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]] is a bett
      :straight t
      :mode ("\\.puml\\'" . plantuml-mode)
      :config
-     (setq plantuml-jar-path "~/utils/jars/plantuml.jar")
+     (setq plantuml-jar-path "~/.local/plantuml/plantuml.jar")
      (setq plantuml-default-exec-mode 'jar))
    #+end_src
 

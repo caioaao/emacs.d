@@ -64,6 +64,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#bazel][Bazel]]
   - [[#wkt][WKT]]
   - [[#lua][Lua]]
+  - [[#elisir][Elisir]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -1142,6 +1143,23 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
 #+begin_src emacs-lisp :tangle yes
 (use-package lua-mode :straight t)
 #+end_src
+
+** Elisir
+
+#+begin_src emacs-lisp :tangle yes
+(use-package elixir-mode :straight t)
+
+(use-package eglot :straight t
+  :after (elixir-mode)
+  :config
+  :hook (elixir-mode . eglot-ensure)
+  :config
+  (add-to-list 'eglot-server-programs '(elixir-mode "~/.local/elixir-ls/language_server.sh")))
+#+end_src
+
+#+RESULTS:
+| eglot-ensure |
+
 
 * Writing
 

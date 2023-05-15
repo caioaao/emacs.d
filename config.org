@@ -1155,7 +1155,8 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
   :config
   :hook (elixir-mode . eglot-ensure)
   :config
-  (add-to-list 'eglot-server-programs '(elixir-mode "~/.local/elixir-ls/language_server.sh")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "~/.local/elixir-ls/language_server.sh"))
+  (add-to-list 'my/project-root-files "mix.exs"))
 #+end_src
 
 ** Shell

@@ -754,11 +754,18 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Structured editing
 
-    #+begin_src emacs-lisp :tangle yes
-    (use-package evil-cleverparens :straight t)
-    (use-package evil-surround :straight t
-      :config (global-evil-surround-mode 1))
-    #+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package evil-cleverparens :straight t)
+
+(use-package evil-surround :straight t
+  :config (global-evil-surround-mode 1))
+
+(use-package symex :straight t
+  :bind (:map my/evil-leader-key-map
+              (";" . symex-mode-interface))
+  :config
+  (symex-initialize))
+#+end_src
 
 
 ** Syntax highlighting

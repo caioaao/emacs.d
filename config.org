@@ -817,7 +817,7 @@ Apparently [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]] is a bett
    We'll install json and jsonnet modes:
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package json
+   (use-package json-mode :straight t
      :config
      (add-to-list 'auto-mode-alist '("\\.json.base\\'" . json-mode)))
 

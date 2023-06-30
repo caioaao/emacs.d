@@ -64,7 +64,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#bazel][Bazel]]
   - [[#wkt][WKT]]
   - [[#lua][Lua]]
-  - [[#elisir][Elisir]]
+  - [[#elixir][Elixir]]
   - [[#shell][Shell]]
   - [[#github-copilot][Github Copilot]]
 - [[#writing][Writing]]
@@ -1153,7 +1153,7 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
 (use-package lua-mode :straight t)
 #+end_src
 
-** Elisir
+** Elixir
 
 #+begin_src emacs-lisp :tangle yes
 (use-package elixir-mode :straight t)

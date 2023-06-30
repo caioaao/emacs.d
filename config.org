@@ -66,6 +66,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#lua][Lua]]
   - [[#elisir][Elisir]]
   - [[#shell][Shell]]
+  - [[#github-copilot][Github Copilot]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -1172,6 +1173,21 @@ Let's install vterm
 
 #+begin_src emacs-lisp :tangle yes
 (use-package vterm :straight t)
+#+end_src
+
+** Github Copilot
+
+Let's jump in the bandwagon...
+
+#+begin_src emacs-lisp :tangle yes
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("TAB" . copilot-accept-completion)
+              ("M-n" . copilot-next-completion)
+              ("M-p" . copilot-previous-completion)))
 #+end_src
 
 * Writing

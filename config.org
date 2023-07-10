@@ -68,6 +68,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#elixir][Elixir]]
   - [[#shell][Shell]]
   - [[#github-copilot][Github Copilot]]
+  - [[#rust][Rust]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -1200,6 +1201,14 @@ Let's jump in the bandwagon...
               ("TAB" . copilot-accept-completion)
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion)))
+#+end_src
+
+** Rust
+
+#+begin_src emacs-lisp :tangle yes
+(use-package rust-mode :straight t
+  :after (eglot)
+  :hook (rust-mode . eglot-ensure))
 #+end_src
 
 * Writing

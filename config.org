@@ -7,6 +7,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#fix-org-load-path][Fix org load path]]
   - [[#utils][Utils]]
 - [[#text-editing][Text editing]]
+  - [[#unset-keys][Unset keys]]
   - [[#modal-editing][Modal editing]]
   - [[#indentation][Indentation]]
   - [[#scrolling][Scrolling]]
@@ -144,6 +145,15 @@ Let's define some utils to write our config. First, a function to get the cache 
 
 * Text editing
 
+** Unset keys
+
+Removing some bindings that either I don't like, I don't use or conflicts with stuff I actually use:
+
+#+begin_src emacs-lisp :tangle yes
+(global-unset-key (kbd "<tab>"))
+(global-unset-key (kbd "TAB"))
+#+end_src
+
 ** Modal editing
 
    [TODO test [[https://github.com/meow-edit/meow][meow]] instead]
@@ -203,7 +213,9 @@ Let's define some utils to write our config. First, a function to get the cache 
            ("H" . nil)
            ("L" . nil)
            :map evil-insert-state-map
-           ("C-k" . nil)))
+           ("C-k" . nil))
+     (:map evil-motion-state-map
+           ("TAB" . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)

@@ -1272,7 +1272,7 @@ Let's jump in the bandwagon...
 
    I'm not really using org-capture now, so I'll not tangle it. Here it is just as a documentation:
 
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle nil
    (use-package org-capture
      :init
      (setq org-capture-templates '(("t" "Todo [inbox]" entry

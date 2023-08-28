@@ -893,8 +893,8 @@ Now I can call it interactively any time I want to refresh my language grammars.
    (use-package go-mode :straight t
      :after (eglot)
      :hook
+     (go-ts-mode . eglot-ensure)
      (go-mode . eglot-ensure)
-     (before-save . gofmt-before-save)
      :config
      (unless (treesit-language-available-p 'go)
        (treesit-install-language-grammar 'go))

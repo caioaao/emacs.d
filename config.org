@@ -5,6 +5,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 * Table Of Contents                                                :TOC:TOC2:
 - [[#bootstrap][Bootstrap]]
   - [[#fix-org-load-path][Fix org load path]]
+  - [[#diminishel][diminish.el]]
   - [[#utils][Utils]]
 - [[#text-editing][Text editing]]
   - [[#unset-keys][Unset keys]]
@@ -106,17 +107,12 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
   Every package from now on can be installed with ~(use-package <package-name> :straight t)~
 
-  We'll also install [[https://github.com/emacsmirror/diminish][diminish.el]] to use with ~use-package~.
-
-  #+begin_src emacs-lisp :tangle yes
-    (use-package diminish :straight t)
-  #+end_src
-
   There's also this hack to improve compiling times:
 
   #+begin_src emacs-lisp :tangle yes
   (setq gc-cons-threshold 100000000)
   #+end_src
+
 
 ** Fix org load path
 
@@ -125,6 +121,15 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
    #+begin_src emacs-lisp :tangle yes
    (straight-use-package 'org)
    #+end_src
+
+
+** diminish.el
+
+  We'll also install [[https://github.com/emacsmirror/diminish][diminish.el]] to use with ~use-package~.
+
+  #+begin_src emacs-lisp :tangle yes
+    (use-package diminish :straight t)
+  #+end_src
 
 ** Utils
 
@@ -783,8 +788,6 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Syntax highlighting
 
-Apparently [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]] is a better way of doing syntax highlighting. Instead of using a bunch of regexes, it uses the AST. It's supposed to be both faster and more precise.
-
 I don't want to have to maintain syntax highlight separated from the language config, so in here I just define the common stuff. For starters, a command to install all the listed grammars:
 
 #+begin_src emacs-lisp :tangle yes
@@ -884,13 +887,18 @@ Now I can call it interactively any time I want to refresh my language grammars.
    #+end_src
 
 ** Go
-
    #+begin_src emacs-lisp :tangle yes
+   (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go"))
+
    (use-package go-mode :straight t
      :after (eglot)
      :hook
      (go-mode . eglot-ensure)
-     (before-save . gofmt-before-save))
+     (before-save . gofmt-before-save)
+     :config
+     (unless (treesit-language-available-p 'go)
+       (treesit-install-language-grammar 'go))
+     (add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode)))
    #+end_src
 
    We also need to add ~go.mod~ to the project root files list so it's used for finding the project root dir.

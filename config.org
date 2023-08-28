@@ -279,9 +279,8 @@ Removing some bindings that either I don't like, I don't use or conflicts with s
 ** Show line numbers
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package nlinum :straight t
-     :config
-     (global-nlinum-mode 1))
+   (global-display-line-numbers-mode t)
+   (setq display-line-numbers 'relative)
    #+end_src
 
 ** Show hex colors

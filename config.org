@@ -785,16 +785,15 @@ This gives us commands to increment/decrement numbers at point.
 
 Apparently [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]] is a better way of doing syntax highlighting. Instead of using a bunch of regexes, it uses the AST. It's supposed to be both faster and more precise.
 
-#+begin_src emacs-lisp :tangle yes
-(use-package tree-sitter :straight t
-  :config
-  ;; activate tree-sitter on any buffer containing code for which it has a parser available
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+I don't want to have to maintain syntax highlight separated from the language config, so in here I just define the common stuff. For starters, a command to install all the listed grammars:
 
-(use-package tree-sitter-langs :straight t
-  :after tree-sitter)
+#+begin_src emacs-lisp :tangle yes
+(defun my/install-all-language-grammars ()
+  (interactive)
+  (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 #+end_src
+
+Now I can call it interactively any time I want to refresh my language grammars.
 
 ** PlantUML
 

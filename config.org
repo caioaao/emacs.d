@@ -82,46 +82,11 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
 * Bootstrap
 
-  First things first: in order to fetch anything, we'll need a package manager. Since I'm rewriting my config, why not try a different one? I'll use [[https://github.com/raxod502/straight.el][straight.el]]
-
-  #+begin_src emacs-lisp :tangle yes
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-  #+end_src
-
-  Now that we have straight.el installed, we can use it to install [[https://github.com/jwiegley/use-package][use-package]]. This will be our main way of configuring and installing packages.
-
-  #+begin_src emacs-lisp :tangle yes
-  (straight-use-package 'use-package)
-  #+end_src
-
-  Every package from now on can be installed with ~(use-package <package-name> :straight t)~
-
-  There's also this hack to improve compiling times:
+** Improve compile time
 
   #+begin_src emacs-lisp :tangle yes
   (setq gc-cons-threshold 100000000)
   #+end_src
-
-
-** Fix org load path
-
-   Now we need to fix org load path (see https://www.reddit.com/r/emacs/comments/qcj33a/problem_and_workaround_with_orgmode_function/ for more info). We do this by loading org very early.
-
-   #+begin_src emacs-lisp :tangle yes
-   (straight-use-package 'org)
-   #+end_src
-
 
 ** diminish.el
 
@@ -201,6 +166,7 @@ Removing some bindings that either I don't like, I don't use or conflicts with s
 
    #+begin_src emacs-lisp :tangle yes
    (use-package evil :straight t
+     :after (general)
      :init
      (setq evil-want-keybinding nil)
      (setq evil-undo-system 'undo-tree)
@@ -588,7 +554,7 @@ This gives us commands to increment/decrement numbers at point.
    We are making use of a custom command to save all buffers from the project:
 
    #+name: project-el-kill-buffers
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle nil
    ;; copied predicate from project.el
    (defun my/project-buffer-p (project buf)
      (let ((root (expand-file-name (file-name-as-directory (project-root project)))))
@@ -608,7 +574,7 @@ This gives us commands to increment/decrement numbers at point.
    And another function to find more project roots (currently project.el is [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Projects.html][limited to VC and EDE-type projects]]). We just iterate on the parent directories until we find one that has a file contained in the ~my/project-root-files~ variable.
 
    #+name: project-el-find-project-function
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp  :tangle nil
    (defun my/--try-find-project-root (dir)
      (cl-find-if (lambda (curr-dir)
                    (cl-find-if (lambda (candidate-file)  (file-exists-p (expand-file-name candidate-file curr-dir)))
@@ -629,7 +595,7 @@ This gives us commands to increment/decrement numbers at point.
    And finally let's define a prefix for the project key map:
 
    #+name: project-el-override-leader-key
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle nil
    (general-define-key
     :states '(normal visual motion)
     :keymaps 'override
@@ -639,7 +605,7 @@ This gives us commands to increment/decrement numbers at point.
    We can also add some files for finding a project dir:
 
    #+name: project-el-add-makefile-root-file
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle nil
    (add-to-list 'my/project-root-files "Makefile")
    (add-to-list 'my/project-root-files "dbt_project.yml")
    (add-to-list 'my/project-root-files "nx.json")
@@ -981,7 +947,7 @@ Now I can call it interactively any time I want to refresh my language grammars.
    Let's define a derived mode for react files to force eglot and tree-sitter to understand them as different from typescript.
 
    #+name: typescript-mode-tsx-jsx-derived-mode
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle nil
    (define-derived-mode my/tsx-jsx-typescript-mode typescript-mode "tsx/jsx"
      "Major mode derived from web-mode to handle jsx and tsx files.")
 
@@ -994,7 +960,7 @@ Now I can call it interactively any time I want to refresh my language grammars.
    We'll do the same for [[https://vuejs.org/][VueJS]]:
 
    #+name: typescript-mode-vuejs-derived-mode
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle nil
    (define-derived-mode my/vuejs-typescript-mode typescript-mode "vuejs"
      "Major mode derived from typescript-mode to handle Vue files.")
    (add-to-list 'auto-mode-alist '("\\.vue\\'" . my/vuejs-typescript-mode))
@@ -1181,7 +1147,9 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
 (use-package eglot :straight t
   :after (elixir-mode)
   :config
-  :hook (elixir-mode . eglot-ensure)
+  :hook
+  (elixir-mode . eglot-ensure)
+  (elixir-ts-mode . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs '(elixir-ts-mode "~/.local/elixir-ls/language_server.sh"))
   (add-to-list 'eglot-server-programs '(elixir-mode "~/.local/elixir-ls/language_server.sh"))

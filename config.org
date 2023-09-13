@@ -71,6 +71,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#elixir][Elixir]]
   - [[#github-copilot][Github Copilot]]
   - [[#rust][Rust]]
+  - [[#zig][Zig]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -1097,6 +1098,14 @@ Let's jump in the bandwagon...
 (use-package rust-mode :straight t
   :after (eglot)
   :hook (rust-mode . eglot-ensure))
+#+end_src
+
+** Zig
+
+#+begin_src emacs-lisp :tangle yes
+(use-package zig-mode :straight t
+  :after (eglot)
+  :hook (zig-mode . eglot-ensure))
 #+end_src
 
 * Writing

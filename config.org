@@ -1150,9 +1150,9 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
   (elixir-mode . eglot-ensure)
   (elixir-ts-mode . eglot-ensure)
   :config
-  (add-to-list 'eglot-server-programs '(elixir-ts-mode "~/.local/elixir-ls/language_server.sh"))
-  (add-to-list 'eglot-server-programs '(elixir-mode "~/.local/elixir-ls/language_server.sh"))
-  (add-to-list 'eglot-server-programs '(heex-ts-mode "~/.local/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs
+               `((elixir-ts-mode heex-ts-mode elixir-mode) .
+                 "~/.local/elixir-ls/language_server.sh"))
   )
 
 (use-package inf-elixir :straight t)

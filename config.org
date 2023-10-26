@@ -4,7 +4,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 
 * Table Of Contents                                                :TOC:TOC2:
 - [[#bootstrap][Bootstrap]]
-  - [[#fix-org-load-path][Fix org load path]]
+  - [[#improve-compile-time][Improve compile time]]
   - [[#diminishel][diminish.el]]
   - [[#utils][Utils]]
 - [[#text-editing][Text editing]]
@@ -67,7 +67,6 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#wkt][WKT]]
   - [[#lua][Lua]]
   - [[#elixir][Elixir]]
-  - [[#shell][Shell]]
   - [[#github-copilot][Github Copilot]]
   - [[#rust][Rust]]
 - [[#writing][Writing]]
@@ -104,7 +103,7 @@ Let's define some utils to write our config. First, a function to get the cache 
 (defun my/cache-dir ()
   (let ((d (file-name-as-directory (or (getenv "XDG_CACHE_HOME") (concat (file-name-as-directory (getenv "HOME")) ".cache/emacs.d")))))
     (when (not (file-directory-p d))
-      (mkdir d))
+      (make-directory d t))
     d))
 
 (defun my/app-cache-dir (app-name)
@@ -1159,14 +1158,6 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
 (use-package inf-elixir :straight t)
 
 (use-package ob-elixir :straight t)
-#+end_src
-
-** Shell
-
-Let's install vterm
-
-#+begin_src emacs-lisp :tangle yes
-(use-package vterm :straight t)
 #+end_src
 
 ** Github Copilot

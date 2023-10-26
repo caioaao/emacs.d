@@ -16,6 +16,11 @@
 ;; setup use-package
 (straight-use-package 'use-package)
 
+;; make sure environment variables are here
+(straight-use-package 'exec-path-from-shell)
+(setq exec-path-from-shell-check-startup-files nil)
+(exec-path-from-shell-initialize)
+
 ;; setup org early to avoid version mismatch errors (https://www.reddit.com/r/emacs/comments/qcj33a/problem_and_workaround_with_orgmode_function/)
 (straight-use-package 'org)
 

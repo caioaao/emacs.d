@@ -133,7 +133,12 @@ Removing some bindings that either I don't like, I don't use or conflicts with s
    First, let's define a key to be the leader. There's a [[https://github.com/cofi/evil-leader][package]] for that but I'm not sure if I need it yet.
 
    #+begin_src emacs-lisp :tangle yes
-   (defcustom my/evil-leader-key "'" "Key to be used as prefix for a number of commands")
+   (defcustom my/evil-leader-key
+     "'"
+     "Key to be used as prefix for a number of commands."
+     :type "key"
+     :group 'my/evil
+     )
 
    (defvar my/evil-leader-key-map
      (let ((m (make-sparse-keymap)))
@@ -529,25 +534,12 @@ This gives us commands to increment/decrement numbers at point.
 
 ** Project.el
 
-   Let's start by defining a variable that will store all file names that can be used to find a project root dir.
-
-   #+begin_src emacs-lisp :tangle yes
-   (defcustom my/project-root-files '() "Presence of one of this files defines a project root dir")
-
-   ;; quick helper to list all parent directories
-   (defun my/--dir-parents (dir)
-     (let ((next-dir (file-name-directory (directory-file-name (expand-file-name dir)))))
-       (cons (abbreviate-file-name dir) (if (equal next-dir dir) nil (my/--dir-parents next-dir)))))
-   #+end_src
-
    #+begin_src emacs-lisp :tangle yes :noweb yes
    (use-package project
      :after (evil general)
      :config
      <<project-el-kill-buffers>>
-     <<project-el-find-project-function>>
-     <<project-el-override-leader-key>>
-     <<project-el-add-makefile-root-file>>)
+     <<project-el-override-leader-key>>)
    #+end_src
 
    We are making use of a custom command to save all buffers from the project:
@@ -570,27 +562,6 @@ This gives us commands to increment/decrement numbers at point.
    (define-key project-prefix-map "s" #'my/project-save-buffers)
    #+end_src
 
-   And another function to find more project roots (currently project.el is [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Projects.html][limited to VC and EDE-type projects]]). We just iterate on the parent directories until we find one that has a file contained in the ~my/project-root-files~ variable.
-
-   #+name: project-el-find-project-function
-   #+begin_src emacs-lisp  :tangle nil
-   (defun my/--try-find-project-root (dir)
-     (cl-find-if (lambda (curr-dir)
-                   (cl-find-if (lambda (candidate-file)  (file-exists-p (expand-file-name candidate-file curr-dir)))
-                               my/project-root-files))
-                (my/--dir-parents dir)))
-
-   (defun my/try-find-project (dir)
-     (when-let ((proj-root (my/--try-find-project-root dir)))
-       (cons 'my/project proj-root)))
-
-   (cl-defmethod project-root ((project (head my/project)))
-     (cdr project))
-   (add-hook 'project-find-functions #'my/try-find-project)
-   #+end_src
-
-   **PS: The default implementation of ~find-files~ is using ~find-program~ and it uses the variable ~grep-find-ignored-files~, so whenever we need to ignore other files we just add it there (~VC~ type projects use the VC to define which to ignore, so it's a bit easier).**
-
    And finally let's define a prefix for the project key map:
 
    #+name: project-el-override-leader-key
@@ -599,15 +570,6 @@ This gives us commands to increment/decrement numbers at point.
     :states '(normal visual motion)
     :keymaps 'override
     "SPC" project-prefix-map)
-   #+end_src
-
-   We can also add some files for finding a project dir:
-
-   #+name: project-el-add-makefile-root-file
-   #+begin_src emacs-lisp :tangle nil
-   (add-to-list 'my/project-root-files "Makefile")
-   (add-to-list 'my/project-root-files "dbt_project.yml")
-   (add-to-list 'my/project-root-files "nx.json")
    #+end_src
 
 ** Window config history
@@ -866,12 +828,6 @@ Now I can call it interactively any time I want to refresh my language grammars.
      (add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode)))
    #+end_src
 
-   We also need to add ~go.mod~ to the project root files list so it's used for finding the project root dir.
-
-   #+begin_src emacs-lisp :tangle yes
-   (add-to-list 'my/project-root-files "go.mod")
-   #+end_src
-
    Let's also add a helper package to run go tests:
 
    #+begin_src emacs-lisp :tangle yes
@@ -976,12 +932,6 @@ Now I can call it interactively any time I want to refresh my language grammars.
      (add-to-list 'eglot-server-programs '(my/vuejs-typescript-mode . ("vls"))))
    #+end_src
 
-   Now add the ~package.json~ file to be used for finding node project roots:
-
-   #+begin_src emacs-lisp :tangle yes
-   (add-to-list 'my/project-root-files "package.json")
-   #+end_src
-
    We also need to tell the ~find-program~ to ignore node_modules, so we'll add it there too:
 
    #+begin_src emacs-lisp :tangle yes
@@ -1071,11 +1021,6 @@ Let's add clojure-mode and cider:
 (use-package cider :straight t)
 #+end_src
 
-We also need to add ~deps.edn~ as a file that specifies the root dir of a project:
-
-#+begin_src emacs-lisp :tangle yes
-(add-to-list 'my/project-root-files "deps.edn")
-#+end_src
 
 ** OCaml
 
@@ -1085,12 +1030,6 @@ We also need to add ~deps.edn~ as a file that specifies the root dir of a projec
   :hook (tuareg-mode . eglot-ensure))
 #+end_src
 
-And let project.el know that if a dir has a ~dune-project~ file, it is a project root:
-
-#+begin_src emacs-lisp :tangle yes
-(add-to-list 'my/project-root-files "dune-project")
-#+end_src
-
 ** Scala
 
 #+begin_src emacs-lisp :tangle yes
@@ -1098,12 +1037,6 @@ And let project.el know that if a dir has a ~dune-project~ file, it is a project
   :after (eglot)
   :hook (scala-mode . eglot-ensure))
 
-#+end_src
-
-And, as per usual, let's add a file that can be used to detect when we're inside a scala project:
-
-#+begin_src emacs-lisp :tangle yes
-(add-to-list 'my/project-root-files "build.sbt")
 #+end_src
 
 ** Nix
@@ -1152,7 +1085,7 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
   :config
   (add-to-list 'eglot-server-programs
                `((elixir-ts-mode heex-ts-mode elixir-mode) .
-                 "~/.local/elixir-ls/language_server.sh"))
+                 ("~/.local/elixir-ls/language_server.sh")))
   )
 
 (use-package inf-elixir :straight t)
@@ -1321,7 +1254,7 @@ Let's jump in the bandwagon...
            ("C-c n l" . org-roam-buffer-toggle)
            ("C-c n i" . org-roam-node-insert))
      :catch (lambda (keyword error)
-              (message (error-message-string err))))
+              (message (error-message-string error))))
 
    #+end_src
 

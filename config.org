@@ -1215,7 +1215,7 @@ Let's jump in the bandwagon...
    (use-package org-roam :straight t
      :after (org)
      :init
-     (setq org-roam-directory "~/reps/slipbox")
+     (setq org-roam-directory "~/reps/caioaao/slipbox")
      :config
      (org-roam-db-autosync-mode)
      :bind

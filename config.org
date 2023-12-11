@@ -43,6 +43,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
 - [[#programming][Programming]]
   - [[#eglot][Eglot]]
   - [[#syntax-checking][Syntax checking]]
+  - [[#editorconfig][EditorConfig]]
   - [[#git][Git]]
   - [[#structured-editing][Structured editing]]
   - [[#syntax-highlighting][Syntax highlighting]]
@@ -649,6 +650,17 @@ This gives us commands to increment/decrement numbers at point.
                  ("<" . flymake-goto-prev-error))
      :hook (prog-mode . flymake-mode))
    #+end_src
+
+** EditorConfig
+
+Seems pretty useful to share settings between editors, so let's configure it:
+
+#+begin_src emacs-lisp :tangle yes
+(use-package editorconfig
+  :straight t
+  :config
+  (editorconfig-mode 1))
+#+end_src
 
 ** Git
 

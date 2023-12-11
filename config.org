@@ -727,7 +727,29 @@ Seems pretty useful to share settings between editors, so let's configure it:
 
 ** Syntax highlighting
 
-I don't want to have to maintain syntax highlight separated from the language config, so in here I just define the common stuff. For starters, a command to install all the listed grammars:
+Let's list all the language grammars we have:
+
+#+begin_src emacs-lisp :tangle yes
+(setq treesit-language-source-alist
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (cmake "https://github.com/uyha/tree-sitter-cmake")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (html "https://github.com/tree-sitter/tree-sitter-html")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
+        (make "https://github.com/alemuller/tree-sitter-make")
+        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (toml "https://github.com/tree-sitter/tree-sitter-toml")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+#+end_src
+
+And a command to install all the listed grammars:
 
 #+begin_src emacs-lisp :tangle yes
 (defun my/install-all-language-grammars ()
@@ -827,8 +849,6 @@ Now I can call it interactively any time I want to refresh my language grammars.
 
 ** Go
    #+begin_src emacs-lisp :tangle yes
-   (add-to-list 'treesit-language-source-alist '(go "https://github.com/tree-sitter/tree-sitter-go"))
-
    (use-package go-mode :straight t
      :after (eglot)
      :hook

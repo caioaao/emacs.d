@@ -34,8 +34,9 @@
       (load-file user/config-el-file))
   (when (file-newer-than-file-p user/config-org-file user/config-el-file)
     (require 'org)
-    (org-babel-tangle-file user/config-org-file user/config-el-file)
+    (message "Tangled files: %S" (org-babel-tangle-file user/config-org-file user/config-el-file))
     (byte-compile-file user/config-el-file)
-    (load-file user/config-el-file)))
+    (load-file user/config-el-file)
+    (my/install-all-language-grammars)))
 
 (user/reload-config)

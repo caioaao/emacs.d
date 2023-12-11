@@ -916,86 +916,15 @@ Now I can call it interactively any time I want to refresh my language grammars.
 
 ** Typescript
 
-   Here's the final config:
-
-   #+begin_src emacs-lisp :tangle yes :noweb yes
-      (use-package typescript-mode :straight t :demand t
-        :after (eglot)
-        :mode (("\\.ts\\'" . typescript-mode))
-        :hook
-        (typescript-mode . eglot-ensure)
-        (typescript-mode . (lambda () (setq-local tab-width 2)))
-        :config
-        (setq typescript-indent-level 2)
-        <<typescript-mode-tsx-jsx-derived-mode>>
-        <<typescript-mode-vuejs-derived-mode>>)
-   #+end_src
-
-   Let's define a derived mode for react files to force eglot and tree-sitter to understand them as different from typescript.
-
-   #+name: typescript-mode-tsx-jsx-derived-mode
-   #+begin_src emacs-lisp :tangle nil
-   (define-derived-mode my/tsx-jsx-typescript-mode typescript-mode "tsx/jsx"
-     "Major mode derived from web-mode to handle jsx and tsx files.")
-
-   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . my/tsx-jsx-typescript-mode))
-   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . my/tsx-jsx-typescript-mode))
-
-   (add-hook 'my/tsx-jsx-typescript-mode-hook #'eglot-ensure)
-   #+end_src
-
-   We'll do the same for [[https://vuejs.org/][VueJS]]:
-
-   #+name: typescript-mode-vuejs-derived-mode
-   #+begin_src emacs-lisp :tangle nil
-   (define-derived-mode my/vuejs-typescript-mode typescript-mode "vuejs"
-     "Major mode derived from typescript-mode to handle Vue files.")
-   (add-to-list 'auto-mode-alist '("\\.vue\\'" . my/vuejs-typescript-mode))
-
-   (add-hook 'my/vuejs-typescript-mode-hook #'eglot-ensure)
-   #+end_src
-
-   Now let's define the language servers we'll use in these derived modes:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package eglot :ensure t
-     :config
-     (add-to-list 'eglot-server-programs '(my/tsx-jsx-typescript-mode . ("typescript-language-server" "--stdio")))
-     (add-to-list 'eglot-server-programs '(my/vuejs-typescript-mode . ("vls"))))
-   #+end_src
-
-   We also need to tell the ~find-program~ to ignore node_modules, so we'll add it there too:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package grep :demand t
-     :config
-     (add-to-list 'grep-find-ignored-files "node_modules"))
-   #+end_src
-
-   Finally let's add our new modes to tree-sitter:
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package tree-sitter
-     :after (tree-sitter-langs)
-     :config
-      (tree-sitter-require 'tsx)
-      (add-to-list 'tree-sitter-major-mode-language-alist '(my/tsx-jsx-typescript-mode . tsx)))
-   #+end_src
-
-   The final step is to make indentation better. We'll use [[https://github.com/orzechowskid/tsi.el][TSI]] which will use the AST from tree-sitter to calculate indentations.
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package tsi
-     :straight (tsi :type git :host github :repo "orzechowskid/tsi.el")
-     :after tree-sitter
-     ;; define autoload definitions which when actually invoked will cause package to be loaded
-     :commands (tsi-typescript-mode tsi-json-mode tsi-css-mode)
-     :init
-     (add-hook 'my/tsx-jsx-typescript-mode-hook (lambda () (tsi-typescript-mode 1)))
-     (add-hook 'json-mode-hook (lambda () (tsi-json-mode 1)))
-     (add-hook 'css-mode-hook (lambda () (tsi-css-mode 1)))
-     (add-hook 'scss-mode-hook (lambda () (tsi-scss-mode 1))))
-   #+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package typescript-ts-mode
+  :after (eglot)
+  :hook
+  (typescript-ts-mode . eglot-ensure)
+  (tsx-ts-mode . eglot-ensure)
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode)))
+#+end_src
 
 *** Snippets
 

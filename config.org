@@ -58,6 +58,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#cmake][CMake]]
   - [[#go][Go]]
   - [[#web-mode][Web-mode]]
+  - [[#svelte][Svelte]]
   - [[#typescript][Typescript]]
   - [[#dockerfiles][Dockerfiles]]
   - [[#clojure][Clojure]]
@@ -903,8 +904,7 @@ Now I can call it interactively any time I want to refresh my language grammars.
    (use-package web-mode :demand t
      :after (eglot)
      :straight t
-     :mode (("\\.html?\\'" . web-mode)
-            ("\\.svelte\\'" . web-mode))
+     :mode (("\\.html?\\'" . web-mode))
 
      :config
      (setq web-mode-enable-auto-closing t)
@@ -913,6 +913,19 @@ Now I can call it interactively any time I want to refresh my language grammars.
      (setq web-mode-markup-indent-offset 2)
      (setq web-mode-enable-literal-interpolation t))
    #+end_src
+
+
+** Svelte
+
+#+begin_src emacs-lisp :tangle yes
+(require 'eglot)
+(require 'web-mode)
+(define-derived-mode my/svelte-mode web-mode "svelte"
+  "Major mode for editing .svelte files using web-mode and LSP support")
+(add-to-list 'auto-mode-alist '("\\.svelte\\'" . my/svelte-mode))
+(add-hook 'my/svelte-mode-hook #'eglot-ensure)
+(add-to-list 'eglot-server-programs '(my/svelte-mode . ("svelteserver" "--stdio")))
+#+end_src
 
 ** Typescript
 

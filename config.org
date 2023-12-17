@@ -1112,122 +1112,51 @@ Let's jump in the bandwagon...
 
 ** Org-mode
 
-   A lot of very old config that I keep here. I don't even know if I still use everything, but I keep here because I don't want to break my workflow :shrug:
+We install org-mode using straight so we get the newest version
 
-   #+begin_src emacs-lisp :tangle yes
-   (use-package ox-gfm :straight t
-     :after (org)
-     :config
-     (require 'ox-gfm))
+#+begin_src emacs-lisp :tangle yes
+(use-package org :straight t
+  :init
+  (setq org-log-done 'time
+        org-src-fontify-natively t
+        org-log-into-drawer t
+        org-confirm-babel-evaluate nil
+        org-src-preserve-indentation nil
+        org-edit-src-content-indentation 0)
 
-   (use-package org :straight t
-     :bind
-     (:map global-map
-           ("C-c l" . org-store-link)
-           ("C-M-r" . org-capture))
+  :hook
+  (org-babel-after-execute . org-redisplay-inline-images)
 
-     :init
-     (setq org-log-done t)
-     (setq org-return-follows-link t)
-     (setq org-src-fontify-natively t)
-     (setq org-log-into-drawer t)
-     (setq org-refile-targets '((gtd-main-p :maxlevel . 3)
-                                (gtd-someday-p :level . 1)
-                                (gtd-tickler-p :maxlevel . 2)))
-     (setq org-confirm-babel-evaluate nil)
-     (setq org-src-preserve-indentation nil
-           org-edit-src-content-indentation 0)
+  :config
+  ;; load basic languages I use regularly inside org blocks
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((dot . t) ; graphviz
+     (shell . t)
+     (lisp . t)
+     (emacs-lisp . t)
+     (gnuplot . t)
+     (plantuml . t)))
+  (add-to-list 'org-export-backends 'md))
+#+end_src
 
-     :hook
-     (org-babel-after-execute . org-redisplay-inline-images)
+Github-flavored markdown exporter:
 
-     :config
-     (plist-put org-format-latex-options :scale 1.5)
-     (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((dot . t)
-        (shell . t)
-        (python . t)
-        ;; (ipython . t) this breaks everything if jupyter is not installed
-        (lisp . t)
-        (clojure . t)
-        (gnuplot . t)
-        (R . t)
-        (plantuml . t)
-        (lua . t)))
-     (add-to-list 'org-export-backends 'md))
+#+begin_src emacs-lisp :tangle yes
+(use-package ox-gfm :straight t
+  :after (org)
+  :config
+  (require 'ox-gfm))
+#+end_src
 
-   #+end_src
+One cool little tool is [[https://github.com/snosov1/toc-org][toc-org]]. It maintains an up to date TOC for us - very nice for seeing org files on Github.
 
-   I'm not really using org-capture now, so I'll not tangle it. Here it is just as a documentation:
-
-   #+begin_src emacs-lisp
-   (use-package org-capture
-     :init
-     (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                    (file+headline gtd-inbox-p "Tasks")
-                                    "* TODO %i%?\n  %U\n"
-                                    :prepend t :empty-lines 1)
-                                   ("T" "Tickler" entry
-                                    (file+headline gtd-tickler-p "Tickler")
-                                    "* %i%? \n %U"))))
-
-   (use-package org-agenda
-     :bind
-     (:map global-map
-           ("C-c a" . org-agenda))
-     :init
-     (setq org-agenda-start-on-weekday nil)
-     (setq org-agenda-skip-scheduled-if-done t)
-     (setq org-stuck-projects `(,my/org-projects-pattern ("DOING") nil ""))
-     (setq org-agenda-custom-commands
-           `(("W" "Weekly Review"
-              ((agenda "" ((org-agenda-span 7)))
-               (tags "CATEGORY=\"TASKS\"|CATEGORY=\"PROJECTS\"/DONE")
-               (tags-todo "CATEGORY=\"INBOX\"")
-               (stuck "")
-               (todo "DOING")
-               (tags "CATEGORY=\"PROJECTS\"+LEVEL=2")
-               (tags-todo "CATEGORY=\"SOMEDAY\"")
-               (todo "WAITING")))
-             ("E" "Export TODOS"
-              ((tags-todo "CATEGORY=\"TASKS\""))
-              nil
-              ("/tmp/org-exported/todos.org"))
-             ("g" . "GTD contexts")
-             ("gw" "Work" tags-todo "@work")
-             ("gh" "Home" tags-todo "@home")
-             ("gp" "Pc" tags-todo "@pc")
-             ("gi" "Internet" tags-todo "@internet")
-             ("ge" "Errands" tags-todo "@errands")
-             ("gf" "Freetime" tags-todo "@freetime")))
-     :config
-     (defun load-org-agenda-files-recursively (dir)
-       "Collect all org agenda files in DIR."
-       (unless (file-directory-p dir) (error "Not a directory `%s'" dir))
-       (add-to-list 'org-agenda-files dir)
-       (dolist (file-name (directory-files dir nil nil t))
-         (unless (member file-name '("." ".."))
-           (let ((file-path (expand-file-name file-name dir)))
-             (when (file-directory-p file-path)
-               (load-org-agenda-files-recursively file-path))))))
-     (defun load-my-agenda-files ()
-       "Load all agenda files recursively."
-       (interactive)
-       (unless (file-exists-p my-org-files-dir)
-         (make-directory my-org-files-dir t))
-       (load-org-agenda-files-recursively my-org-files-dir))
-     (load-my-agenda-files))
-   #+end_src
-
-   One cool little tool is [[https://github.com/snosov1/toc-org][toc-org]]. It maintains an up to date TOC for us - very nice for seeing org files on Github.
-
-   #+begin_src emacs-lisp :tangle yes
-   (use-package toc-org :straight t
-     :after (org)
-     :hook
-     (org-mode . toc-org-enable))
-   #+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package toc-org :straight t
+  :after (org)
+  :hook
+  (org-mode . toc-org-enable))
+#+end_src
 
 ** org-roam
 

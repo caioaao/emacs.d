@@ -627,8 +627,7 @@ This gives us commands to increment/decrement numbers at point.
    I use Eglot for almost every language I program.
 
    #+begin_src emacs-lisp :tangle yes
-   (use-package eglot :straight t
-     :after (project)
+   (use-package eglot
      :bind
      (:map my/evil-leader-key-map
       ("e r" . eglot-code-actions)
@@ -676,8 +675,7 @@ Seems pretty useful to share settings between editors, so let's configure it:
      (("C-c m s" . magit-status)
       ("C-c m b" . magit-blame-addition)
       :map magit-mode-map
-      ("<SPC>" . nil)
-      :map project-prefix-map ("g" . magit-status))
+      ("<SPC>" . nil))
      :init
      (setq magit-last-seen-setup-instructions "1.4.0")
      (setq magit-git-executable "git")
@@ -694,7 +692,11 @@ Seems pretty useful to share settings between editors, so let's configure it:
                                       magit-status-mode)))
                          nil
                        '(display-buffer-same-window)))))
-     (add-to-list 'project-switch-commands '(magit-status "Magit Status")))
+     (defun my/project-magit ()
+       (interactive)
+       (magit-status (car (project-roots (project-current)))))
+     (define-key project-prefix-map (kbd "g") 'my/project-magit)
+     (add-to-list 'project-switch-commands '(my/project-magit "Magit Status")))
    #+end_src
 
    Now to configure the commit buffer with spellcheck and markdown:

@@ -72,6 +72,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#github-copilot][Github Copilot]]
   - [[#rust][Rust]]
   - [[#zig][Zig]]
+  - [[#gleam][Gleam]]
 - [[#writing][Writing]]
   - [[#org-mode][Org-mode]]
   - [[#org-roam][org-roam]]
@@ -744,6 +745,7 @@ Let's list all the language grammars we have:
         (elisp "https://github.com/Wilfred/tree-sitter-elisp")
         (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
         (go "https://github.com/tree-sitter/tree-sitter-go")
+        (gleam "https://github.com/gleam-lang/tree-sitter-gleam")
         (html "https://github.com/tree-sitter/tree-sitter-html")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
         (json "https://github.com/tree-sitter/tree-sitter-json")
@@ -1111,6 +1113,36 @@ Let's jump in the bandwagon...
 (use-package zig-mode :straight t
   :after (eglot)
   :hook (zig-mode . eglot-ensure))
+#+end_src
+
+** Gleam
+
+First the basic mode setup.
+
+#+begin_src emacs-lisp :tangle yes
+(use-package gleam-ts-mode
+  :straight (:host github :repo "gleam-lang/gleam-mode" :branch "gleam-ts-mode")
+  :config
+  (add-to-list 'auto-mode-alist '("\\.gleam\\'" . gleam-ts-mode)))
+#+end_src
+
+Now treesit:
+
+#+begin_src emacs-lisp :tangle yes
+(use-package gleam-ts-mode
+  :after (treesit)
+  :config
+  (add-to-list 'treesit-language-source-alist '(gleam "https://github.com/gleam-lang/tree-sitter-gleam"))
+  (unless (treesit-language-available-p 'gleam)
+    (treesit-install-language-grammar 'gleam)))
+#+end_src
+
+And finally eglot;
+
+#+begin_src emacs-lisp :tangle yes
+(use-package gleam-ts-mode
+  :after (eglot)
+  :hook (gleam-ts-mode . eglot-ensure))
 #+end_src
 
 * Writing

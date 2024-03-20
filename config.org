@@ -8,7 +8,6 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#diminishel][diminish.el]]
   - [[#utils][Utils]]
 - [[#text-editing][Text editing]]
-  - [[#unset-keys][Unset keys]]
   - [[#modal-editing][Modal editing]]
   - [[#indentation][Indentation]]
   - [[#scrolling][Scrolling]]
@@ -119,15 +118,6 @@ Let's define some utils to write our config. First, a function to get the cache 
 
 * Text editing
 
-** Unset keys
-
-Removing some bindings that either I don't like, I don't use or conflicts with stuff I actually use:
-
-#+begin_src emacs-lisp :tangle yes
-(global-unset-key (kbd "<tab>"))
-(global-unset-key (kbd "TAB"))
-#+end_src
-
 ** Modal editing
 
    [TODO test [[https://github.com/meow-edit/meow][meow]] instead]
@@ -193,9 +183,7 @@ Removing some bindings that either I don't like, I don't use or conflicts with s
            ("H" . nil)
            ("L" . nil)
            :map evil-insert-state-map
-           ("C-k" . nil))
-     (:map evil-motion-state-map
-           ("TAB" . nil)))
+           ("C-k" . nil)))
 
    (use-package evil-collection :straight t
      :after (evil)
@@ -1076,8 +1064,7 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
   :config
   (add-to-list 'eglot-server-programs
                `((elixir-ts-mode heex-ts-mode elixir-mode) .
-                 ("~/.local/elixir-ls/language_server.sh")))
-  )
+                 ("~/.local/elixir-ls/language_server.sh"))))
 
 (use-package inf-elixir :straight t)
 
@@ -1094,7 +1081,7 @@ Let's jump in the bandwagon...
   :ensure t
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
-              ("TAB" . copilot-accept-completion)
+              ("C-y" . copilot-accept-completion)
               ("M-n" . copilot-next-completion)
               ("M-p" . copilot-previous-completion)))
 #+end_src

@@ -68,6 +68,7 @@ Before anything, symlink this directory to ~.emacs.d~. Then just start emacs and
   - [[#wkt][WKT]]
   - [[#lua][Lua]]
   - [[#elixir][Elixir]]
+  - [[#codeium][codeium]]
   - [[#github-copilot][Github Copilot]]
   - [[#rust][Rust]]
   - [[#zig][Zig]]
@@ -1073,6 +1074,31 @@ Well that's something I'll rarely use, but it's nice to have the syntax highligh
 (use-package inf-elixir :straight t)
 
 (use-package ob-elixir :straight t)
+#+end_src
+
+** codeium
+
+Github copilot works great, but I hate that it doesn't plug into company mode. This made me try alternatives and I found this.
+
+#+begin_src emacs-lisp :tangle yes
+(use-package codeium
+    :straight '(:type git :host github :repo "Exafunction/codeium.el")
+    :init
+    (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+    :config
+    ;; (setq use-dialog-box nil) ;; do not use popup boxes
+
+    ;; get codeium status in the modeline
+    (setq codeium-mode-line-enable
+        (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+    (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+    ;; alternatively for a more extensive mode-line
+    ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
+
+    ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
+    (setq codeium-api-enabled
+        (lambda (api)
+            (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion)))))
 #+end_src
 
 ** Github Copilot
